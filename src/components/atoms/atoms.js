@@ -1,0 +1,18 @@
+
+import {
+    atom
+} from 'recoil';
+
+
+
+export let basket = atom({
+    key: 'myBasket',
+    default: []
+})
+
+
+
+export let myTab = atom({
+    key: 'myTabEvent',
+    default: null
+})

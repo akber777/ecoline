@@ -1,0 +1,114 @@
+.footer {
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 133px;
+
+        @media (max-width: 565px) {
+            display: flex;
+            flex-direction: column;
+            align-items: unset;
+            padding: 20px 0;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+
+        > p {
+            font-weight: bold;
+            font-size: 16px;
+        }
+    }
+
+    &__social {
+        display: flex;
+        justify-content: flex-end;
+
+        svg {
+            display: inline-block;
+            color: #8cbd29;
+
+            &:not(:last-child) {
+                margin-right: 20px;
+            }
+        }
+
+        @media (max-width: 565px) {
+            justify-content: flex-start;
+            margin-top: 15px;
+        }
+    }
+
+    &__logo {
+        @media (max-width: 765px) {
+            img {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            img {
+                width: 125px;
+            }
+        }
+
+        @media (max-width: 565px) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &__end {
+        display: flex;
+        align-items: center;
+        background-color: #8cbd29;
+        min-height: 79px;
+
+        @media (max-width: 765px) {
+            padding: 20px 0;
+        }
+
+        &--left {
+            @media (max-width: 765px) {
+                display: flex;
+                flex-direction: column;
+            }
+
+            a {
+                color: #fff;
+                font-size: 14px;
+
+                &:not(:last-child) {
+                    margin-right: 26px;
+
+                    @media (max-width: 765px) {
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+
+        &--right {
+            a {
+                color: #fff;
+                font-size: 14px;
+
+                @media (max-width: 765px) {
+                    display: flex;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+
+    &__wrapEnd {
+        display: flex;
+        justify-content: space-between;
+
+        @media (max-width: 765px) {
+            flex-direction: column;
+        }
+    }
+}

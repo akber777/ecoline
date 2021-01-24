@@ -1,0 +1,114 @@
+.order {
+    .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .orderLogin {
+        &__top {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px 25px;
+            background-color: #f5fafc;
+            border-radius: 40px;
+            margin-bottom: 27px;
+
+            @media (max-width: 900px) {
+                display: flex;
+                flex-direction: column;
+                justify-content: unset;
+                align-items: unset;
+            }
+
+            p {
+                color: #08a6d6;
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 0;
+
+                @media (max-width: 1424px) {
+                    font-size: 15px;
+                }
+
+                @media (max-width: 900px) {
+                    margin-bottom: 15px;
+                    font-size: 20px;
+                }
+
+                span {
+                    font-weight: bold;
+                    color: #3d3d3d;
+                    margin-left: 15px;
+                }
+            }
+        }
+    }
+
+    .show {
+        right: 0;
+    }
+
+    &__buttonBox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 46px;
+
+        @media (max-width: 575px) {
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 236px;
+            height: 45px;
+            background-color: #8cbd29;
+            border-radius: 24px;
+            color: #fff !important;
+            transition: all 0.2s;
+
+            &:hover {
+                transition: all 0.2s;
+                color: #8cbd29 !important;
+                background-color: #fff;
+                border: 1px solid #8cbd29 !important;
+            }
+
+            &:not(:last-child) {
+                margin-right: 15px;
+
+                @media (max-width: 575px) {
+                    margin: 0;
+                    margin-bottom: 25px;
+                }
+            }
+        }
+    }
+
+    .login__sendBtn {
+        margin-bottom: 35px;
+    }
+
+    .end {
+        background-color: #08a6d6 !important;
+
+        p {
+            color: #fff !important;
+
+            span {
+                color: #fff !important;
+            }
+        }
+    }
+}

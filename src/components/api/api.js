@@ -1,0 +1,1 @@
+export const baseUrl = 'http://apiecoline.gocreative.az/api/v1/data/'

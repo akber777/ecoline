@@ -1,0 +1,19 @@
+.payment {
+    &__content {
+        a {
+            color: #fff !important;
+        }
+
+        p {
+            color: #08a6d6;
+            font-weight: bold;
+        }
+    }
+
+    .order__result {
+        margin-top: 48px;
+        p {
+            margin-bottom: 0;
+        }
+    }
+}

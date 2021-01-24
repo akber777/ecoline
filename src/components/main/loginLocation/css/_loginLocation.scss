@@ -1,0 +1,19 @@
+.loginLocation {
+    .fromLocate {
+        width: 100% !important;
+    }
+
+    input {
+        font-weight: bold;
+        color: #3d3d3d;
+    }
+
+    .formItem {
+        &:last-child {
+            margin-left: 15px !important;
+            @media (max-width: 765px) {
+                margin-left: 0 !important;
+            }
+        }
+    }
+}

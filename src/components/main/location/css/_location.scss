@@ -1,0 +1,121 @@
+.location {
+    .success {
+        margin-bottom: 25px;
+    }
+
+    &__content {
+        height: 77px;
+        border-radius: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 50px;
+
+        @media (max-width: 1050px) {
+            height: auto;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 1050px) {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__contentLeft {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+        padding: 0 30px;
+        width: calc(100% - 147px);
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        background-color: #f5fafc;
+
+        @media (max-width: 1050px) {
+            border-radius: 25px;
+            min-height: 50px;
+            padding: 15px;
+        }
+
+        @media (max-width: 575px) {
+            width: 100%;
+
+            img {
+                display: none;
+            }
+        }
+
+        p {
+            margin-bottom: 0;
+            color: #08a6d6;
+            font-weight: bold;
+
+            @media (max-width: 575px) {
+                font-size: 16px;
+            }
+        }
+
+        span {
+            display: inline-block;
+            color: #3d3d3d;
+            margin-left: 10px;
+
+            @media (max-width: 1105px) {
+                padding-right: 100px;
+            }
+
+            @media (max-width: 950px) {
+                margin-left: 0;
+            }
+
+            @media (max-width: 575px) {
+                padding-right: 0;
+            }
+        }
+    }
+
+    &__contentRight {
+        width: 147px;
+        height: 100%;
+        background-color: #8cbd29;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        @media (max-width: 1050px) {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+            min-height: auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 575px) {
+            width: 94px;
+        }
+
+        a {
+            @media (max-width: 575px) {
+                font-size: 16px;
+            }
+        }
+
+        span {
+            margin-right: 15px;
+            font-size: 20px;
+            color: #fff;
+
+            @media (max-width: 1050px) {
+                margin-right: 0;
+            }
+        }
+    }
+}

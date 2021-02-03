@@ -14,14 +14,54 @@ import { Container } from 'reactstrap';
 // map
 
 import Map from '../map/map';
-import { NavLink } from 'react-router-dom';
+
+// react router dom
+import { NavLink, useHistory } from 'react-router-dom';
+
+// query
+import { useQuery } from 'react-query';
+
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// axios
+import axios from 'axios';
 
 
 const Payment = () => {
 
-    const mapLocate = [
-        ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
-    ];
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
+
+    let history = useHistory();
+
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+    if (JSON.parse(localStorage.getItem('items')) === null) {
+        history.push({
+            pathname: '/order'
+        })
+    }
 
     return (
         <main className='location payment'>
@@ -35,18 +75,18 @@ const Payment = () => {
             </div>
             <div className='locationWrapper'>
                 <div className='order__breadCrumbs'>
-                    <NavLink to={'/order'}>
+                    <span>
                         SİFARİŞ
-                    </NavLink>
-                    <NavLink to={'/location'}>
+                    </span>
+                    <span>
+                        SİFARİŞLƏRİM
+                    </span>
+                    <span>
                         ÜNVAN SEÇ
-                    </NavLink>
-                    <NavLink to={'/payment'} className='activCrumbs'>
+                    </span>
+                    <span className='activCrumbs'>
                         ÖDƏNİŞ ET
-                    </NavLink>
-                    <NavLink to={'/delivery'}>
-                        TƏSLİMAT
-                    </NavLink>
+                    </span>
                 </div>
                 <Container>
                     <div className='payment__content'>
@@ -89,19 +129,38 @@ const Payment = () => {
                         </div>
                     </div>
                     <div className='order__result'>
-
                         <p>
                             ÜMUMİ MƏBLƏĞ:
-                        <span className='res'>
-                                68 AZN
-                        </span>
-                        </p>
+                         <span className='res'>
+                                {
+                                    JSON.parse(localStorage.getItem('total')) !== null && (
 
+                                        JSON.parse(localStorage.getItem('total')).reduce(reducer) + ' AZN'
+                                    )
+                                }
+                            </span>
+                        </p>
+                        <div className='btnBoxs' style={{ marginTop: 15 }}>
+                            <NavLink to={'/location'}>
+                                <button className='success'>
+                                    Prev
+                            </button>
+                            </NavLink>
+                            <NavLink to={'/delivery'}>
+                                <button className='success'>
+                                    Next
+                            </button>
+                            </NavLink>
+                        </div>
                     </div>
                 </Container>
             </div>
-            <Map locations={mapLocate} />
-        </main>
+            {
+                settings.isLoading === false && (
+                    <Map locations={locate} />
+                )
+            }
+        </main >
     );
 }
 

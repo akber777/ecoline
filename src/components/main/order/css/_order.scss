@@ -170,7 +170,7 @@
         justify-content: center;
         padding-bottom: 30px;
 
-        a {
+        span {
             transition: all 0.3s;
             font-size: 30px;
             color: #656565;
@@ -193,10 +193,10 @@
                 font-size: 11px;
             }
 
-            &:hover {
-                color: #8cbd29;
-                transition: all 0.3s;
-            }
+            // &:hover {
+            //     color: #8cbd29;
+            //     transition: all 0.3s;
+            // }
 
             &.activCrumbs {
                 color: #8cbd29;
@@ -219,6 +219,22 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.setCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnBoxs {
+    display: flex;
+
+    a {
+        &:last-child {
+            margin-left: 15px;
         }
     }
 }

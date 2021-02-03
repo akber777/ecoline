@@ -6,7 +6,7 @@ import "./css/_location.scss";
 // tools
 
 // rectstrap
-import { Col, Container, Row } from 'reactstrap';
+import { Container, Button, Input } from 'reactstrap';
 
 // react router dom
 // import { NavLink } from 'react-router-dom';
@@ -14,17 +14,93 @@ import { Col, Container, Row } from 'reactstrap';
 // map
 
 import Map from '../map/map';
-import { NavLink } from 'react-router-dom';
 
+// react router dom
+import { NavLink, useHistory } from 'react-router-dom';
+
+
+// modal
+import Modal from 'react-bootstrap/Modal';
+
+// query
+import { useQuery } from 'react-query';
+
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// axios
+import axios from 'axios';
 
 const Location = () => {
 
-    const mapLocate = [
-        ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
-    ];
+
+    let history = useHistory()
+
+
+    if (JSON.parse(localStorage.getItem('items')) === null) {
+        history.push({
+            pathname: '/order'
+        })
+    }
+
+
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
+
+
+    function MyVerticallyCenteredModal(props) {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        ÜNVAN ƏLAVƏ ET
+                     </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Input type='text' />
+                    <Button style={{ marginTop: 20 }}>Gonder</Button>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={props.onHide}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
+
+
+    const [modalShow, setModalShow] = React.useState(false);
 
     return (
         <main className='location'>
+            <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
             <div className='rules__banner'>
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
@@ -36,18 +112,15 @@ const Location = () => {
             <div className='locationWrapper'>
                 <Container>
                     <div className='order__breadCrumbs'>
-                        <NavLink to={'/order'}>
+                        <span>
                             SİFARİŞ
-                         </NavLink>
-                        <NavLink to={'/location'} className='activCrumbs'>
+                         </span>
+                        <span>
+                            SİFARİŞLƏRİM
+                        </span>
+                        <span className='activCrumbs'>
                             ÜNVAN SEÇ
-                         </NavLink>
-                        <NavLink to={'/payment'}>
-                            ÖDƏNİŞ ET
-                         </NavLink>
-                        <NavLink to={'/delivery'}>
-                            TƏSLİMAT
-                         </NavLink>
+                        </span>
                     </div>
                     <div className='location__content'>
                         <div className='location__contentLeft'>
@@ -86,20 +159,30 @@ const Location = () => {
                         </div>
                     </div>
                     <div className='order__result'>
-                        <button className='success'>
+                        <button className='success' onClick={() => setModalShow(true)}>
                             ÜNVAN ƏLAVƏ ET
-                    </button>
-                        <p>
-                            ÜMUMİ MƏBLƏĞ:
-                        <span className='res'>
-                                68 AZN
-                        </span>
-                        </p>
+                        </button>
 
+                        <div className='btnBoxs'>
+                            <NavLink to={'/ordercomplete'}>
+                                <button className='success'>
+                                    Prev
+                                </button>
+                            </NavLink>
+                            <NavLink to={'/payment'}>
+                                <button className='success'>
+                                    Next
+                            </button>
+                            </NavLink>
+                        </div>
                     </div>
                 </Container>
             </div>
-            <Map locations={mapLocate} />
+            {
+                settings.isLoading === false && (
+                    <Map locations={locate} />
+                )
+            }
         </main>
     );
 }

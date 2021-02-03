@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'reactstrap';
 
 // map
 import Map from '../map/map';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 
 // recoil
@@ -19,12 +19,41 @@ import {
 // atoms
 import { basket } from '../../atoms/atoms';
 
+
+// query
+import { useQuery } from 'react-query';
+
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// axios
+import axios from 'axios';
+
 const OrderComplete = () => {
 
 
-    const mapLocate = [
-        [41.015137, 28.979530],
-    ];
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
 
 
     let [product, setProduct] = useState([])
@@ -35,10 +64,21 @@ const OrderComplete = () => {
     let [total] = useState([])
 
 
+    // determinet  basket value
+
+    let history = useHistory()
+
+
+
+
     if (JSON.parse(localStorage.getItem('items')) !== null) {
         product = JSON.parse(localStorage.getItem('items'));
         total = JSON.parse(localStorage.getItem('total'));
+
     }
+
+
+
 
     function sendMinus(value, event) {
 
@@ -59,7 +99,10 @@ const OrderComplete = () => {
                 if (index > -1) {
                     total.splice(index, 1);
                     window.localStorage.setItem('total', JSON.stringify(total))
+
                 }
+
+                event.target.parentNode.parentNode.children[2].children[1].textContent = endRes[0].count * Number(endRes[0].price)
             }
         }
     }
@@ -86,6 +129,7 @@ const OrderComplete = () => {
             endRes[0].count++
             localStorage.setItem('items', JSON.stringify(product))
             setMyBasket(JSON.parse(localStorage.getItem('items')))
+            event.target.parentNode.parentNode.children[2].children[1].textContent = endRes[0].count * Number(endRes[0].price)
 
             if (endRes !== 0) {
                 event.target.nextElementSibling.style.display = 'block'
@@ -101,27 +145,14 @@ const OrderComplete = () => {
 
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-
-    // determinet  basket value
-
-    let history = useHistory()
-
-    let { pathname } = useLocation()
-
-
-
     useLayoutEffect(() => {
 
-
-        if (JSON.parse(localStorage.getItem('items')) !== null && JSON.parse(localStorage.getItem('items')).length === 0) {
+        if (total.length === 0) {
             history.push({
-                pathname: '/order',
+                pathname: '/order'
             })
         }
-
     })
-
-
 
 
     return (
@@ -136,21 +167,12 @@ const OrderComplete = () => {
             </div>
             <Container>
                 <div className='order__breadCrumbs'>
-                    <NavLink to={'/order'}>
+                    <span>
                         SİFARİŞ
-                    </NavLink>
-                    <NavLink to={'/ordercomplete'} className='activCrumbs'>
+                    </span>
+                    <span className='activCrumbs' >
                         SİFARİŞLƏRİM
-                    </NavLink>
-                    <NavLink to={'/location'}>
-                        ÜNVAN SEÇ
-                    </NavLink>
-                    <NavLink to={'/payment'}>
-                        ÖDƏNİŞ ET
-                    </NavLink>
-                    <NavLink to={'/delivery'}>
-                        TƏSLİMAT
-                    </NavLink>
+                    </span>
                 </div>
                 <div className='oder__content home__priceBox'>
                     <Row>
@@ -202,7 +224,12 @@ const OrderComplete = () => {
                                                     </span>
                                                     <i>
                                                         13%
-                                            </i>
+                                                    </i>
+                                                </p>
+                                                <p className='setCount'>
+                                                    {
+                                                        pro.price * Number(product.filter(id => id.id === pro.id)[0].count) + ' AZN'
+                                                    }
                                                 </p>
                                             </div>
                                         </div>
@@ -224,13 +251,26 @@ const OrderComplete = () => {
                             }
                         </span>
                     </p>
-                    <button className='success'>
-                        SİFARİŞİ TƏSDİQLƏ
-                    </button>
+                    <div className='btnBoxs'>
+                        <NavLink to={'/order'}>
+                            <button className='success'>
+                                Prev
+                            </button>
+                        </NavLink>
+                        <NavLink to={'/location'}>
+                            <button className='success'>
+                                Next
+                            </button>
+                        </NavLink>
+                    </div>
                 </div>
             </Container>
             <div id='map'>
-                <Map locations={mapLocate} />
+                {
+                    settings.isLoading === false && (
+                        <Map locations={locate} />
+                    )
+                }
             </div>
         </main >
     );

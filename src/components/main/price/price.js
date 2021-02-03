@@ -54,13 +54,16 @@ const Price = React.memo(function Price({
 
     useLayoutEffect(() => {
 
-        $('.nav-tabs > a').click(function () {
+        $('.itemsCom').click(function () {
 
-            let eventKey = $(this).attr('data-rb-event-key');
+            let eventKey = $(this).attr('data-id');
 
             setTabKey(eventKey)
 
         })
+
+
+        console.log(data)
 
 
     }, [data])
@@ -73,40 +76,30 @@ const Price = React.memo(function Price({
                     <h4 className='title'>QİYMƏTLƏR VƏ ONLINE SİFARİŞ</h4>
                 </div>
                 <div className='home__priceBox '>
-                    <Tabs defaultActiveKey={tabKey !== null ? tabKey : data[0].name} transition={false} id="noanim-tab-example">
+                    <Row>
                         {
                             data.map(item => (
-                                <Tab eventKey={item.name} title={item.name} key={item.id} >
-                                    <Row>
-                                        {
-                                            item.products.data.map(pro => (
-                                                <Col lg='6' className='p-0' key={pro.id}>
-                                                    <NavLink to={'/order/' + pro.slug}>
-                                                        <div className='home__priceBox--item'>
-                                                            <div className='layout'>
-                                                                <img src={require('../../images/layer.png').default} alt='' />
-                                                            </div>
-                                                            <img src={require('../../images/item.png').default} alt='' />
-                                                            <h4>
-                                                                {
-                                                                    pro.name
-                                                                }
-                                                                <strong>
-                                                                    {
-                                                                        parseInt(pro.price) + '% ENDİRİM'
-                                                                    }
-                                                                </strong>
-                                                            </h4>
-                                                        </div>
-                                                    </NavLink>
-                                                </Col>
-                                            ))
-                                        }
-                                    </Row >
-                                </Tab>
+                                <Col lg='6' className='p-0 itemsCom' key={item.id} data-id={item.name}>
+                                    <NavLink to={'/order/' + item.name.toLowerCase()}>
+                                        <div className='home__priceBox--item'>
+                                            <div className='layout'>
+                                                <img src={require('../../images/layer.png').default} alt='' />
+                                            </div>
+                                            <img src={require('../../images/item.png').default} alt='' />
+                                            <h4>
+                                                {
+                                                    item.name
+                                                }
+                                                <strong>
+                                                    ENDİRİM
+                                                        </strong>
+                                            </h4>
+                                        </div>
+                                    </NavLink>
+                                </Col>
                             ))
                         }
-                    </Tabs>
+                    </Row>
                 </div>
             </Container>
         </div>

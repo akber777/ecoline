@@ -35,8 +35,11 @@ import {
 // atoms
 import { basket, myTab } from '../../atoms/atoms';
 
-// jquery
-import $ from 'jquery';
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// axios
+import axios from 'axios';
 
 
 // import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
@@ -45,10 +48,27 @@ import $ from 'jquery';
 
 const Order = () => {
 
-    const mapLocate = [
-        [41.015137, 28.979530],
-    ];
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
 
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
 
 
     let { data, isLoading } = useQuery(['category', ''], categories, {
@@ -62,19 +82,6 @@ const Order = () => {
 
     let [changeTab, setChangeTab] = useRecoilState(myTab)
 
-
-    useLayoutEffect(() => {
-
-        $('.nav-tabs > a').click(function () {
-
-            let eventKey = $(this).attr('data-rb-event-key');
-
-            setChangeTab(eventKey)
-
-        })
-
-
-    }, [data])
 
 
     let myTabName = useRecoilValue(myTab)
@@ -172,21 +179,9 @@ const Order = () => {
             </div>
             <Container>
                 <div className='order__breadCrumbs'>
-                    <NavLink to={'/order'} className='activCrumbs'>
+                    <span className='activCrumbs'>
                         SİFARİŞ
-                    </NavLink>
-                    <NavLink to={'/ordercomplete'} style={{ display: product.length !== 0 ? 'block' : 'none' }}>
-                        SİFARİŞLƏRİM
-                    </NavLink>
-                    <NavLink to={'/location'}>
-                        ÜNVAN SEÇ
-                    </NavLink>
-                    <NavLink to={'/payment'}>
-                        ÖDƏNİŞ ET
-                            </NavLink>
-                    <NavLink to={'/delivery'}>
-                        TƏSLİMAT
-                    </NavLink>
+                    </span>
                 </div>
                 <div className='oder__content home__priceBox'>
                     {
@@ -273,15 +268,21 @@ const Order = () => {
                             }
                         </span>
                     </p>
-                    <NavLink to={total.length !== 0 ? total.reduce(reducer) !== 0 ? `/ordercomplete` : '' : '/order'}>
-                        <button className='success'>
-                            SİFARİŞİ TƏSDİQLƏ
-                        </button>
-                    </NavLink>
+                    <div className='btnBoxs'>
+                        <NavLink to={total.length !== 0 ? total.reduce(reducer) !== 0 ? `/ordercomplete` : '' : '/order'}>
+                            <button className='success'>
+                                Next
+                            </button>
+                        </NavLink>
+                    </div>
                 </div>
             </Container>
             <div id='map'>
-                <Map locations={mapLocate} />
+                {
+                    settings.isLoading === false && (
+                        <Map locations={locate} />
+                    )
+                }
             </div>
         </main >
     );

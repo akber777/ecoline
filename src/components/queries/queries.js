@@ -32,3 +32,12 @@ export const blogs = async (key) => {
 
     return res.data
 }
+
+
+
+// export const register = async (key) => {
+
+//     const res = await axios.post(registerApi, key.queryKey[1]);
+
+//     return res.data
+// }

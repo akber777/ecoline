@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 // css
 
@@ -6,18 +6,124 @@ import './css/_loginLocation.scss';
 
 
 // tools
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Container, Input } from 'reactstrap';
 import Map from '../map/map';
 
+// axios
+import axios from 'axios';
 
+
+// react query
+import { useQuery, useMutation } from 'react-query';
+
+
+// api
+import { baseUrl } from '../../api/api';
 
 
 const LoginLocation = () => {
 
-    const mapLocate = [
-        ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
-    ];
+    let popup = useRef()
+
+
+    let [updatedPage, setUpdatedPage] = useState(true)
+
+
+
+    function openPopup() {
+
+        popup.current.style.display = 'block';
+
+        if (updatedPage !== true) {
+
+            setUpdatedPage(false)
+        }
+
+    }
+
+
+    function closePopup() {
+
+        popup.current.style.display = 'none';
+
+        setUpdatedPage(false)
+
+    }
+
+
+
+    let { data, isLoading } = useQuery(['infoLocation'], async (key) => {
+
+        const res = axios.get(baseUrl + 'selectable?include=cities')
+
+        return res;
+
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+
+    let [name, setName] = useState()
+    let [phone, setPhone] = useState()
+    let [address, setAddress] = useState()
+    let [city_id] = useState(isLoading === false && (data.data.data.cities.data[0].name))
+
+
+
+    let params = {
+        name: name,
+        phone: phone,
+        address: address,
+        city_id: city_id
+    }
+
+
+    // register
+    const mutation = useMutation(up => axios.post(baseUrl + 'address/add', up))
+
+
+
+    // address
+
+
+    let addressApi = useQuery(['addressApi', updatedPage], async (key) => {
+
+        const res = axios.get(baseUrl + 'address')
+
+        return res;
+
+    }, {
+        refetchOnWindowFocus: true
+    })
+
+
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
+
 
 
     return (
@@ -42,46 +148,136 @@ const LoginLocation = () => {
                         <NavLink to={'/loginlocation'} className='activeMenu'>
                             Ünvanlarım
                         </NavLink>
-                        <NavLink to={''}>
+                        <NavLink to={''} onClick={() => {
+                            localStorage.removeItem('token')
+                            localStorage.removeItem('user')
+                        }}>
                             Çıxış
                         </NavLink>
                     </div>
                 </div>
                 <div className='info__content'>
-                    <div className='formBox'>
-                        <div className='formItem'>
-                            <span>Ad:</span>
-                            <Input type='text' value='Qardaşımın evi' />
-                        </div>
-                        <div className='formItem'>
-                            <span>Telefon::</span>
-                            <Input type='phone' value='+99455 555 55 55' />
-                        </div>
-                        <div className='formItem fromLocate'>
-                            <span>Ünvan:</span>
-                            <Input type='text' value='Aliskender İskenderov 3/3, Nasimi distr. Baku / Azerbaijan ' />
-                        </div>
-                        <div className='formItem'>
-                            <span>Xəritədə göstər:</span>
-                            <p className='showPin'>
-                                <img src={require('../../images/newPin.png').default} alt='' />
-                            </p>
-                        </div>
-                        <div className='formItem'>
-                            <span>Açıqlama::</span>
-                            <Input type='text' value='Nizami metrosu, kitabxana ile uzbeuz' />
+                    <div className='infoPopup' ref={popup}>
+                        <div className='info__WrapperModal'>
+                            <button className='closeModal' onClick={closePopup}>
+                                x
+                            </button>
+                            <h4>YENILE</h4>
+                            <div className='formBox'>
+                                <div className='formItem'>
+                                    <span>Ad:</span>
+                                    <Input type='text'
+                                        onChange={(event) => {
+                                            setName(event.target.value)
+                                        }} />
+                                </div>
+                                <div className='formItem'>
+                                    <span>Telefon:</span>
+                                    <Input type='phone'
+                                        onChange={(event) => {
+                                            setPhone(event.target.value)
+                                        }}
+                                    />
+                                </div>
+                                <div className='formItem fromLocate'>
+                                    <span>Ünvan:</span>
+                                    <Input type='text'
+                                        onChange={(event) => {
+                                            setAddress(event.target.value)
+                                        }}
+                                    />
+                                </div>
+                                <div className='formItem'>
+                                    <span>Xəritədə göstər:</span>
+                                    <p className='showPin'>
+                                        <img src={require('../../images/newPin.png').default} alt='' />
+                                    </p>
+                                </div>
+                                <div className='formItem'>
+                                    <span>Şəhər:</span>
+                                    <select
+                                        onChange={(event) => {
+                                            console.log(event.target.value)
+                                        }}
+                                    >
+                                        {
+                                            isLoading === false && data !== undefined && (
+
+                                                data.data.data.length !== 0 && (
+                                                    data.data.data.cities.data.map(item => (
+                                                        <option key={item.id}
+                                                        >
+                                                            {
+                                                                item.name
+                                                            }
+                                                        </option>
+                                                    ))
+                                                )
+
+                                            )
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <button className='sendInfo'
+                                onClick={() => {
+                                    mutation.mutate(params)
+                                }}
+                            >
+                                ƏLAVƏ ET
+                            </button>
                         </div>
                     </div>
+
+                    <div className='formBox'>
+                        {
+                            addressApi.isLoading === false && addressApi.data !== undefined && addressApi.data.data.data.length !== 0 && (
+                                addressApi.data.data.data.map(item => (
+                                    <div className='location__content'>
+                                        <div className='location__contentLeft'>
+                                            <p>
+                                                Ev ünvanım:
+                                                <span>
+                                                    {
+                                                        item.address
+                                                    }
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <img src={require('../../images/newPin.png').default} alt='' />
+                                            </p>
+                                        </div>
+                                        <div className='location__contentRight'>
+                                            <span className='changeInfo' onClick={openPopup}>
+                                                DÜZƏLİŞ ET
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))
+                            )
+                        }
+
+
+                    </div>
                     <div className='login__sendBtn infoSend'>
-                        <button>
-                            YADDA SAXLA
+                        <button
+                            onClick={() => {
+                                openPopup();
+                                mutation.mutate(params)
+                            }}
+                        >
+                            ÜNVAN ƏLAVƏ ET
                         </button>
                     </div>
                 </div>
             </Container>
 
             <div id='map'>
-                <Map locations={mapLocate} />
+                {
+                    settings.isLoading === false && (
+                        <Map locations={locate} />
+                    )
+                }
             </div>
         </main>
     );

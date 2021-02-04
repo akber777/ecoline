@@ -164,7 +164,8 @@ const Order = () => {
 
 
     window.addEventListener('beforeunload', function (e) {
-        localStorage.clear()
+        localStorage.removeItem("items")
+        localStorage.removeItem("total")
     });
 
     return (

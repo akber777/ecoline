@@ -11,13 +11,40 @@ import { Container, Col, Row } from 'reactstrap';
 import Map from '../map/map';
 
 
+// query
+import { useQuery } from 'react-query';
+import { homeSlider, categories } from '../../queries/queries';
+
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// axios
+import axios from 'axios';
 
 
 const LoginOrder = () => {
 
-    const mapLocate = [
-        ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
-    ];
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
+
+
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
 
 
     return (
@@ -307,7 +334,11 @@ const LoginOrder = () => {
             </Container>
 
             <div id='map'>
-                <Map locations={mapLocate} />
+                {
+                    settings.isLoading === false && (
+                        <Map locations={locate} />
+                    )
+                }
             </div>
         </main >
     );

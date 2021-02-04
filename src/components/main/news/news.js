@@ -53,8 +53,8 @@ const News = () => {
                     <Row>
                         {
                             isLoading === false && (
-                                data.data.map(item => (
-                                    <Col lg='4' key={item.id}>
+                                data.data.map((item, index) => (
+                                    <Col lg='4' key={index}>
                                         <NavLink to={'/blogs/' + item.slug}>
                                             <div className='home__newsInfo'>
                                                 <img src={item.cover.cover} alt='' />

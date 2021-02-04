@@ -66,13 +66,27 @@ const Header = () => {
                             <a href='tel:'>
                                 ( 050 ) 222 22 22
                             </a>
-                            <NavLink to={'/logininformation'}>
-                                <img src={require('../images/phone.png').default} alt='' />
-                                Daxil ol <span>/</span>
-                            </NavLink>
-                            <NavLink to={'/login'}>
-                                Qeydiyyat
-                            </NavLink>
+                            {
+                                window.localStorage.getItem('token') === null ?
+                                    <NavLink to={'/signIn'}>
+                                        <img src={require('../images/phone.png').default} alt='' />
+                                        Daxil ol <span>/</span>
+                                    </NavLink>
+                                    :
+                                    <NavLink to={'/logininformation'}>
+                                        {
+                                            JSON.parse(window.localStorage.getItem('user')).name
+                                        }
+                                    </NavLink>
+                            }
+                            {
+                                window.localStorage.getItem('token') === null ?
+                                    <NavLink to={'/login'}>
+                                        Qeydiyyat
+                                    </NavLink>
+                                    :
+                                    ''
+                            }
                         </div>
                     </div>
                 </Container>

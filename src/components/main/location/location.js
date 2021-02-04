@@ -82,11 +82,32 @@ const Location = () => {
                      </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Input type='text' />
-                    <Button style={{ marginTop: 20 }}>Gonder</Button>
+                    <div className='flexModal'>
+                        <div className='flexModalIn'>
+                            <h4>Adress Basliqi</h4>
+                            <Input type='text' />
+                        </div>
+                        <div className='flexModalIn'>
+                            <h4>Seher</h4>
+                            <select>
+                                <option>
+                                    Baki
+                                </option>
+                                <option>
+                                    Ucar
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className='modalTextArea'>
+                        <h4>Adress</h4>
+                        <textarea >
+
+                        </textarea>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button style={{ marginTop: 20 }}>Gonder</Button>
                 </Modal.Footer>
             </Modal>
         );

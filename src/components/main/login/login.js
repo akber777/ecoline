@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
 // css
@@ -14,19 +14,73 @@ import { Container, Input } from 'reactstrap';
 import WhyUs from '../whyUs/whyUs';
 import News from '../news/news';
 import Map from '../map/map';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faGlassMartiniAlt } from '@fortawesome/free-solid-svg-icons';
-import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faEnvelope, faGlassMartiniAlt } from '@fortawesome/free-solid-svg-icons';
+// import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 
 
 // ract router dom
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+
+// react query
+import { useMutation } from 'react-query';
+
+// axios
+import axios from 'axios';
+
+
+// apis
+
+import { registerApi } from '../../api/api';
+
 
 const mapLocate = [
-    ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
+    [41.015137, 28.979530],
 ];
 
+
+
+
+
+
+
 const Login = () => {
+
+
+    let [name, setName] = useState()
+    let [email, setEmail] = useState()
+    let [password, setPassword] = useState()
+    let [passwordRepeat, setPasswordRepeat] = useState()
+
+    let isValid = true;
+
+    let history = useHistory()
+
+    let params = {
+        name: name,
+        email: email,
+        password: password,
+        password_confirmation: passwordRepeat
+    }
+
+
+
+    // register
+    const mutation = useMutation(regi => axios.post(registerApi, regi), {
+        onSuccess: function (token) {
+            window.localStorage.setItem('token', JSON.stringify(token.data.token))
+
+            window.localStorage.setItem('user', JSON.stringify(token.data.user))
+
+
+            history.push({
+                pathname: '/logininformation'
+            })
+        }
+    })
+
+
+
     return (
         <main className='rules login'>
             <div className='rules__banner'>
@@ -41,7 +95,7 @@ const Login = () => {
                 <Container>
                     <h4>QEYDİYYATDAN KEÇ VƏ YA DAXİL OL</h4>
                     <div className='login__info'>
-                        <div className='login__social'>
+                        {/* <div className='login__social'>
                             <a href='2#'>
                                 <FontAwesomeIcon icon={faEnvelope} />
                                 Log in Email
@@ -50,24 +104,71 @@ const Login = () => {
                                 <FontAwesomeIcon icon={faFacebookF} />
                                 Connect to facebook
                             </a>
-                        </div>
+                        </div> */}
                         <div className='login__info'>
                             <h4>XÜSUSİ QEYDİYYAT</h4>
                             <div className='login__formBox'>
-                                <Input placeholder='AD/SOYAD' type='text' />
-                                <Input placeholder='EMAIL' type='text' />
-                                <Input placeholder='ŞİFRƏ' type='password' />
+                                <Input placeholder='AD/SOYAD' type='text'
+                                    onChange={(event) => {
+                                        setName(event.target.value)
+                                    }}
+                                />
+                                <p className='alertLogin'>Ad Soyad Daxil Edin</p>
+                                <Input placeholder='EMAIL' type='text'
+                                    onChange={(event) => {
+                                        setEmail(event.target.value)
+                                    }} />
+                                <p className='alertLogin'>Emaili Daxil Edin</p>
+                                <Input placeholder='ŞİFRƏ' type='password'
+                                    onChange={(event) => {
+                                        setPassword(event.target.value)
+                                    }}
+                                />
+                                <p className='alertLogin'>Şifrə Daxil Edin</p>
+                                <Input placeholder='ŞİFRƏ TƏKRAR' type='password'
+                                    onChange={(event) => {
+                                        setPasswordRepeat(event.target.value)
+                                    }}
+                                />
+                                <p className='alertLogin'>Şifrəni Təkrar Daxil Edin</p>
                             </div>
                             <div className='login__formBoxEnd'>
-                                <NavLink to={''}>
+                                {/* <NavLink to={''}>
                                     ŞİFRƏMİ UNUTDUM
-                                </NavLink>
+                                </NavLink> */}
                                 <NavLink to={''}>
                                     DAXİL OL
                                 </NavLink>
                             </div>
                             <div className='login__sendBtn'>
-                                <button>
+                                <button
+                                    onClick={() => {
+
+                                        document.querySelectorAll('.login__formBox input').forEach(item => {
+
+                                            if (item.value !== '') {
+                                                item.nextElementSibling.style.display = 'none';
+                                                item.nextElementSibling.classList.remove('framesAlert')
+
+                                            } else {
+                                                item.nextElementSibling.style.display = 'block';
+                                                item.nextElementSibling.classList.remove('framesAlert')
+
+                                                setTimeout(() => {
+                                                    item.nextElementSibling.classList.add('framesAlert')
+                                                }, 100)
+
+                                                isValid = false
+                                            }
+
+                                        })
+
+                                        if (isValid === true) {
+                                            mutation.mutate(params);
+                                        }
+
+                                    }}
+                                >
                                     QEYDİYYAT
                                 </button>
                             </div>
@@ -80,7 +181,7 @@ const Login = () => {
             <div id='map'>
                 <Map locations={mapLocate} />
             </div>
-        </main>
+        </main >
     );
 }
 

@@ -53,12 +53,16 @@ import Static from './components/main/static/static';
 
 // react router dom
 
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 // hooks
 import OpenMenu from './components/hooks/openMobMenu';
 import Resize from './components/hooks/resize';
+import SignIn from './components/main/signIn/signIn';
 
+// setToken
+
+import { SetToken } from './components/api/token';
 
 function App() {
 
@@ -71,6 +75,11 @@ function App() {
     })
 
   }, [pathname])
+
+
+  let history = useHistory()
+
+  SetToken()
 
   return (
     <div className="App">
@@ -120,15 +129,36 @@ function App() {
         <Route path='/location'>
           <Location />
         </Route>
-        <Route path='/logininformation'>
-          <LoginInfo />
+        <Route path='/signin'>
+          <SignIn />
         </Route>
-        <Route path='/loginorder'>
-          <LoginOrder />
-        </Route>
-        <Route path='/loginlocation'>
-          <LoginLocation />
-        </Route>
+        {
+          window.localStorage.getItem('token') !== null ?
+            <Route path='/logininformation'>
+              <LoginInfo />
+            </Route>
+            : <Route path='/logininformation'>
+              <Login />
+            </Route>
+        }
+        {
+          window.localStorage.getItem('token') !== null ?
+            <Route path='/loginorder'>
+              <LoginOrder />
+            </Route>
+            : <Route path='/loginorder'>
+              <Login />
+            </Route>
+        }
+        {
+          window.localStorage.getItem('token') !== null ?
+            <Route path='/loginlocation'>
+              <LoginLocation />
+            </Route>
+            : <Route path='/loginlocation'>
+              <Login />
+            </Route>
+        }
         <Route path='/payment'>
           <Payment />
         </Route>

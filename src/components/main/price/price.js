@@ -85,14 +85,22 @@ const Price = React.memo(function Price({
                                             <div className='layout'>
                                                 <img src={require('../../images/layer.png').default} alt='' />
                                             </div>
-                                            <img src={require('../../images/item.png').default} alt='' />
+                                            <img src={item.img !== null ? item.img.original : ''} alt='' />
+
                                             <h4>
                                                 {
                                                     item.name
                                                 }
-                                                <strong>
-                                                    ENDİRİM
+                                                {
+                                                    item.description !== undefined && item.description !== null ?
+                                                        <strong>
+                                                            {
+                                                                item.description
+                                                            }
                                                         </strong>
+                                                        :
+                                                        ''
+                                                }
                                             </h4>
                                         </div>
                                     </NavLink>

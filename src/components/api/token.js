@@ -1,8 +1,14 @@
 
 import axios from 'axios';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 export function SetToken() {
+
+
+    let history = useHistory();
+
+    let { pathname } = useLocation();
 
     axios.interceptors.request.use(function (config) {
 
@@ -23,11 +29,32 @@ export function SetToken() {
 
     }, function (error) {
 
-        if (error.response.status === 401) {
-            history.push({
-                pathname: '/login'
-            })
+
+        if (error.response !== undefined) {
+            if (error.response.status === 401) {
+
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('user');
+
+                if (pathname !== '/ordercomplete') {
+                    history.push({
+                        pathname: '/signin'
+                    })
+                }
+            }
+
+            if (error.response.status === 400) {
+                window.localStorage.removeItem('token');
+                window.localStorage.removeItem('user');
+
+                if (pathname !== '/ordercomplete') {
+                    history.push({
+                        pathname: '/signin'
+                    })
+                }
+            }
         }
+
 
     });
 

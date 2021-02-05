@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 // css
 
@@ -6,7 +6,7 @@ import './css/_loginLocation.scss';
 
 
 // tools
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Container, Input } from 'reactstrap';
 import Map from '../map/map';
 
@@ -24,32 +24,9 @@ import { baseUrl } from '../../api/api';
 
 const LoginLocation = () => {
 
-    let popup = useRef()
-
 
     let [updatedPage, setUpdatedPage] = useState(true)
 
-
-
-    function openPopup() {
-
-        popup.current.style.display = 'block';
-
-        if (updatedPage !== true) {
-
-            setUpdatedPage(false)
-        }
-
-    }
-
-
-    function closePopup() {
-
-        popup.current.style.display = 'none';
-
-        setUpdatedPage(false)
-
-    }
 
 
 
@@ -70,7 +47,7 @@ const LoginLocation = () => {
     let [name, setName] = useState()
     let [phone, setPhone] = useState()
     let [address, setAddress] = useState()
-    let [city_id] = useState(isLoading === false && (data.data.data.cities.data[0].name))
+    let [city_id, setCity] = useState(isLoading === false && (data.data.data.cities.data[0].name))
 
 
 
@@ -83,21 +60,25 @@ const LoginLocation = () => {
 
 
     // register
-    const mutation = useMutation(up => axios.post(baseUrl + 'address/add', up))
+    const mutationAdd = useMutation(up => axios.post(baseUrl + 'address/add', up))
+
+    const mutationUpdated = useMutation(up => axios.post(baseUrl + 'address/updated', up))
 
 
 
     // address
 
 
-    let addressApi = useQuery(['addressApi', updatedPage], async (key) => {
+    let addressApi = useQuery(['addressApi', mutationAdd.data], async (key) => {
 
         const res = axios.get(baseUrl + 'address')
 
         return res;
 
+
     }, {
-        refetchOnWindowFocus: true
+        refetchOnWindowFocus: false,
+        cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
     })
 
 
@@ -157,9 +138,13 @@ const LoginLocation = () => {
                     </div>
                 </div>
                 <div className='info__content'>
-                    <div className='infoPopup' ref={popup}>
+                    <div className='infoPopup openUpdatedPopup'>
                         <div className='info__WrapperModal'>
-                            <button className='closeModal' onClick={closePopup}>
+                            <button className='closeModal' onClick={(event) => {
+
+                                document.querySelector('.openUpdatedPopup').style.display = 'none'
+
+                            }}>
                                 x
                             </button>
                             <h4>YENILE</h4>
@@ -197,7 +182,8 @@ const LoginLocation = () => {
                                     <span>Şəhər:</span>
                                     <select
                                         onChange={(event) => {
-                                            console.log(event.target.value)
+                                            setCity(event.target.value)
+
                                         }}
                                     >
                                         {
@@ -221,7 +207,87 @@ const LoginLocation = () => {
                             </div>
                             <button className='sendInfo'
                                 onClick={() => {
-                                    mutation.mutate(params)
+                                    setUpdatedPage(true)
+                                    mutationUpdated.mutate(params)
+                                }}
+                            >
+                                ƏLAVƏ ET
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* add */}
+                    <div className='infoPopup openAddPopup'>
+                        <div className='info__WrapperModal'>
+                            <button className='closeModal' onClick={(event) => {
+
+                                document.querySelector('.openAddPopup').style.display = 'none'
+
+                            }}>
+                                x
+                            </button>
+                            <h4>YENILE</h4>
+                            <div className='formBox'>
+                                <div className='formItem'>
+                                    <span>Ad:</span>
+                                    <Input type='text'
+                                        onChange={(event) => {
+                                            setName(event.target.value)
+                                        }} />
+                                </div>
+                                <div className='formItem'>
+                                    <span>Telefon:</span>
+                                    <Input type='phone'
+                                        onChange={(event) => {
+                                            setPhone(event.target.value)
+                                        }}
+                                    />
+                                </div>
+                                <div className='formItem fromLocate'>
+                                    <span>Ünvan:</span>
+                                    <Input type='text'
+                                        onChange={(event) => {
+                                            setAddress(event.target.value)
+                                        }}
+                                    />
+                                </div>
+                                <div className='formItem'>
+                                    <span>Xəritədə göstər:</span>
+                                    <p className='showPin'>
+                                        <img src={require('../../images/newPin.png').default} alt='' />
+                                    </p>
+                                </div>
+                                <div className='formItem'>
+                                    <span>Şəhər:</span>
+                                    <select
+                                        onChange={(event) => {
+                                            setCity(event.target.value)
+
+                                        }}
+                                    >
+                                        {
+                                            isLoading === false && data !== undefined && (
+
+                                                data.data.data.length !== 0 && (
+                                                    data.data.data.cities.data.map(item => (
+                                                        <option key={item.id}
+                                                        >
+                                                            {
+                                                                item.name
+                                                            }
+                                                        </option>
+                                                    ))
+                                                )
+
+                                            )
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <button className='sendInfo'
+                                onClick={() => {
+                                    setUpdatedPage(true)
+                                    mutationAdd.mutate(params)
                                 }}
                             >
                                 ƏLAVƏ ET
@@ -248,7 +314,9 @@ const LoginLocation = () => {
                                             </p>
                                         </div>
                                         <div className='location__contentRight'>
-                                            <span className='changeInfo' onClick={openPopup}>
+                                            <span className='changeInfo' onClick={() => {
+                                                document.querySelector('.openUpdatedPopup').style.display = 'block'
+                                            }}>
                                                 DÜZƏLİŞ ET
                                             </span>
                                         </div>
@@ -257,13 +325,13 @@ const LoginLocation = () => {
                             )
                         }
 
-
                     </div>
                     <div className='login__sendBtn infoSend'>
                         <button
                             onClick={() => {
-                                openPopup();
-                                mutation.mutate(params)
+                                document.querySelector('.openAddPopup').style.display = 'block';
+                                setUpdatedPage(false)
+
                             }}
                         >
                             ÜNVAN ƏLAVƏ ET

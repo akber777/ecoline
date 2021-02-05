@@ -11,6 +11,12 @@
         align-items: center;
         border-radius: 50px;
 
+        > input {
+            margin-right: 15px;
+            width: 30px;
+            height: 30px;
+        }
+
         @media (max-width: 1050px) {
             height: auto;
         }
@@ -108,10 +114,31 @@
             }
         }
 
+        i {
+            position: absolute;
+            transition: all 0.2s;
+
+            svg {
+                color: #fff;
+                font-size: 30px;
+            }
+        }
+
         span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             margin-right: 15px;
             font-size: 20px;
             color: #fff;
+            width: 100%;
+            height: 100%;
+            transition: all 0.2s;
+            z-index: 5;
+
+            input {
+                opacity: 0;
+            }
 
             @media (max-width: 1050px) {
                 margin-right: 0;
@@ -204,4 +231,8 @@
         outline: none;
         border: none;
     }
+}
+
+.infoFlexFull {
+    width: 100%;
 }

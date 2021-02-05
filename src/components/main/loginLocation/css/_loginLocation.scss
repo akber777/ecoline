@@ -79,6 +79,10 @@
             color: #8cbd29;
             font-weight: bold;
         }
+
+        @media (max-width: 575px) {
+            width: 80% !important;
+        }
     }
 
     .closeModal {
@@ -90,6 +94,12 @@
         background: transparent;
         outline: none;
         border: none;
+
+        @media (max-width: 575px) {
+            right: 24px;
+            top: 5px;
+            color: #3d3d3d;
+        }
     }
 
     .sendInfo {

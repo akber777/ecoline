@@ -16,3 +16,9 @@ export let myTab = atom({
     key: 'myTabEvent',
     default: null
 })
+
+
+export let order = atom({
+    key: 'myOrder',
+    default: null
+})

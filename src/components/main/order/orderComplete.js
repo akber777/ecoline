@@ -1,9 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 
 
 
 // rectstrap
-import { Col, Container, Row } from 'reactstrap';
+import { Col, Container, Row, Input } from 'reactstrap';
 
 // map
 import Map from '../map/map';
@@ -17,17 +17,18 @@ import {
 
 
 // atoms
-import { basket } from '../../atoms/atoms';
+import { basket, order } from '../../atoms/atoms';
 
 
 // query
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 
 // baseUrl
-import { baseUrl } from '../../api/api';
+import { baseUrl, loginApi } from '../../api/api';
 
 // axios
 import axios from 'axios';
+
 
 const OrderComplete = () => {
 
@@ -58,7 +59,9 @@ const OrderComplete = () => {
 
     let [product, setProduct] = useState([])
 
-    let [myBasket, setMyBasket] = useRecoilState(basket)
+    let [myBasket, setMyBasket] = useRecoilState(basket);
+
+    let [allOder, setOrder] = useRecoilState(order)
 
 
     let [total] = useState([])
@@ -100,6 +103,14 @@ const OrderComplete = () => {
                     total.splice(index, 1);
                     window.localStorage.setItem('total', JSON.stringify(total))
 
+                    setOrder({
+                        address_id: null,
+                        payment_method: null,
+                        amount: total.reduce(reducer),
+                        is_exspress: null,
+                        items: JSON.parse(localStorage.getItem('items'))
+                    })
+
                 }
 
                 event.target.parentNode.parentNode.children[2].children[1].textContent = endRes[0].count * Number(endRes[0].price)
@@ -109,6 +120,7 @@ const OrderComplete = () => {
 
     function sendPlus(value, event) {
         const res = product.some(id => id.id === value.id)
+
 
         if (res === false) {
 
@@ -140,6 +152,13 @@ const OrderComplete = () => {
         total.push(Number(value.price))
         window.localStorage.setItem('total', JSON.stringify(total))
 
+        setOrder({
+            address_id: null,
+            payment_method: null,
+            amount: total.reduce(reducer),
+            is_exspress: null,
+            items: JSON.parse(localStorage.getItem('items'))
+        })
 
     }
 
@@ -155,8 +174,124 @@ const OrderComplete = () => {
     })
 
 
+
+    // checked token
+
+
+    let loginPopup = useRef()
+
+
+    function checkedToken() {
+
+        if (localStorage.getItem('token') !== null && localStorage.getItem('user') !== null) {
+            return '/location'
+        } else {
+
+            return '/ordercomplete'
+        }
+
+    }
+
+
+    function nextPageButton() {
+
+        if (loginPopup.current !== undefined) {
+            loginPopup.current.style.display = 'block'
+        }
+
+    }
+
+
+
+    let [email, setEmail] = useState();
+    let [password, setPassword] = useState();
+
+
+    let params = {
+        email: email,
+        password: password
+    }
+
+
+    // register
+    const mutation = useMutation(regi => axios.post(loginApi, params),
+        {
+            onSuccess: (login) => {
+                window.localStorage.setItem('user', JSON.stringify(login.data.user));
+                window.localStorage.setItem('token', JSON.stringify(login.data.token));
+
+                if (login.status === 200) {
+
+                    history.push({
+                        pathname: '/ordercomplete'
+                    })
+
+                    document.querySelector('.openUpdatedPopup').style.display = 'none'
+                }
+            },
+            onError: (error) => {
+                history.push({
+                    pathname: '/ordercomplete'
+                })
+
+                document.querySelector('.loginAlertBox').style.display = 'block'
+            }
+        })
+
+
+
     return (
-        <main className='complete'>
+        <main className='complete loginLocation'>
+            <div className='checkedLoginPopup info__content'>
+                <div className='infoPopup openUpdatedPopup' ref={loginPopup}>
+                    <div className='info__WrapperModal'>
+                        <button className='closeModal' onClick={(event) => {
+
+                            document.querySelector('.openUpdatedPopup').style.display = 'none'
+
+                        }}>
+                            x
+                        </button>
+                        <div className='complete__popupItems'>
+                            <div className='login__info'>
+                                <h4 className='complete__popupItems--title'>DAXİL OL</h4>
+                                <div className='login__formBox'>
+                                    <Input placeholder='EMAIL' type='text'
+                                        onChange={(event) => {
+                                            setEmail(event.target.value)
+                                        }} />
+                                    <Input placeholder='ŞİFRƏ' type='password'
+                                        onChange={(event) => {
+                                            setPassword(event.target.value)
+                                        }}
+                                    />
+                                    <p className='loginAlertBox'>
+                                        Parol və login məlumatları səhvdir
+                                    </p>
+                                </div>
+                                <div className='login__formBoxEnd'>
+                                    {/* <NavLink to={''}>
+                                    ŞİFRƏMİ UNUTDUM
+                                </NavLink> */}
+                                    <NavLink to={'/login'}>
+                                        QEYDİYYATDAN KEÇ
+                                    </NavLink>
+                                </div>
+                                <div className='login__sendBtn'>
+                                    <button
+                                        onClick={() => {
+                                            mutation.mutate(params)
+                                        }}
+                                    >
+                                        DAXİL OL
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div className='rules__banner'>
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
@@ -217,14 +352,14 @@ const OrderComplete = () => {
                                             {/* <span>{item.name}</span> */}
                                             <div className='flex'>
                                                 <p className='priceBtn'>
-                                                    <span>
+                                                    <span style={{ width: 100 + '%' }}>
                                                         {
                                                             pro.price
                                                         }
                                                     </span>
-                                                    <i>
+                                                    {/* <i>
                                                         13%
-                                                    </i>
+                                                    </i> */}
                                                 </p>
                                                 <p className='setCount'>
                                                     {
@@ -257,7 +392,7 @@ const OrderComplete = () => {
                                 Prev
                             </button>
                         </NavLink>
-                        <NavLink to={'/location'}>
+                        <NavLink to={checkedToken()} onClick={nextPageButton}>
                             <button className='success'>
                                 Next
                             </button>

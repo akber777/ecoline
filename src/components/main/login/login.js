@@ -65,9 +65,11 @@ const Login = () => {
 
 
 
+
     // register
     const mutation = useMutation(regi => axios.post(registerApi, regi), {
         onSuccess: function (token) {
+
             window.localStorage.setItem('token', JSON.stringify(token.data.token))
 
             window.localStorage.setItem('user', JSON.stringify(token.data.user))
@@ -78,6 +80,7 @@ const Login = () => {
             })
         }
     })
+
 
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 
 // css
 import "./css/_payment.scss";
@@ -27,6 +27,19 @@ import { baseUrl } from '../../api/api';
 // axios
 import axios from 'axios';
 
+
+//  jquery
+import $ from 'jquery';
+
+// recoil
+import { useRecoilState, useRecoilValue } from 'recoil';
+
+// atoms
+import { order } from '../../atoms/atoms';
+
+// fontawesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const Payment = () => {
 
@@ -63,6 +76,71 @@ const Payment = () => {
         })
     }
 
+
+
+
+    let [allOder, setOrder] = useRecoilState(order)
+
+    let orderValue = useRecoilValue(order)
+
+    useLayoutEffect(() => {
+
+        $('.changeInfo').on('click', function () {
+
+            setOrder({
+                address_id: orderValue.address_id,
+                payment_method: $(this).attr('data-id'),
+                amount: JSON.parse(localStorage.getItem('total')) != null ? JSON.parse(localStorage.getItem('total')).reduce(reducer) : null,
+                is_exspress: null,
+                items: JSON.parse(localStorage.getItem('items'))
+            })
+
+            $('.changeInfo').show();
+            $('.changeInfo').find('input').prop('checked', false);
+            $('.changeInfo').next().css({
+                opacity: 0
+            })
+
+            $(this).find('input').prop('checked', true);
+
+            $(this).hide();
+
+            $(this).next().css({
+                opacity: 1
+            })
+
+        })
+
+
+        $.each($('.changeInfo'), function (index, item) {
+
+            console.log(orderValue)
+
+            if (orderValue !== null) {
+                if ($(item).attr('data-id') === orderValue.payment_method) {
+                    $(item).hide()
+                    $(item).next().css({
+                        opacity: 1
+                    })
+                }
+            }
+        })
+
+    }, [])
+
+
+
+    let sendOder = async (params) => {
+
+        const res = axios.post(baseUrl + 'order/create', params);
+
+        // console.log(res.data);
+
+        return res.data;
+
+    }
+
+
     return (
         <main className='location payment'>
             <div className='rules__banner'>
@@ -90,41 +168,37 @@ const Payment = () => {
                 </div>
                 <Container>
                     <div className='payment__content'>
-                        <div className='location__content'>
-                            <div className='location__contentLeft'>
-                                <p>
-                                    Kredit Kartı ilə
 
-                            </p>
+                        <div className='location__content'>
+                            <div className='location__contentLeft'>
+                                <p>
+                                    Qapida odenis
+                                </p>
                             </div>
                             <div className='location__contentRight'>
-                                <NavLink to={''}>
+                                <span className='changeInfo' data-id={1}>
                                     SEÇ
-                            </NavLink>
+                                <input name='address_id' type='radio' />
+                                </span>
+                                <i style={{ opacity: 0 }} className='checkedI'>
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </i>
                             </div>
                         </div>
                         <div className='location__content'>
                             <div className='location__contentLeft'>
                                 <p>
-                                    Post terminal
-                            </p>
+                                    Online Odenis
+                                </p>
                             </div>
                             <div className='location__contentRight'>
-                                <NavLink to={''}>
+                                <span className='changeInfo' data-id={2}>
                                     SEÇ
-                            </NavLink>
-                            </div>
-                        </div>
-                        <div className='location__content'>
-                            <div className='location__contentLeft'>
-                                <p>
-                                    Nəğd ödəniş
-                            </p>
-                            </div>
-                            <div className='location__contentRight'>
-                                <NavLink to={''}>
-                                    SEÇ
-                            </NavLink>
+                                <input name='payment_id' type='radio' />
+                                </span>
+                                <i style={{ opacity: 0 }} className='checkedI'>
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </i>
                             </div>
                         </div>
                     </div>
@@ -146,10 +220,14 @@ const Payment = () => {
                                     Prev
                             </button>
                             </NavLink>
-                            <NavLink to={'/delivery'}>
+                            <NavLink to={'/delivery'}
+                                onClick={() => {
+                                    sendOder(orderValue)
+                                }}
+                            >
                                 <button className='success'>
                                     Next
-                            </button>
+                                </button>
                             </NavLink>
                         </div>
                     </div>

@@ -75,18 +75,21 @@ const Delivery = () => {
             </div>
             <div className='locationWrapper'>
                 <div className='order__breadCrumbs'>
-                    <NavLink to={'/order'}>
+                    <span>
                         SİFARİŞ
-                    </NavLink>
-                    <NavLink to={'/location'}>
+                    </span>
+                    <span>
+                        SİFARİŞLƏRİM
+                    </span>
+                    <span>
                         ÜNVAN SEÇ
-                    </NavLink>
-                    <NavLink to={'/payment'}>
+                    </span>
+                    <span>
                         ÖDƏNİŞ ET
-                    </NavLink>
-                    <NavLink to={'/delivery'} className='activCrumbs'>
+                    </span>
+                    <span className='activCrumbs'>
                         TƏSLİMAT
-                    </NavLink>
+                    </span>
                 </div>
                 <Container>
                     <div className='payment__content'>
@@ -119,10 +122,10 @@ const Delivery = () => {
                             </span>
                         </p>
                         <div className='btnBoxs' style={{ marginTop: 15 }}>
-                            <NavLink to={'/location'}>
+                            <NavLink to={'/payment'}>
                                 <button className='success'>
                                     Prev
-                            </button>
+                                </button>
                             </NavLink>
                             <NavLink to={'/delivery'}>
                                 <button className='success'>

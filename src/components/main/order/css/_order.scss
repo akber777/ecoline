@@ -3,6 +3,10 @@
         margin-bottom: 25px;
     }
 
+    &__content {
+        display: none;
+    }
+
     &__itemBox {
         position: relative;
         min-height: 284px;

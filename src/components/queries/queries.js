@@ -35,9 +35,9 @@ export const blogs = async (key) => {
 
 
 
-// export const register = async (key) => {
+export const loginOrder = async (key) => {
 
-//     const res = await axios.post(registerApi, key.queryKey[1]);
+    const res = await axios.get(baseUrl + `order/` + key.queryKey[1]);
 
-//     return res.data
-// }
+    return res.data
+}

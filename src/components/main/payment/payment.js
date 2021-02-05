@@ -220,7 +220,7 @@ const Payment = () => {
                                     Prev
                             </button>
                             </NavLink>
-                            <NavLink to={orderValue !== null ? (orderValue.payment_method !== null ? '/loginInformation' : '/payment') : '/payment'}
+                            <NavLink to={orderValue !== null ? (orderValue.payment_method !== null ? '/loginorder' : '/payment') : '/payment'}
                                 onClick={() => {
                                     sendOder(orderValue)
                                 }}

@@ -129,9 +129,16 @@ function App() {
         <Route path='/location'>
           <Location />
         </Route>
-        <Route path='/signin'>
-          <SignIn />
-        </Route>
+        {
+          window.localStorage.getItem('token') === null ?
+            <Route path='/signin'>
+              <SignIn />
+            </Route>
+            : <Route path='/signin'>
+              <Home />
+            </Route>
+        }
+
         {
           window.localStorage.getItem('token') !== null ?
             <Route path='/logininformation'>

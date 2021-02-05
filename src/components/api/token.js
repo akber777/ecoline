@@ -24,7 +24,6 @@ export function SetToken() {
 
 
     axios.interceptors.response.use(function (response) {
-
         return response;
 
     }, function (error) {

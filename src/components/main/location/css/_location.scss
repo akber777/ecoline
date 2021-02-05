@@ -87,7 +87,7 @@
 
     &__contentRight {
         width: 147px;
-        height: 100%;
+        height: 77px;
         background-color: #8cbd29;
         border-top-right-radius: 50px;
         border-bottom-right-radius: 50px;
@@ -132,9 +132,10 @@
             font-size: 20px;
             color: #fff;
             width: 100%;
-            height: 100%;
+            // height: 100%;
             transition: all 0.2s;
             z-index: 5;
+            padding-left: 14px;
 
             input {
                 opacity: 0;

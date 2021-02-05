@@ -91,7 +91,7 @@ const Payment = () => {
                 address_id: orderValue.address_id,
                 payment_method: $(this).attr('data-id'),
                 amount: JSON.parse(localStorage.getItem('total')) != null ? JSON.parse(localStorage.getItem('total')).reduce(reducer) : null,
-                is_exspress: null,
+                is_express: 1,
                 items: JSON.parse(localStorage.getItem('items'))
             })
 
@@ -220,7 +220,7 @@ const Payment = () => {
                                     Prev
                             </button>
                             </NavLink>
-                            <NavLink to={'/delivery'}
+                            <NavLink to={orderValue !== null ? (orderValue.payment_method !== null ? '/loginInformation' : '/payment') : '/payment'}
                                 onClick={() => {
                                     sendOder(orderValue)
                                 }}

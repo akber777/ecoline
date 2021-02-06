@@ -1,21 +1,21 @@
 import React from 'react';
 
-// css
+// scss
+import './css/_passwordUpdated.scss';
 
-import './css/_info.scss';
+
+// component
+
+import MapContainer from '../map/map';
 
 
 // tools
 
-// react router dom
+// ract router dom
 import { NavLink } from 'react-router-dom';
 
 // reactstrap
-import { Container } from 'reactstrap';
-
-// component
-import Map from '../map/map';
-
+import { Container, Input } from 'reactstrap';
 
 // query
 import { useQuery } from 'react-query';
@@ -26,12 +26,12 @@ import { baseUrl } from '../../api/api';
 // axios
 import axios from 'axios';
 
-// queries
-
-import { user } from '../../queries/queries';
 
 
-const LoginInformation = () => {
+
+
+const PasswordUpdated = () => {
+
 
     // settings
     let settings = useQuery(['settings', ''], async () => {
@@ -55,19 +55,13 @@ const LoginInformation = () => {
         ))
     )
 
-
-    // user information
-
-    let { data, isLoading } = useQuery(['user', ''], user)
-
-
     return (
-        <main className='info'>
+        <main className='passwordUpdated info'>
             <div className='rules__banner'>
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
                     <h4 className='rules__title'>
-                        ONLİNE SİFARİŞ
+                        ŞİFRƏNİ YENİLƏ
                     </h4>
                 </Container>
             </div>
@@ -80,10 +74,10 @@ const LoginInformation = () => {
                         <NavLink to={'/loginlocation'}>
                             Ünvanlarım
                         </NavLink>
-                        <NavLink to={'/logininformation'} className='activeMenu'>
+                        <NavLink to={'/logininformation'}>
                             Məlumatlarım
                         </NavLink>
-                        <NavLink to={'/passwordupdate'}>
+                        <NavLink to={'/passwordupdate'} className='activeMenu'>
                             Şifrəni yenilə
                         </NavLink>
                         <NavLink to={''}
@@ -96,33 +90,22 @@ const LoginInformation = () => {
                         </NavLink>
                     </div>
                 </div>
-                <div className='info__content'>
-                    <div className='formBox'>
-                        <div className='formItem'>
-                            <span>Ad:</span>
-                            <p>{isLoading === false && (data.data.name)}</p>
+                <div className='fomrPassword'>
+                    <h4>Şifrə</h4>
+                    <form>
+                        <div className='formItem formPass'>
+                            <span>HAZIRKİ ŞİFRƏ:</span>
+                            <Input type='password' />
                         </div>
-                        <div className='formItem'>
-                            <span>Soyad:</span>
-                            <p>{isLoading === false && (data.data.surname)}</p>
+                        <div className='formItem formPass'>
+                            <span>YENİ ŞİFRƏ:</span>
+                            <Input type='password' />
                         </div>
-                        <div className='formItem'>
-                            <span>Telefon:</span>
-                            <p>{isLoading === false && (data.data.phone)}</p>
+                        <div className='formItem formPass'>
+                            <span>YENİ ŞİFRƏ:</span>
+                            <Input type='password' />
                         </div>
-                        <div className='formItem'>
-                            <span>E mail:</span>
-                            <p>{isLoading === false && (data.data.email)}</p>
-                        </div>
-                        {/* <div className='formItem'>
-                            <span>Dogum tarixi:</span>
-                            <p>13/09/1997</p>
-                        </div>
-                        <div className='formItem'>
-                            <span>Cinsiyyet:</span>
-                            <p>Kişi</p>
-                        </div> */}
-                    </div>
+                    </form>
                     <div className='login__sendBtn infoSend'>
                         <button>
                             YADDA SAXLA
@@ -130,11 +113,10 @@ const LoginInformation = () => {
                     </div>
                 </div>
             </Container>
-
             <div id='map'>
                 {
                     settings.isLoading === false && (
-                        <Map locations={locate} />
+                        <MapContainer locations={locate} />
                     )
                 }
             </div>
@@ -142,4 +124,4 @@ const LoginInformation = () => {
     );
 }
 
-export default LoginInformation;
+export default PasswordUpdated;

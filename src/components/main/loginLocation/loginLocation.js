@@ -132,14 +132,17 @@ const LoginLocation = () => {
             <Container>
                 <div className='info__top'>
                     <div className='info__topItem'>
-                        <NavLink to={'/logininformation'} >
-                            Məlumatlarım
-                        </NavLink>
                         <NavLink to={'/loginorder'}>
                             Sifarişlərim
                         </NavLink>
                         <NavLink to={'/loginlocation'} className='activeMenu'>
                             Ünvanlarım
+                        </NavLink>
+                        <NavLink to={'/logininformation'}>
+                            Məlumatlarım
+                        </NavLink>
+                        <NavLink to={'/passwordupdate'}>
+                            Şifrəni yenilə
                         </NavLink>
                         <NavLink to={''} onClick={() => {
                             localStorage.removeItem('token')

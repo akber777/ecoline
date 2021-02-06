@@ -49,6 +49,10 @@ import Delivery from './components/main/delivery/delivery';
 // contact
 import Contact from './components/main/contact/contact';
 
+// password udpate
+
+import PasswordUpdated from './components/main/passwordUpdated/passwordUpdated';
+
 
 // import static
 import Static from './components/main/static/static';
@@ -65,6 +69,7 @@ import SignIn from './components/main/signIn/signIn';
 // setToken
 
 import { SetToken } from './components/api/token';
+
 
 
 function App() {
@@ -129,6 +134,15 @@ function App() {
         </Route>
         {
           window.localStorage.getItem('token') !== null ?
+            <Route path='/passwordupdate'>
+              <PasswordUpdated />
+            </Route>
+            : <Route path='/passwordupdate'>
+              <SignIn />
+            </Route>
+        }
+        {
+          window.localStorage.getItem('token') !== null ?
             <Route path='/location'>
               <Location />
             </Route>
@@ -152,7 +166,7 @@ function App() {
               <LoginInfo />
             </Route>
             : <Route path='/logininformation'>
-              <Login />
+              <SignIn />
             </Route>
         }
         {
@@ -161,7 +175,7 @@ function App() {
               <LoginOrder />
             </Route>
             : <Route path='/loginorder'>
-              <Login />
+              <SignIn />
             </Route>
         }
         {
@@ -170,7 +184,7 @@ function App() {
               <LoginLocation />
             </Route>
             : <Route path='/loginlocation'>
-              <Login />
+              <SignIn />
             </Route>
         }
         <Route path='/payment'>

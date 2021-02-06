@@ -1,6 +1,14 @@
 
 import renderHTML from "react-render-html"
 
+// moment
+import * as moment from 'moment';
+import 'moment/locale/az';
+
+
+
+
+
 
 
 export const checkType = (data) => {
@@ -22,7 +30,65 @@ export const checkType = (data) => {
         return renderHTML(myData)
     }
 
+}
 
 
+
+export function decimalAdjust(type, value, exp) {
+    if (typeof exp === 'undefined' || +exp === 0) {
+        return Math[type](value);
+    }
+
+    value = +value;
+    exp = +exp;
+    if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+        return NaN;
+    }
+
+
+    value = value.toString().split('e');
+    value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+
+
+    value = value.toString().split('e');
+    return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+}
+
+
+let date = moment();
+
+let month = date.format('MMMM')
+
+let year = date.format('YYYY')
+
+
+
+export function createDate(date) {
+
+    let day = date.split(' ')[0].split('-')[2];
+
+    let newDate = (() => {
+
+        if (day.split('')[0] === '0') {
+            return day.split('')[1]
+        } else {
+            return day
+        }
+
+    })();
+
+    return {
+        newDate,
+        month,
+        year
+    }
 
 }
+
+
+export function capitalize(word) {
+    if (typeof word !== 'string') return ''
+    return word.charAt(0).toUpperCase() + word.slice(1)
+}
+
+

@@ -41,6 +41,9 @@ import { baseUrl } from '../../api/api';
 // axios
 import axios from 'axios';
 
+// helper
+import { decimalAdjust } from '../../helper/helper';
+
 
 // import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -159,7 +162,10 @@ const Order = () => {
 
     }
 
-    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const round10 = (value, exp) => decimalAdjust('round', value, exp);
+
+    const reducer = (accumulator, currentValue) => round10(accumulator + currentValue, -1);
+
 
 
 

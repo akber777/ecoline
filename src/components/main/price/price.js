@@ -63,9 +63,6 @@ const Price = React.memo(function Price({
         })
 
 
-        console.log(data)
-
-
     }, [data])
 
 

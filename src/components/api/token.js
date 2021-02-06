@@ -24,20 +24,42 @@ export function SetToken() {
 
 
     axios.interceptors.response.use(function (response) {
+
         return response;
 
     }, function (error) {
-
 
         if (error.response !== undefined) {
             if (error.response.status === 401) {
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('user');
+
+                if (pathname === 'loginorder' ||
+                    pathname === 'loginlocation' ||
+                    pathname === 'logininformation' ||
+                    pathname === 'passwordupdate'
+
+                ) {
+                    history.push({
+                        pathname: '/signin'
+                    })
+                }
             }
 
             if (error.response.status === 400) {
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('user');
+
+                if (pathname === 'loginorder' ||
+                    pathname === 'loginlocation' ||
+                    pathname === 'logininformation' ||
+                    pathname === 'passwordupdate'
+
+                ) {
+                    history.push({
+                        pathname: '/signin'
+                    })
+                }
             }
         }
 

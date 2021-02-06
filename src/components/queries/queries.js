@@ -41,3 +41,12 @@ export const loginOrder = async (key) => {
 
     return res.data
 }
+
+
+
+export const user = async (key) => {
+
+    const res = await axios.get(baseUrl + `user/` + key.queryKey[1]);
+
+    return res.data
+}

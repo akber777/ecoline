@@ -7,7 +7,11 @@ import './css/_loginOrder.scss';
 
 // tools
 import { NavLink } from 'react-router-dom';
+
+// reactstrap
 import { Container, Col, Row } from 'reactstrap';
+
+// map
 import Map from '../map/map';
 
 
@@ -21,9 +25,12 @@ import { baseUrl } from '../../api/api';
 // axios
 import axios from 'axios';
 
-
 // jquery
 import $ from 'jquery';
+
+// helper
+import { createDate, capitalize } from '../../helper/helper';
+
 
 const LoginOrder = () => {
 
@@ -63,7 +70,9 @@ const LoginOrder = () => {
 
         })
 
-    }, [data])
+    })
+
+
 
     return (
         <main className='info order'>
@@ -78,14 +87,17 @@ const LoginOrder = () => {
             <Container>
                 <div className='info__top'>
                     <div className='info__topItem'>
-                        <NavLink to={'/logininformation'}>
-                            Məlumatlarım
-                        </NavLink>
                         <NavLink to={'/loginorder'} className='activeMenu'>
                             Sifarişlərim
                         </NavLink>
                         <NavLink to={'/loginlocation'}>
                             Ünvanlarım
+                        </NavLink>
+                        <NavLink to={'/logininformation'}>
+                            Məlumatlarım
+                        </NavLink>
+                        <NavLink to={'/passwordupdate'}>
+                            Şifrəni yenilə
                         </NavLink>
                         <NavLink to={''}
                             onClick={() => {
@@ -107,14 +119,16 @@ const LoginOrder = () => {
                                             index + 1 + ' :'
                                         }
                                         <span>
-                                            16 Dekabr 2020
+                                            {
+                                                createDate(item.created_at).newDate + ' ' + capitalize(createDate(item.created_at).month) + ' ' + createDate(item.created_at).year
+                                            }
                                         </span>
                                     </p>
                                     <p>
                                         MƏHSUL:
                                     <span>
                                             {
-                                                item.count + 'ədəd'
+                                                item.items.data.length + ' ədəd'
                                             }
                                         </span>
                                     </p>

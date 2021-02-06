@@ -61,7 +61,7 @@ const Contact = () => {
 
 
     let params = {
-        name: surname,
+        name: name,
         surname: surname,
         phone: phone,
         content: content

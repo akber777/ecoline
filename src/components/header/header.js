@@ -73,7 +73,7 @@ const Header = () => {
                                         Daxil ol <span>/</span>
                                     </NavLink>
                                     :
-                                    <NavLink to={'/logininformation'}>
+                                    <NavLink to={'/loginorder'}>
                                         {
                                             JSON.parse(window.localStorage.getItem('user')).name
                                         }

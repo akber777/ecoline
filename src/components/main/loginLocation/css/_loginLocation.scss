@@ -21,6 +21,18 @@
         width: 100%;
     }
 
+    .location__contentRight {
+        width: auto;
+        padding: 0 10px;
+
+        span {
+            padding-left: 0 !important;
+        }
+
+        @media (max-width: 575px) {
+        }
+    }
+
     .infoPopup {
         position: fixed;
         top: 0%;

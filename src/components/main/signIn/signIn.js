@@ -64,6 +64,9 @@ const SignIn = () => {
                     pathname: '/logininformation'
                 })
             }
+        },
+        onError: function (error) {
+            document.querySelector('.loginAlertBox').style.display = 'block'
         }
     })
 
@@ -74,6 +77,7 @@ const SignIn = () => {
     let settings = useQuery(['settings', ''], async () => {
 
         const res = await axios.get(baseUrl + 'setting')
+
 
         return res.data
     }, {
@@ -127,6 +131,9 @@ const SignIn = () => {
                                         setPassword(event.target.value)
                                     }}
                                 />
+                                <p className='loginAlertBox'>
+                                    Parol və login məlumatları səhvdir
+                                </p>
                             </div>
                             <div className='login__formBoxEnd'>
                                 {/* <NavLink to={''}>

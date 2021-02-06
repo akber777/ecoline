@@ -46,6 +46,8 @@ import Payment from './components/main/payment/payment';
 // import payment
 import Delivery from './components/main/delivery/delivery';
 
+// contact
+import Contact from './components/main/contact/contact';
 
 
 // import static
@@ -53,7 +55,7 @@ import Static from './components/main/static/static';
 
 // react router dom
 
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 
 // hooks
 import OpenMenu from './components/hooks/openMobMenu';
@@ -63,6 +65,7 @@ import SignIn from './components/main/signIn/signIn';
 // setToken
 
 import { SetToken } from './components/api/token';
+
 
 function App() {
 
@@ -76,8 +79,6 @@ function App() {
 
   }, [pathname])
 
-
-  let history = useHistory()
 
   SetToken()
 
@@ -112,7 +113,7 @@ function App() {
           <Static />
         </Route>
         <Route path='/contact'>
-          <Static />
+          <Contact />
         </Route>
         <Route path='/login'>
           <Login />

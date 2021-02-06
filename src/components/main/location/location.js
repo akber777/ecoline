@@ -124,7 +124,6 @@ const Location = () => {
 
         return res;
 
-
     }, {
         refetchOnWindowFocus: false,
         cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
@@ -180,8 +179,14 @@ const Location = () => {
                     })
                 }
             }
+            
 
-           
+        })
+
+
+        $('.sendInfo').on('click',function(){
+
+            $('.openAddPopup').hide()
 
         })
 

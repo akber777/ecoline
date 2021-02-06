@@ -141,6 +141,7 @@ const Payment = () => {
     }
 
 
+
     return (
         <main className='location payment'>
             <div className='rules__banner'>

@@ -4,7 +4,6 @@ import React, { useLayoutEffect } from 'react';
 import './css/_home.scss';
 
 // tools
-import AliceCarousel from 'react-alice-carousel';
 
 // rectstrap
 import { Container } from 'reactstrap';

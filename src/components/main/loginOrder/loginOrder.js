@@ -104,7 +104,7 @@ const LoginOrder = () => {
                                 <div className='orderLogin__top'>
                                     <p>
                                         {
-                                            index + 1
+                                            index + 1 + ' :'
                                         }
                                         <span>
                                             16 Dekabr 2020
@@ -113,8 +113,10 @@ const LoginOrder = () => {
                                     <p>
                                         MƏHSUL:
                                     <span>
-                                            16 ədəd
-                                    </span>
+                                            {
+                                                item.count + 'ədəd'
+                                            }
+                                        </span>
                                     </p>
                                     <p>
                                         QİYMƏT:

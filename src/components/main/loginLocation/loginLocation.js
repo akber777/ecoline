@@ -299,7 +299,7 @@ const LoginLocation = () => {
                         {
                             addressApi.isLoading === false && addressApi.data !== undefined && addressApi.data.data.data.length !== 0 && (
                                 addressApi.data.data.data.map(item => (
-                                    <div className='location__content'>
+                                    <div className='location__content' key={item.id}>
                                         <div className='location__contentLeft'>
                                             <p>
                                                 Ev ünvanım:

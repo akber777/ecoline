@@ -31,26 +31,13 @@ export function SetToken() {
 
         if (error.response !== undefined) {
             if (error.response.status === 401) {
-
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('user');
-
-                if (pathname !== '/ordercomplete') {
-                    history.push({
-                        pathname: '/signin'
-                    })
-                }
             }
 
             if (error.response.status === 400) {
                 window.localStorage.removeItem('token');
                 window.localStorage.removeItem('user');
-
-                if (pathname !== '/ordercomplete') {
-                    history.push({
-                        pathname: '/signin'
-                    })
-                }
             }
         }
 

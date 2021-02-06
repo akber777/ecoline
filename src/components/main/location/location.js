@@ -195,7 +195,7 @@ const Location = () => {
 
 
     return (
-        <main className='location loginLocation'>
+        <main className='location locationCon loginLocation'>
             <div className='rules__banner'>
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>

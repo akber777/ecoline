@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 // css
 
@@ -20,6 +20,10 @@ import { useQuery, useMutation } from 'react-query';
 
 // api
 import { baseUrl } from '../../api/api';
+
+
+// jquery
+import $ from 'jquery';
 
 
 const LoginLocation = () => {
@@ -106,6 +110,14 @@ const LoginLocation = () => {
     )
 
 
+    useLayoutEffect(() => {
+        $('.sendInfo').on('click', function () {
+
+            $('.openAddPopup').hide()
+
+        })
+
+    }, [addressApi.data])
 
     return (
         <main className='info loginLocation'>

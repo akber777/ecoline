@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 
 // reactstrap
@@ -13,7 +13,7 @@ import WhyUs from '../whyUs/whyUs';
 
 
 // query
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 
 // baseUrl
 import { baseUrl } from '../../api/api';
@@ -23,6 +23,7 @@ import axios from 'axios';
 
 // map
 import MapContainer from '../map/map';
+
 
 
 const Contact = () => {
@@ -53,28 +54,66 @@ const Contact = () => {
     )
 
 
+    const [name, setName] = useState(null);
+    const [surname, setSurname] = useState(null);
+    const [phone, setPhone] = useState(null);
+    const [content, setContent] = useState(null);
+
+
+    let params = {
+        name: surname,
+        surname: surname,
+        phone: phone,
+        content: content
+
+    }
+
+    let mutation = useMutation(form => axios.post(baseUrl + 'contact', params))
+
+
     return (
         <main className='contact'>
             <Container>
-                <div class="container">
+                <div className="container">
                     <h1>ƏLAQƏ</h1>
-                    <form id="contact" action="" method="post">
+                    <div id="contact" action="" method="post">
                         <fieldset>
-                            <input placeholder="Ad" type="text" tabindex="1" required autofocus />
+                            <input placeholder="Ad" type="text" tabIndex="1" required autofocus
+                                onChange={(event) => {
+                                    setName(event.target.value)
+                                }}
+                            />
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Soyad" type="email" tabindex="2" required />
+                            <input placeholder="Soyad" type="email" tabIndex="2" required
+                                onChange={(event) => {
+                                    setSurname(event.target.value)
+                                }}
+                            />
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Nömrə" type="tel" tabindex="3" required />
+                            <input placeholder="Nömrə" type="tel" tabIndex="3" required
+                                onChange={(event) => {
+                                    setPhone(event.target.value)
+                                }}
+                            />
                         </fieldset>
                         <fieldset>
-                            <textarea placeholder="Mesajınız...." tabindex="5" required></textarea>
+                            <textarea placeholder="Mesajınız...." tabIndex="5" required
+                                onChange={(event) => {
+                                    setContent(event.target.value)
+                                }}
+                            ></textarea>
                         </fieldset>
                         <fieldset>
-                            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Gonder</button>
+                            <button type="submit" id="contact-submit" data-submit="...Sending"
+                                onClick={() => {
+                                    mutation.mutate(params)
+                                }}
+
+                            >Gonder</button>
                         </fieldset>
-                    </form>
+                    </div>
                 </div>
             </Container>
             <WhyUs />

@@ -127,9 +127,15 @@ function App() {
         <Route path='/ordercomplete'>
           <OrderComplete />
         </Route>
-        <Route path='/location'>
-          <Location />
-        </Route>
+        {
+          window.localStorage.getItem('token') !== null ?
+            <Route path='/location'>
+              <Location />
+            </Route>
+            : <Route path='/location'>
+              <SignIn />
+            </Route>
+        }
         {
           window.localStorage.getItem('token') === null ?
             <Route path='/signin'>

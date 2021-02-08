@@ -8,7 +8,7 @@ import './css/_info.scss';
 // tools
 
 // react router dom
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // reactstrap
 import { Container } from 'reactstrap';
@@ -33,6 +33,9 @@ import { user } from '../../queries/queries';
 
 const LoginInformation = () => {
 
+
+    let history = useHistory()
+
     // settings
     let settings = useQuery(['settings', ''], async () => {
 
@@ -40,7 +43,7 @@ const LoginInformation = () => {
 
         return res.data
     }, {
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
     })
 
 
@@ -58,8 +61,17 @@ const LoginInformation = () => {
 
     // user information
 
-    let { data, isLoading } = useQuery(['user', ''], user)
+    let { data, isLoading } = useQuery(['user', ''], user, {
+        refetchOnWindowFocus: false,
+        cacheTime: 0
+    })
 
+
+    if (localStorage.getItem('token') === null) {
+        history.push({
+            pathname: '/signin'
+        })
+    }
 
     return (
         <main className='info'>

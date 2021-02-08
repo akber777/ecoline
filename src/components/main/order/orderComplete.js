@@ -323,12 +323,13 @@ const OrderComplete = () => {
                                     <Col md='6' lg='2' key={pro.id}>
                                         <div className='order__itemBox'>
                                             <div className='order__itemBox--img'>
-                                                <img src={require('../../images/3.png').default} alt='' />
+                                                <img src={pro.img !== null && pro.img.length !== 0 ? pro.img.order : ''} alt='' />
                                                 <button className='minus' data-id={pro.id} onClick={(event) => {
                                                     sendMinus({
                                                         id: pro.id,
                                                         name: pro.name,
                                                         price: pro.price,
+                                                        img: pro.img.cover,
                                                         count: 0
                                                     }, event)
                                                 }}>
@@ -339,6 +340,7 @@ const OrderComplete = () => {
                                                         id: pro.id,
                                                         price: pro.price,
                                                         name: pro.name,
+                                                        img: pro.img.cover,
                                                         count: 1
                                                     }, event)
                                                 }}>

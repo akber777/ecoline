@@ -19,7 +19,7 @@ import MapContainer from '../map/map';
 
 
 // ract router dom
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 
 // react query
 import { useMutation } from 'react-query';
@@ -50,7 +50,9 @@ const SignIn = () => {
     }
 
 
-    let history = useHistory()
+    let history = useHistory();
+
+    let { pathname } = useLocation();
 
     // register
     const mutation = useMutation(regi => axios.post(loginApi, regi), {
@@ -59,9 +61,14 @@ const SignIn = () => {
 
             window.localStorage.setItem('token', JSON.stringify(login.data.token));
 
-            if (login.status === 200) {
+
+            if (login.status === 200 && pathname !== '/location') {
                 history.push({
-                    pathname: '/logininformation'
+                    pathname: '/loginorder'
+                })
+            } else {
+                history.push({
+                    pathname: '/order'
                 })
             }
         },

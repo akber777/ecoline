@@ -6,7 +6,7 @@ import './css/_loginOrder.scss';
 
 
 // tools
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 // reactstrap
 import { Container, Col, Row } from 'reactstrap';
@@ -34,6 +34,8 @@ import { createDate, capitalize } from '../../helper/helper';
 
 const LoginOrder = () => {
 
+    let history = useHistory()
+
     // settings
     let settings = useQuery(['settings', ''], async () => {
 
@@ -41,7 +43,8 @@ const LoginOrder = () => {
 
         return res.data
     }, {
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+
     })
 
 
@@ -58,7 +61,10 @@ const LoginOrder = () => {
 
 
 
-    let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder)
+    let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder, {
+        refetchOnWindowFocus: false,
+        cacheTime: 0
+    })
 
 
 
@@ -70,8 +76,15 @@ const LoginOrder = () => {
 
         })
 
+
     })
 
+
+    if (localStorage.getItem('token') === null) {
+        history.push({
+            pathname: '/signin'
+        })
+    }
 
 
     return (
@@ -154,7 +167,7 @@ const LoginOrder = () => {
                                                 <Col md='6' lg='2' key={index}>
                                                     <div className='order__itemBox'>
                                                         <div className='order__itemBox--img'>
-                                                            <img src={require('../../images/3.png').default} alt='' />
+                                                            <img src={product.product.data.img !== null && product.product.data.img.length !== 0 ? product.product.data.img : ''} alt='' />
                                                         </div>
                                                         <strong>{product.product.data.name}</strong>
                                                         <span>qısa</span>

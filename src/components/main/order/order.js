@@ -204,11 +204,11 @@ const Order = () => {
                                                         <Col md='6' lg='2' key={pro.id}>
                                                             <div className='order__itemBox'>
                                                                 <div className='order__itemBox--img'>
-                                                                    <img src={require('../../images/3.png').default} alt='' />
+                                                                    <img src={pro.img !== null && pro.img.length !== 0 ? pro.img.order : ''} alt='' />
                                                                     <button className='minus' data-id={pro.id} onClick={(event) => {
                                                                         sendMinus({
                                                                             id: pro.id,
-                                                                            img: pro.img !== null ? pro.img.cover : '',
+                                                                            img: pro.img !== null ? pro.img.order : '',
                                                                             name: pro.name,
                                                                             price: pro.price,
                                                                             count: 0
@@ -219,7 +219,7 @@ const Order = () => {
                                                                     <button className='plus' data-id={pro.id} onClick={(event) => {
                                                                         sendPlus({
                                                                             id: pro.id,
-                                                                            img: pro.img !== null ? pro.img.cover : '',
+                                                                            img: pro.img !== null ? pro.img.order : '',
                                                                             price: pro.price,
                                                                             name: pro.name,
                                                                             count: 1

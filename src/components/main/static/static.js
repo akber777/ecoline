@@ -87,7 +87,6 @@ const Static = () => {
     }
 
 
-
     return (
         <main className='rules'>
             <div className='rules__banner' style={{ backgroundImage: `url(${require('../../images/rules.png').default})` }}>
@@ -108,17 +107,20 @@ const Static = () => {
                         }
                     </h4>
                     <p>
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                        </p>
-                    <p>
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                        </p>
-                    <p>
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                        </p>
+                        Məqsədimiz təmizlik sektorunda ehtiyacınız olan bütün xidmətləri Sizə yüksək keyfiyyətlə təqdim etməkdir. Çünki keyfiyyətli xidmət əldə etmək hər bir kəsin haqqıdır. Buna nail olmaq üçün dörd əsas amilləri özümüzdə hər daim inkişaf etdiririk:
+
+                        Texnologiya - Bu sektorda olan tanınmış və son texnologiya avadanlıqlarını əldə etməklə işə başlamaq və davamındada bu avadanlıqların inkişaf proseslərini, yenilənməsini və proqreslərini müntəzəm olaraq tətbiq etməyi prioritetimiz olaraq təyin etdik. Bunun sayəsində də Sizin bizə etibar etdiyiniz məhsullara diqqətlə yanaşaraq onları qorumağa çalışırıq.
+
+                        Təmizlik - Qayğı ilə yanaşdığınız əşyalarınızın gigiyenik qaydalara uyğun olaraq, bütün ləkələrdən təmizlənmiş halda və mükəmməl şəkildə paketləşdirilərək Sizə təqdim olunması uğurlu olmağımız üçün əsas göstəricilərdəndir.
+
+                        Keyfiyyət - Daimliyini şərt olaraq təyin etdiyimiz “keyfiyyət siyasətimizin" hər mərhələsini müntəzəm olaraq yoxlama nəticəsində hər zaman zirvədə tuta bilmək hədəflərimizin ən vacibidir.
+
+                        Təqdimat - Fərah və ürək açan məkan, gülərüz personal, müştəriyə fərdi yanaşma, sərfəli qiymətlər və mütəmadi kompaniyalar, çatdırılma xidməti, zəmanət və müştərilərimizin məmnuyyətini və rahatlığını təmin edə biləcək digər yanaşmalar hər an diqqət mərkəzimizdədir.
+
+                        Bizi seçdiyiniz üçün Sizə minnətdarıq!
+
+                        EcoLine - Təmizliyə Sevgi Qatdıq!
+                   </p>
                 </Container>
             </div>
             <WhyUs />

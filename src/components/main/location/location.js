@@ -40,6 +40,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { order } from '../../atoms/atoms';
 
+// sweet alert
+import swal from 'sweetalert';
+
 const Location = () => {
 
 
@@ -177,10 +180,10 @@ const Location = () => {
                     $(item).next().css({
                         opacity:1
                     })
+                    
                 }
             }
             
-
         })
 
 
@@ -433,7 +436,15 @@ const Location = () => {
                                 </button>
                             </NavLink>
                             <NavLink to={orderValue !== null ? (orderValue.address_id === null ? '/location' : '/payment') :'/location'}>
-                                <button className='success'>
+                                <button className='success' onClick={()=>{
+                                    if (orderValue === null) {
+                                        swal({
+                                            title: "Seçim etməmisiniz!",
+                                            icon: "error",
+                                            button: "Bağla",
+                                        });
+                                    }
+                                }}>
                                     Next
                                     
                                 </button>

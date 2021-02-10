@@ -41,10 +41,11 @@ import { order } from '../../atoms/atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-
-
 // helper
 import { decimalAdjust } from '../../helper/helper';
+
+// sweet alert
+import swal from 'sweetalert';
 
 const Payment = () => {
 
@@ -93,6 +94,13 @@ const Payment = () => {
 
     useLayoutEffect(() => {
 
+        if (orderValue === null) {
+            history.push({
+                pathname: '/location'
+            })
+        }
+
+
         $('.changeInfo').on('click', function () {
 
             setOrder({
@@ -102,6 +110,8 @@ const Payment = () => {
                 is_express: 1,
                 items: JSON.parse(localStorage.getItem('items'))
             })
+
+
 
             $('.changeInfo').show();
             $('.changeInfo').find('input').prop('checked', false);
@@ -122,8 +132,6 @@ const Payment = () => {
 
         $.each($('.changeInfo'), function (index, item) {
 
-            console.log(orderValue)
-
             if (orderValue !== null) {
                 if ($(item).attr('data-id') === orderValue.payment_method) {
                     $(item).hide()
@@ -142,7 +150,6 @@ const Payment = () => {
 
         const res = axios.post(baseUrl + 'order/create', params);
 
-        // console.log(res.data);
 
         return res.data;
 
@@ -234,7 +241,15 @@ const Payment = () => {
                                     sendOder(orderValue)
                                 }}
                             >
-                                <button className='success'>
+                                <button className='success' onClick={() => {
+                                    if (orderValue.payment_method === null) {
+                                        swal({
+                                            title: "Seçim etməmisiniz!",
+                                            icon: "error",
+                                            button: "Bağla",
+                                        });
+                                    }
+                                }}>
                                     Next
                                 </button>
                             </NavLink>

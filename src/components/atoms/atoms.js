@@ -22,3 +22,9 @@ export let order = atom({
     key: 'myOrder',
     default: null
 })
+
+
+export let error = atom({
+    key: 'error',
+    default: null
+})

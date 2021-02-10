@@ -63,7 +63,7 @@ const LoginOrder = () => {
 
     let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder, {
         refetchOnWindowFocus: false,
-        cacheTime: 0
+        cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
     })
 
 
@@ -167,7 +167,7 @@ const LoginOrder = () => {
                                                 <Col md='6' lg='2' key={index}>
                                                     <div className='order__itemBox'>
                                                         <div className='order__itemBox--img'>
-                                                            <img src={product.product.data.img !== null && product.product.data.img.length !== 0 ? product.product.data.img : ''} alt='' />
+                                                            <img src={product.product.data.img !== null && product.product.data.img.length !== 0 ? product.product.data.img.order : ''} alt='' />
                                                         </div>
                                                         <strong>{product.product.data.name}</strong>
                                                         <span>qısa</span>

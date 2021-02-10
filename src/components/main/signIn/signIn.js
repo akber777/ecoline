@@ -58,17 +58,16 @@ const SignIn = () => {
     const mutation = useMutation(regi => axios.post(loginApi, regi), {
         onSuccess: function (login) {
             window.localStorage.setItem('user', JSON.stringify(login.data.user));
-
             window.localStorage.setItem('token', JSON.stringify(login.data.token));
 
 
-            if (login.status === 200 && pathname !== '/location') {
+            if (login.status === 200 && pathname === '/signin') {
                 history.push({
                     pathname: '/loginorder'
                 })
             } else {
                 history.push({
-                    pathname: '/order'
+                    pathname: pathname
                 })
             }
         },

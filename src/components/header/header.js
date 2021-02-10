@@ -68,7 +68,7 @@ const Header = () => {
                             </a>
                             {
                                 window.localStorage.getItem('token') === null ?
-                                    <NavLink to={'/signIn'}>
+                                    <NavLink to={'/signin'}>
                                         <img src={require('../images/phone.png').default} alt='' />
                                         Daxil ol <span>/</span>
                                     </NavLink>
@@ -81,7 +81,7 @@ const Header = () => {
                             }
                             {
                                 window.localStorage.getItem('token') === null ?
-                                    <NavLink to={'/login'}>
+                                    <NavLink to={'/register'}>
                                         Qeydiyyat
                                     </NavLink>
                                     :

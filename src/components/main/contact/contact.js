@@ -24,7 +24,11 @@ import axios from 'axios';
 // map
 import MapContainer from '../map/map';
 
+// sweet alert
+import swal from 'sweetalert';
 
+// jquery
+import $ from 'jquery';
 
 const Contact = () => {
 
@@ -68,7 +72,53 @@ const Contact = () => {
 
     }
 
-    let mutation = useMutation(form => axios.post(baseUrl + 'contact', params))
+    let mutation = useMutation(form => axios.post(baseUrl + 'contact', params), {
+        onSuccess: function (data) {
+
+            if (data.status === 200) {
+                swal({
+                    title: "Təbriklər!",
+                    text: "Mesajınız Uğurla göndərildi",
+                    icon: "success",
+                    button: "Bağla",
+                });
+
+                setName()
+                setSurname()
+                setPhone()
+                setContent()
+
+                $('#contact input,textarea').val('');
+
+                $('#contact input,textarea').removeClass('alert alert-danger');
+                $('#contact input,textarea').removeAttr('role')
+
+            }
+
+        },
+        onError: function (error) {
+            swal({
+                title: "Mesajınız Göndərilmədi!",
+                text: "Bütün inputları doldurmanız lazımdır",
+                icon: "error",
+                button: "Bağla",
+            });
+
+
+            $.each($('#contact input,textarea'), function (index, item) {
+
+                if ($(item).val() === '') {
+                    $(item).addClass('alert alert-danger');
+                    $(item).attr('role', 'alert')
+                } else {
+                    $(item).removeClass('alert alert-danger');
+                    $(item).removeAttr('role', 'alert')
+                }
+
+            })
+
+        }
+    })
 
 
     return (
@@ -78,7 +128,7 @@ const Contact = () => {
                     <h1>ƏLAQƏ</h1>
                     <div id="contact" action="" method="post">
                         <fieldset>
-                            <input placeholder="Ad" type="text" tabIndex="1" required autofocus
+                            <input placeholder="Ad" type="text" tabIndex="1" required autoFocus
                                 onChange={(event) => {
                                     setName(event.target.value)
                                 }}

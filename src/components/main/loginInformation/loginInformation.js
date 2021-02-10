@@ -63,7 +63,7 @@ const LoginInformation = () => {
 
     let { data, isLoading } = useQuery(['user', ''], user, {
         refetchOnWindowFocus: false,
-        cacheTime: 0
+        cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
     })
 
 
@@ -112,19 +112,19 @@ const LoginInformation = () => {
                     <div className='formBox'>
                         <div className='formItem'>
                             <span>Ad:</span>
-                            <p>{isLoading === false && (data.data.name)}</p>
+                            <input value={isLoading === false && (data.data.name)} />
                         </div>
                         <div className='formItem'>
                             <span>Soyad:</span>
-                            <p>{isLoading === false && (data.data.surname)}</p>
+                            <input value={isLoading === false && (data.data.surname)} />
                         </div>
                         <div className='formItem'>
                             <span>Telefon:</span>
-                            <p>{isLoading === false && (data.data.phone)}</p>
+                            <input value={isLoading === false && (data.data.phone)} />
                         </div>
                         <div className='formItem'>
                             <span>E mail:</span>
-                            <p>{isLoading === false && (data.data.email)}</p>
+                            <input value={isLoading === false && (data.data.email)} />
                         </div>
                         {/* <div className='formItem'>
                             <span>Dogum tarixi:</span>

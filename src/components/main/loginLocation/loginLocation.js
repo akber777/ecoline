@@ -29,10 +29,6 @@ import $ from 'jquery';
 const LoginLocation = () => {
 
 
-    let [updatedPage, setUpdatedPage] = useState(true)
-
-
-
 
     let { data, isLoading } = useQuery(['infoLocation'], async (key) => {
 
@@ -51,6 +47,7 @@ const LoginLocation = () => {
     let [name, setName] = useState()
     let [phone, setPhone] = useState()
     let [address, setAddress] = useState()
+    let [id, setId] = useState()
     let [city_id, setCity] = useState(isLoading === false && (data.data.data.cities.data[0].name))
 
 
@@ -59,21 +56,27 @@ const LoginLocation = () => {
         name: name,
         phone: phone,
         address: address,
-        city_id: city_id
+        city_id: city_id,
+        id: id
     }
 
 
     // register
-    const mutationAdd = useMutation(up => axios.post(baseUrl + 'address/add', up))
+    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add))
 
-    const mutationUpdated = useMutation(up => axios.post(baseUrl + 'address/updated', up))
+    const mutationUpdated = useMutation(update => axios.put(baseUrl + 'address', update), {
+        onSuccess: function () {
+
+            $('.formItem input').val('')
+        }
+    })
 
 
 
     // address
 
 
-    let addressApi = useQuery(['addressApi', mutationAdd.data], async (key) => {
+    let addressApi = useQuery(['addressApi', mutationAdd.data, mutationUpdated.data], async (key) => {
 
         const res = axios.get(baseUrl + 'address')
 
@@ -113,11 +116,14 @@ const LoginLocation = () => {
     useLayoutEffect(() => {
         $('.sendInfo').on('click', function () {
 
-            $('.openAddPopup').hide()
+            $('.infoPopup').hide()
 
         })
 
     }, [addressApi.data])
+
+
+
 
     return (
         <main className='info loginLocation'>
@@ -156,9 +162,7 @@ const LoginLocation = () => {
                     <div className='infoPopup openUpdatedPopup'>
                         <div className='info__WrapperModal'>
                             <button className='closeModal' onClick={(event) => {
-
                                 document.querySelector('.openUpdatedPopup').style.display = 'none'
-
                             }}>
                                 x
                             </button>
@@ -221,8 +225,7 @@ const LoginLocation = () => {
                                 </div>
                             </div>
                             <button className='sendInfo'
-                                onClick={() => {
-                                    setUpdatedPage(true)
+                                onClick={(event) => {
                                     mutationUpdated.mutate(params)
                                 }}
                             >
@@ -301,7 +304,6 @@ const LoginLocation = () => {
                             </div>
                             <button className='sendInfo'
                                 onClick={() => {
-                                    setUpdatedPage(true)
                                     mutationAdd.mutate(params)
                                 }}
                             >
@@ -329,8 +331,9 @@ const LoginLocation = () => {
                                             </p>
                                         </div>
                                         <div className='location__contentRight'>
-                                            <span className='changeInfo' onClick={() => {
-                                                document.querySelector('.openUpdatedPopup').style.display = 'block'
+                                            <span className='changeInfo' data-id={item.id} onClick={(event) => {
+                                                document.querySelector('.openUpdatedPopup').style.display = 'block';
+                                                setId(Number(event.target.getAttribute('data-id')))
                                             }}>
                                                 DÜZƏLİŞ ET
                                             </span>
@@ -345,8 +348,6 @@ const LoginLocation = () => {
                         <button
                             onClick={() => {
                                 document.querySelector('.openAddPopup').style.display = 'block';
-                                setUpdatedPage(false)
-
                             }}
                         >
                             ÜNVAN ƏLAVƏ ET

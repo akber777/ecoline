@@ -17,7 +17,7 @@ import NewsDetail from './components/main/newsDetail/newsDetail';
 import NewsSelf from './components/main/news/newsSelf';
 
 // import Rules
-import Login from './components/main/login/login';
+import Register from './components/main/register/register';
 
 // import order
 import Order from './components/main/order/order';
@@ -120,8 +120,8 @@ function App() {
         <Route path='/contact'>
           <Contact />
         </Route>
-        <Route path='/login'>
-          <Login />
+        <Route path='/register'>
+          <Register />
         </Route>
         <Route path='/order/:slug'>
           <Order />

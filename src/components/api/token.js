@@ -1,10 +1,23 @@
 
+// axios
 import axios from 'axios';
+
+// router dom
 import { useHistory, useLocation } from 'react-router-dom';
+
+
+// recoil
+import { useRecoilState } from 'recoil';
+
+
+// atoms
+import { error } from '../atoms/atoms';
 
 
 export function SetToken() {
 
+
+    let [err, setError] = useRecoilState(error)
 
     let history = useHistory();
 
@@ -28,6 +41,8 @@ export function SetToken() {
         return response;
 
     }, function (error) {
+
+        setError(error)
 
         if (error.response !== undefined) {
             if (error.response.status === 401) {
@@ -62,6 +77,7 @@ export function SetToken() {
                 }
             }
         }
+
 
 
     });

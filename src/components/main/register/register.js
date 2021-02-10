@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 
 // css
@@ -34,21 +34,34 @@ import axios from 'axios';
 import { registerApi } from '../../api/api';
 
 
+// token
+import { error } from '../../atoms/atoms';
+
+// recoil
+import { useRecoilValue } from 'recoil';
+
+
+// sweet alert
+import swal from 'sweetalert';
+import { func } from 'prop-types';
+
+
+
+
 const mapLocate = [
-    [41.015137, 28.979530],
+    [41.015137, 28.979530]
 ];
-
-
-
-
-
 
 
 const Login = () => {
 
 
+
+
     let [name, setName] = useState()
+    let [surname, setSurname] = useState()
     let [email, setEmail] = useState()
+    let [phone, setPhone] = useState()
     let [password, setPassword] = useState()
     let [passwordRepeat, setPasswordRepeat] = useState()
 
@@ -58,15 +71,19 @@ const Login = () => {
 
     let params = {
         name: name,
+        phone: phone,
+        surname: surname,
         email: email,
         password: password,
         password_confirmation: passwordRepeat
     }
 
 
+    const err = useRecoilValue(error)
 
 
-    // register
+
+    // // register
     const mutation = useMutation(regi => axios.post(registerApi, regi), {
         onSuccess: function (token) {
 
@@ -74,13 +91,23 @@ const Login = () => {
 
             window.localStorage.setItem('user', JSON.stringify(token.data.user))
 
-
             history.push({
                 pathname: '/logininformation'
             })
+
         }
     })
 
+
+    useLayoutEffect(() => {
+        if (err !== null && mutation.isError === true) {
+            swal({
+                title: err.response.data.error,
+                icon: "error",
+                button: "Bağla",
+            })
+        }
+    }, [mutation.isError])
 
 
 
@@ -111,12 +138,18 @@ const Login = () => {
                         <div className='login__info'>
                             <h4>XÜSUSİ QEYDİYYAT</h4>
                             <div className='login__formBox'>
-                                <Input placeholder='AD/SOYAD' type='text'
+                                <Input placeholder='AD' type='text'
                                     onChange={(event) => {
                                         setName(event.target.value)
                                     }}
                                 />
-                                <p className='alertLogin'>Ad Soyad Daxil Edin</p>
+                                <p className='alertLogin'>Ad Daxil Edin</p>
+                                <Input placeholder='SOYAD' type='text'
+                                    onChange={(event) => {
+                                        setSurname(event.target.value)
+                                    }}
+                                />
+                                <p className='alertLogin'>Soyad Daxil Edin</p>
                                 <Input placeholder='EMAIL' type='text'
                                     onChange={(event) => {
                                         setEmail(event.target.value)
@@ -167,7 +200,7 @@ const Login = () => {
                                         })
 
                                         if (isValid === true) {
-                                            mutation.mutate(params);
+                                            mutation.mutate(params)
                                         }
 
                                     }}

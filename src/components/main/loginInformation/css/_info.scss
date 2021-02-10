@@ -192,7 +192,7 @@
     background-color: #f5fafc;
     margin-bottom: 15px;
     border-radius: 30px;
-    min-height: 60px;
+    min-height: 56px;
 
     @media (max-width: 765px) {
         width: 100%;
@@ -242,12 +242,13 @@
         margin-right: 15px;
     }
 
-    p {
+    input {
         margin-bottom: 0;
         font-size: 20px;
         color: #3d3d3d;
         font-weight: bold;
         padding-left: 15px;
+
         @media (max-width: 1070px) {
             font-size: 15px;
         }

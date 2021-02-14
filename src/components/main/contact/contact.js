@@ -142,7 +142,7 @@ const Contact = () => {
                             />
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Nömrə" type="tel" tabIndex="3" required
+                            <input placeholder="Nömrə" type="tel" className='noString' tabIndex="3" required
                                 onChange={(event) => {
                                     setPhone(event.target.value)
                                 }}

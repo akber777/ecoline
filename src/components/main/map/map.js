@@ -52,11 +52,13 @@ class MapContainer extends Component {
             AOS.refresh()
         }
 
-        this.props.locations.map(item => (
+        let locate = this.props.locations !== false ? this.props.locations.map(item => (
             this.setState({
                 center: { lat: item[0], lng: item[1] }
             })
         ))
+            :
+            ''
     }
 
 
@@ -123,7 +125,7 @@ class MapContainer extends Component {
                     >
                         <Marker>
                             {
-                                this.props.locations.map((item, index) => (
+                                this.props.locations !== false ? this.props.locations.map((item, index) => (
                                     <Marker
                                         key={index}
                                         onClick={this.onMarkerClick = () => {
@@ -145,6 +147,8 @@ class MapContainer extends Component {
                                     />
 
                                 ))
+                                    :
+                                    ''
                             }
                         </Marker>
                     </GoogleMap>

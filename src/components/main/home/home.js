@@ -138,9 +138,14 @@ const Home = () => {
                                                     item.title
                                                 }
                                             </h1>
-                                            <NavLink to={'/order'}>
-                                                SİFARİŞ
-                                            </NavLink>
+                                            {
+                                                item.url !== '' && item.url !== null && (
+                                                    <a href={item.url}>
+                                                        SİFARİŞ
+                                                    </a>
+                                                )
+                                            }
+
                                         </div>
                                     </Container>
                                 </div>
@@ -161,16 +166,25 @@ const Home = () => {
                         </span>
                         </div>
                         <div className='home__banner--right'>
-                            <NavLink to={''}>
-                                QEYDİYYAT
-                             </NavLink>
+                            {
+                                localStorage.getItem('token') === null && localStorage.getItem('user') === null && (
+                                    <NavLink to={'/register'}>
+                                        QEYDİYYAT
+                                    </NavLink>
+                                )
+                            }
                         </div>
                     </div>
                 </Container>
             </div>
             {
                 category.isLoading === false && (
-                    <Price data={category.data} />
+                    <>
+                        <div className='home__priceContent'>
+                            <h4 className='title'>QİYMƏTLƏR VƏ ONLINE SİFARİŞ</h4>
+                        </div>
+                        <Price data={category.data} />
+                    </>
                 )
             }
             <WhyUs />

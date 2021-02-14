@@ -28,7 +28,7 @@ import { baseUrl } from '../../api/api';
 // axios
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 //  jquery
 import $ from 'jquery';
@@ -42,6 +42,12 @@ import { order } from '../../atoms/atoms';
 
 // sweet alert
 import swal from 'sweetalert';
+
+// map
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+// mapStyle
+import mapStyle from '../map/mapStyle';
 
 const Location = () => {
 
@@ -98,11 +104,13 @@ const Location = () => {
 
 
 
-
+    let [id, setId] = useState(null)
     let [name, setName] = useState()
     let [phone, setPhone] = useState()
     let [address, setAddress] = useState()
     let [city_id, setCity] = useState(isLoading === false && (data.data.data.cities.data[0].name))
+    let [lati, setLati] = useState(40.34126114625568)
+    let [lang, setLang] = useState(48.83849702929688)
 
 
 
@@ -110,18 +118,29 @@ const Location = () => {
         name: name,
         phone: phone,
         address: address,
-        city_id: city_id
+        city_id: city_id,
+        lat: lati,
+        lang: lang,
+        id: id
     }
 
 
     // register
     const mutationAdd = useMutation(up => axios.post(baseUrl + 'address/add', up))
 
-    const mutationUpdated = useMutation(up => axios.post(baseUrl + 'address/updated', up))
+    const mutationUpdated = useMutation(update => axios.put(baseUrl + 'address', update), {
+        onSuccess: function (succ) {
+
+            if (succ.status===200)
+            {
+                $('.formItem input').val('')
+            }
+        }
+    })
 
 
 
-    let addressApi = useQuery(['addressApi', mutationAdd.data], async (key) => {
+    let addressApi = useQuery(['addressApi', mutationUpdated.data, mutationAdd.data], async (key) => {
 
         const res = axios.get(baseUrl + 'address')
 
@@ -191,10 +210,87 @@ const Location = () => {
 
             $('.openAddPopup').hide()
 
+            $('.openUpdatedPopup').hide()
+
+        })
+
+        $('.sendInfoMap').on('click', function () {
+
+            $('.infoPopup').css({
+                opacity: 1,
+                zIndex: 55555
+            })
+
+            $('.openMapPopup').hide();
+
+        })
+
+        $('.showPin').on('click', function () {
+
+            $('.openMapPopup').show();
+
+            $('.infoPopup').css({
+                opacity: 0,
+                zIndex: -1
+            })
+
+            $('.openMapPopup').css({
+                opacity: 1,
+                zIndex: 5555
+            })
+        })
+
+        $('.closeModalMap').on('click', function () {
+
+            $('.infoPopup').css({
+                opacity: 1,
+                zIndex: 55555
+            })
+
+            $('.openMapPopup').hide();
+
         })
 
 
     }, [addressApi.data])
+
+
+
+    // myMap
+
+    const [state, setState] = useState({
+        showingInfoWindow: false,
+        activeMarker: '',
+        zoomMap: 8,
+        selectedPlace: '',
+        center:
+        {
+            lat: Number(lati),
+            lng: Number(lang)
+        },
+        show: false,
+        positions: '',
+        langlat: null
+    });
+
+
+
+    const mapContainerStyle = {
+        height: '409px',
+        width: '100%',
+
+    }
+
+
+    // map style and checkking controls
+    const mapOptions = {
+        styles: mapStyle,
+        fullscreenControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl: false,
+
+    };
 
 
     return (
@@ -221,6 +317,65 @@ const Location = () => {
                         </span>
                     </div>
                     <div className='info__content'>
+                        {/* map popup */}
+                        <div className='infoPopup openMapPopup'>
+                            <div className='info__WrapperModal'>
+                                <button className='closeModal closeModalMap' onClick={(event) => {
+                                    document.querySelector('.openMapPopup').style.display = 'none'
+                                }}>
+                                    x
+                            </button>
+                                <h4>Xəritə</h4>
+                                <LoadScript
+                                    googleMapsApiKey='AIzaSyANektuMKczEQdzMI82zHlFnMTVSmT55Vw'>
+                                    <GoogleMap
+                                        id='mapCoordinate'
+                                        mapContainerStyle={mapContainerStyle}
+                                        zoom={state.zoomMap}
+                                        center={state.center}
+                                        options={mapOptions}
+                                    >
+                                        <Marker
+                                            draggable={true}
+                                            onDrag={(event) => {
+                                                setLang(event.latLng.lng())
+                                                setLati(event.latLng.lat())
+                                            }}
+                                            icon={{
+                                                url: require('../../images/pin.png').default,
+                                                // size: { width: 30, height: 30, }
+                                            }}
+
+                                            position={
+                                                {
+                                                    lat: Number(lati),
+                                                    lng: Number(lang)
+                                                }
+                                            }
+                                            animation={2}
+                                        />
+                                    </GoogleMap>
+                                </LoadScript>
+                                <div className='mapInp'>
+                                    <div>
+                                        <p>Lat</p>
+                                        <Input value={lati} onChange={(event) => {
+                                            setLati(event.target.value)
+                                        }} />
+                                    </div>
+                                    <div>
+                                        <p>Lang</p>
+                                        <Input value={lang}
+                                            onChange={(event) => {
+                                                setLang(event.target.value)
+                                            }} />
+                                    </div>
+                                </div>
+                                <button className='sendInfoMap'>
+                                    Yadda Saxla
+                            </button>
+                            </div>
+                        </div>
                         <div className='infoFlexFull'>
                             <div className='infoPopup openUpdatedPopup'>
                                 <div className='info__WrapperModal'>
@@ -236,6 +391,7 @@ const Location = () => {
                                         <div className='formItem'>
                                             <span>Ad:</span>
                                             <Input type='text'
+                                                value={name}
                                                 onChange={(event) => {
                                                     setName(event.target.value)
                                                 }} />
@@ -243,6 +399,7 @@ const Location = () => {
                                         <div className='formItem'>
                                             <span>Telefon:</span>
                                             <Input type='phone'
+                                                value={phone}
                                                 onChange={(event) => {
                                                     setPhone(event.target.value)
                                                 }}
@@ -251,6 +408,7 @@ const Location = () => {
                                         <div className='formItem fromLocate'>
                                             <span>Ünvan:</span>
                                             <Input type='text'
+                                                value={address}
                                                 onChange={(event) => {
                                                     setAddress(event.target.value)
                                                 }}
@@ -382,7 +540,7 @@ const Location = () => {
                             <div className='formBox'>
                                 {
                                     addressApi.isLoading === false && addressApi.data !== undefined && addressApi.data.data.data.length !== 0 && (
-                                        addressApi.data.data.data.map(item => (
+                                        addressApi.data.data.data.map((item,index) => (
                                             <div className='location__content' key={item.id}>
                                                 <div className='location__contentLeft'>
                                                     <p>
@@ -393,10 +551,18 @@ const Location = () => {
                                                             }
                                                         </span>
                                                     </p>
-                                                    <p onClick={(event) => {
+                                                    <p className='editIcon' data-id={item.id} data-index={index} onClick={(event) => {
                                                         document.querySelector('.openUpdatedPopup').style.display = 'block';
+                                                        setId(Number(event.target.getAttribute('data-id')))
+                                                        setName(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].name : '')
+                                                        setPhone(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].phone : '')
+                                                        setAddress(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].address : '')
+                                                        setCity(isLoading === false ? data.data.data.cities.data[1].name : '')
+                                                        setLang(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lang : '')
+                                                        setLati(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lat : '')
+
+                                                        console.log(lati)
                                                     }}>
-                                                        <img src={require('../../images/newPin.png').default} alt='' />
                                                     </p>
                                                 </div>
                                                 <div className='location__contentRight'>

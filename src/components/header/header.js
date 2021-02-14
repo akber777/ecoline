@@ -10,7 +10,7 @@ import { Container } from 'reactstrap';
 
 // react router dom
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 
 // font awesome
@@ -20,9 +20,37 @@ import { faFacebookF, faLinkedinIn, faTwitter } from '@fortawesome/free-brands-s
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 
+// react i18
+import { useTranslation } from 'react-i18next';
+
+// react query
+import { useQuery } from 'react-query';
+
+// axios
+import axios from 'axios';
+
+// helper
+import { checkedUrl } from '../helper/helper';
+
+
 
 
 const Header = () => {
+
+    let { pathname } = useLocation()
+
+    const { t, i18n } = useTranslation();
+
+    let { data, isLoading } = useQuery(['header', ''], async () => {
+
+        const res = axios.get('http://apiecoline.gocreative.az/api/v1/data/menu/header')
+
+        return (await res).data;
+
+    }, {
+        refetchOnWindowFocus: false
+    })
+
     return (
         <header className='header'>
             <div className=' headerMobWrap'>
@@ -30,24 +58,17 @@ const Header = () => {
                     <FontAwesomeIcon icon={faTimes} />
                 </div>
                 <div className='headerMobileMenu'>
-                    <NavLink to={'/'} className='activeItem'>
-                        ANA SƏHİFƏ
+                    {
+                        isLoading === false && data !== undefined && (
+                            data.map((item, index) => (
+                                <NavLink to={checkedUrl(item)} key={index} className={checkedUrl(item) === pathname ? 'activeItem' : ''}>
+                                    {
+                                        item.title
+                                    }
                                 </NavLink>
-                    <NavLink to={'/aboutus'}>
-                        HAQQIMIZDA
-                                </NavLink>
-                    <NavLink to={'/services'}>
-                        XİDMƏTLƏR
-                                </NavLink>
-                    <NavLink to={'/price'}>
-                        QİYMƏTLƏR
-                                </NavLink>
-                    <NavLink to={'/blogs'}>
-                        BLOG
-                                </NavLink>
-                    <NavLink to={'/contact'}>
-                        ƏLAQƏ
-                    </NavLink>
+                            ))
+                        )
+                    }
                     <div className='footer__social'>
                         <a href=''><FontAwesomeIcon icon={faTwitter} /></a>
                         <a href=''><FontAwesomeIcon icon={faFacebookF} /></a>
@@ -82,7 +103,9 @@ const Header = () => {
                             {
                                 window.localStorage.getItem('token') === null ?
                                     <NavLink to={'/register'}>
-                                        Qeydiyyat
+                                        {
+                                            t('qeydiyyatLogin')
+                                        }
                                     </NavLink>
                                     :
                                     ''
@@ -94,7 +117,7 @@ const Header = () => {
             <div className='header__menuBox'>
                 <Container>
                     <nav className='header__nav'>
-                        <NavLink to={''} className='navLogo'>
+                        <NavLink to={'/index'} className='navLogo'>
                             <img src={require('../images/logoHeader.png').default} alt='' />
                         </NavLink>
                         <div className='header__navItem'>
@@ -102,28 +125,24 @@ const Header = () => {
                                 <FontAwesomeIcon icon={faBars} />
                             </div>
                             <div className='header__navList'>
-                                <NavLink to={'/'} className='activeItem'>
-                                    ANA SƏHİFƏ
-                                </NavLink>
-                                <NavLink to={'/aboutus'}>
-                                    HAQQIMIZDA
-                                </NavLink>
-                                <NavLink to={'/services'}>
-                                    XİDMƏTLƏR
-                                </NavLink>
-                                <NavLink to={'/price'}>
-                                    QİYMƏTLƏR
-                                </NavLink>
-                                <NavLink to={'/blogs'}>
-                                    BLOG
-                                </NavLink>
-                                <NavLink to={'/contact'}>
-                                    ƏLAQƏ
-                                </NavLink>
+                                {
+                                    isLoading === false && data !== undefined && (
+                                        data.map((item, index) => (
+                                            <NavLink to={checkedUrl(item)} key={index} className={checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''}>
+                                                {
+                                                    item.title
+                                                }
+                                            </NavLink>
+                                        ))
+                                    )
+                                }
+
                             </div>
                             <div className='header__navGet'>
                                 <NavLink to={'/order'}>
-                                    SİFARİŞ
+                                    {
+                                        t('sifaris')
+                                    }
                                 </NavLink>
                             </div>
                         </div>

@@ -145,7 +145,7 @@ const SignIn = () => {
                                 {/* <NavLink to={''}>
                                     ŞİFRƏMİ UNUTDUM
                                 </NavLink> */}
-                                <NavLink to={'/login'}>
+                                <NavLink to={'/register'}>
                                     QEYDİYYATDAN KEÇ
                                 </NavLink>
                             </div>

@@ -98,7 +98,7 @@ const LoginInformation = () => {
                         <NavLink to={'/passwordupdate'}>
                             Şifrəni yenilə
                         </NavLink>
-                        <NavLink to={''}
+                        <NavLink to={'/index'}
                             onClick={() => {
                                 localStorage.removeItem('token')
                                 localStorage.removeItem('user')

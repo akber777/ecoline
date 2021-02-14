@@ -123,13 +123,6 @@ const NewsSelf = () => {
                                 ))
                         }
                     </Row>
-                    {
-                        isLoading === true && (
-                            <div>
-                                Loading
-                            </div>
-                        )
-                    }
                 </Container>
             </div>
         </main>

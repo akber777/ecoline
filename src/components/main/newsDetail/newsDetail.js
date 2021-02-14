@@ -24,9 +24,6 @@ import { useQuery } from 'react-query';
 // react router dom
 import { useParams } from 'react-router-dom';
 
-// render html
-import renderHTML from 'react-render-html';
-
 // baseUrl
 import { baseUrl } from '../../api/api';
 
@@ -80,7 +77,7 @@ const NewsDetail = () => {
 
     return (
         <main className='rules'>
-            <div className='rules__banner' style={{ backgroundImage: `url(${isLoading === false && data.data.img !== null ? data.data.img.detail : ''})` }} >
+            <div className='rules__banner' style={{ backgroundImage: `url(${isLoading === false && data.data.length !== 0 && data.data.img !== null ? data.data.img.detail : ''})` }} >
                 <Container>
                     <h4 className='rules__title'>
                         Blogs
@@ -90,11 +87,10 @@ const NewsDetail = () => {
             <div className='rules__content' style={{ minHeight: 500 }}>
                 <Container>
                     {
-                        isLoading === false && (
+                        isLoading === false && data.data.length !== 0 && (
                             <>
                                 <h4>
                                     {
-
                                         data.data.title
 
                                     }

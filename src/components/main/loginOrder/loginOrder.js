@@ -48,8 +48,6 @@ const LoginOrder = () => {
     })
 
 
-
-
     const locate = settings.isLoading === false && (
         settings.data.data.map_location.map(item => (
             [
@@ -60,12 +58,10 @@ const LoginOrder = () => {
     )
 
 
-
     let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder, {
         refetchOnWindowFocus: false,
         cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
     })
-
 
 
     useLayoutEffect(() => {
@@ -112,7 +108,7 @@ const LoginOrder = () => {
                         <NavLink to={'/passwordupdate'}>
                             Şifrəni yenilə
                         </NavLink>
-                        <NavLink to={''}
+                        <NavLink to={'/index'}
                             onClick={() => {
                                 localStorage.removeItem('token')
                                 localStorage.removeItem('user')
@@ -139,7 +135,7 @@ const LoginOrder = () => {
                                     </p>
                                     <p>
                                         MƏHSUL:
-                                    <span>
+                                        <span>
                                             {
                                                 item.items.data.length + ' ədəd'
                                             }

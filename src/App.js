@@ -29,6 +29,8 @@ import OrderComplete from './components/main/order/orderComplete';
 import Location from './components/main/location/location';
 
 
+// signin
+import SignIn from './components/main/signIn/signIn';
 
 // import login info
 import LoginInfo from './components/main/loginInformation/loginInformation';
@@ -57,6 +59,9 @@ import PasswordUpdated from './components/main/passwordUpdated/passwordUpdated';
 // import static
 import Static from './components/main/static/static';
 
+// services
+import Services from './components/main/services/services';
+
 // react router dom
 
 import { Switch, Route, useLocation } from 'react-router-dom';
@@ -64,11 +69,13 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 // hooks
 import OpenMenu from './components/hooks/openMobMenu';
 import Resize from './components/hooks/resize';
-import SignIn from './components/main/signIn/signIn';
+import CheckedPhoneInput from './components/hooks/checkedPhoneInput';
 
 // setToken
 
 import { SetToken } from './components/api/token';
+import NotFound from './components/main/404/404';
+
 
 
 
@@ -93,29 +100,40 @@ function App() {
       <Header />
       <OpenMenu />
       <Switch>
-        <Route exact path='/'>
+        {
+          pathname.split('/')[1] !== '' &&
+          pathname.split('/')[1] !== 'blogs' &&
+          pathname.split('/')[1] !== 'index' &&
+          pathname.split('/')[1] !== 'contact' &&
+          pathname.split('/')[1] !== 'register' &&
+          pathname.split('/')[1] !== 'order' &&
+          pathname.split('/')[1] !== 'ordercomplete' &&
+          pathname.split('/')[1] !== 'location' &&
+          pathname.split('/')[1] !== 'passwordupdate' &&
+          pathname.split('/')[1] !== 'signin' &&
+          pathname.split('/')[1] !== 'logininformation' &&
+          pathname.split('/')[1] !== 'loginorder' &&
+          pathname.split('/')[1] !== 'loginlocation' &&
+          pathname.split('/')[1] !== 'delivery' &&
+          pathname.split('/')[1] !== 'payment' &&
+          pathname.split('/')[1] !== 'services'
+          && (
+            <Route path='/*'>
+              <Static />
+            </Route>
+          )
+        }
+        <Route exact path='/index'>
           <Home />
+        </Route>
+        <Route exact path='/'>
+          <NotFound />
         </Route>
         <Route path='/blogs/:slug'>
           <NewsDetail />
         </Route>
         <Route path='/blogs'>
           <NewsSelf />
-        </Route>
-        <Route path='/static'>
-          <Static />
-        </Route>
-        <Route path='/rules'>
-          <Static />
-        </Route>
-        <Route path='/aboutus'>
-          <Static />
-        </Route>
-        <Route path='/services'>
-          <Static />
-        </Route>
-        <Route path='/price'>
-          <Static />
         </Route>
         <Route path='/contact'>
           <Contact />
@@ -131,6 +149,9 @@ function App() {
         </Route>
         <Route path='/ordercomplete'>
           <OrderComplete />
+        </Route>
+        <Route path='/services'>
+          <Services />
         </Route>
         {
           window.localStorage.getItem('token') !== null ?
@@ -195,6 +216,7 @@ function App() {
         </Route>
       </Switch>
       <Footer />
+      <CheckedPhoneInput />
     </div>
   );
 }

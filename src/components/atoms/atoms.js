@@ -28,3 +28,9 @@ export let error = atom({
     key: 'error',
     default: null
 })
+
+
+export let mapCoor = atom({
+    ket: 'mapCoordinates',
+    default: null
+})

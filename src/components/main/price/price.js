@@ -69,9 +69,6 @@ const Price = React.memo(function Price({
     return (
         <div className='home__price' data-aos="fade-up">
             <Container>
-                <div className='home__priceContent'>
-                    <h4 className='title'>QİYMƏTLƏR VƏ ONLINE SİFARİŞ</h4>
-                </div>
                 <div className='home__priceBox '>
                     <Row>
                         {

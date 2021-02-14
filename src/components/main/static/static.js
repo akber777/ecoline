@@ -15,9 +15,17 @@ import Map from '../map/map';
 // react router dom
 import { useLocation } from 'react-router-dom';
 
-const mapLocate = [
-    ['<div><span>Gəncə</span><p>Gəncə şəhəri, Gəncə-Şəmkir şossesi 2-ci km.</p> <p>Tel: (044) 222 11 16</p> <p>İş saatları<br>Həftə içi günlər - 09:00-18:00<br>Şənbə günləri - 09:00-18:00<br>Bazar günləri - İşləmir</p></div>', 41.015137, 28.979530, 'Gəncə'],
-];
+// react query
+import { useQuery } from 'react-query';
+
+// axios
+import axios from 'axios';
+
+// baseUrl
+import { baseUrl } from '../../api/api';
+
+// helper
+import { checkType } from '../../helper/helper';
 
 const Static = () => {
 
@@ -30,61 +38,38 @@ const Static = () => {
     })
 
 
-    let pathname = useLocation().pathname.split('/')[useLocation().pathname.split('/').length - 1]
+    let { pathname } = useLocation()
+
+    let { data, isLoading } = useQuery(['staticPages', ''], async () => {
+
+        const res = axios.get(baseUrl + 'page' + pathname)
+
+        return (await res).data
+
+    })
 
 
-    function checkedurl(pathname) {
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
 
-        if (pathname === 'rules') {
+        const res = await axios.get(baseUrl + 'setting')
 
-            return {
-                name: 'Qaydalar',
-                subname: 'SAYTDAN İSTİFADƏ QAYDALARI'
-            }
-        }
-
-
-        if (pathname === 'aboutus') {
-
-            return {
-                name: 'HAQQIMIZDA',
-                subname: 'HAQQIMIZDA'
-            }
-        }
-
-        if (pathname === 'services') {
-
-            return {
-                name: 'XİDMƏTLƏR',
-                subname: 'XİDMƏTLƏR'
-            }
-        }
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
 
 
-        if (pathname === 'price') {
 
-            return {
-                name: 'QİYMƏTLƏR',
-                subname: 'QİYMƏTLƏR'
-            }
-        }
 
-        if (pathname === 'blog') {
-
-            return {
-                name: 'BLOG',
-                subname: 'BLOG'
-            }
-        }
-
-        if (pathname === 'contact') {
-
-            return {
-                name: 'ƏLAQƏ',
-                subname: 'ƏLAQƏ'
-            }
-        }
-    }
+    const locate = settings.isLoading === false && (
+        settings.data.data.map_location.map(item => (
+            [
+                Number(item.lat),
+                Number(item.long)
+            ]
+        ))
+    )
 
 
     return (
@@ -94,40 +79,40 @@ const Static = () => {
                 <Container>
                     <h4 className='rules__title'>
                         {
-                            checkedurl(pathname).name
+                            isLoading === false && data !== undefined && data.data.length !== 0 && (
+                                data.data.viewBag.title
+                            )
                         }
                     </h4>
                 </Container>
             </div>
             <div className='rules__content'>
                 <Container>
-                    <h4>
-                        {
-                            checkedurl(pathname).subname
-                        }
-                    </h4>
-                    <p>
-                        Məqsədimiz təmizlik sektorunda ehtiyacınız olan bütün xidmətləri Sizə yüksək keyfiyyətlə təqdim etməkdir. Çünki keyfiyyətli xidmət əldə etmək hər bir kəsin haqqıdır. Buna nail olmaq üçün dörd əsas amilləri özümüzdə hər daim inkişaf etdiririk:
-
-                        Texnologiya - Bu sektorda olan tanınmış və son texnologiya avadanlıqlarını əldə etməklə işə başlamaq və davamındada bu avadanlıqların inkişaf proseslərini, yenilənməsini və proqreslərini müntəzəm olaraq tətbiq etməyi prioritetimiz olaraq təyin etdik. Bunun sayəsində də Sizin bizə etibar etdiyiniz məhsullara diqqətlə yanaşaraq onları qorumağa çalışırıq.
-
-                        Təmizlik - Qayğı ilə yanaşdığınız əşyalarınızın gigiyenik qaydalara uyğun olaraq, bütün ləkələrdən təmizlənmiş halda və mükəmməl şəkildə paketləşdirilərək Sizə təqdim olunması uğurlu olmağımız üçün əsas göstəricilərdəndir.
-
-                        Keyfiyyət - Daimliyini şərt olaraq təyin etdiyimiz “keyfiyyət siyasətimizin" hər mərhələsini müntəzəm olaraq yoxlama nəticəsində hər zaman zirvədə tuta bilmək hədəflərimizin ən vacibidir.
-
-                        Təqdimat - Fərah və ürək açan məkan, gülərüz personal, müştəriyə fərdi yanaşma, sərfəli qiymətlər və mütəmadi kompaniyalar, çatdırılma xidməti, zəmanət və müştərilərimizin məmnuyyətini və rahatlığını təmin edə biləcək digər yanaşmalar hər an diqqət mərkəzimizdədir.
-
-                        Bizi seçdiyiniz üçün Sizə minnətdarıq!
-
-                        EcoLine - Təmizliyə Sevgi Qatdıq!
-                   </p>
+                    {
+                        isLoading === false && data !== undefined && (
+                            <>
+                                {/* <h4>
+                                    {
+                                        data.data.viewBag.title
+                                    }
+                                </h4>
+                                {
+                                    checkType(data.data.markup)
+                                } */}
+                            </>
+                        )
+                    }
                 </Container>
             </div>
             <WhyUs />
             <News />
-            <div id='map'>
-                <Map locations={mapLocate} />
-            </div>
+            {
+                settings.isLoading === false && (
+                    <div id='map'>
+                        <Map locations={locate} />
+                    </div>
+                )
+            }
         </main>
     );
 }

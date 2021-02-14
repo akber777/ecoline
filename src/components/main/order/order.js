@@ -47,6 +47,8 @@ import { decimalAdjust } from '../../helper/helper';
 
 // import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
 
+// jquery
+import $ from 'jquery';
 
 
 const Order = () => {
@@ -168,11 +170,21 @@ const Order = () => {
 
 
 
-
     window.addEventListener('beforeunload', function (e) {
         localStorage.removeItem("items")
         localStorage.removeItem("total")
     });
+
+
+    useLayoutEffect(() => {
+
+        $('.oder__content nav').css({
+            position: 'sticky',
+            top: 20,
+            zIndex: 5555
+        })
+
+    }, [data])
 
     return (
         <main className='order home__price'>
@@ -276,7 +288,7 @@ const Order = () => {
                         </span>
                     </p>
                     <div className='btnBoxs'>
-                        <NavLink to={total.length !== 0 ? total.reduce(reducer) !== 0 ? `/ordercomplete` : '' : '/order'}>
+                        <NavLink to={total.length !== 0 && total.reduce(reducer) !== 0 ? `/ordercomplete` : '/order'}>
                             <button className='success'>
                                 Next
                             </button>

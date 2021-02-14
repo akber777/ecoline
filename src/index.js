@@ -27,7 +27,8 @@ import {
   RecoilRoot,
 } from 'recoil';
 
-
+// i18
+import './components/i18next/i18n';
 
 
 

@@ -399,7 +399,7 @@ const OrderComplete = () => {
                                 Prev
                             </button>
                         </NavLink>
-                        <NavLink to={checkedToken()} onClick={nextPageButton}>
+                        <NavLink to={total.reduce(reducer) !== 0 ? checkedToken() : '/order'} onClick={nextPageButton}>
                             <button className='success'>
                                 Next
                             </button>

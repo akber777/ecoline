@@ -131,3 +131,34 @@
         border-radius: 25px;
     }
 }
+
+.mapInp {
+    display: flex;
+
+    div {
+        margin-top: 15px;
+        width: 50%;
+
+        p {
+            color: #8cbd29;
+            font-weight: bold;
+        }
+
+        &:not(:last-child) {
+            margin-right: 25px;
+        }
+    }
+}
+
+.sendInfoMap {
+    background-color: #8cbd29;
+    color: #fff;
+    outline: none;
+    border: none;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    margin-top: 25px;
+    padding: 10px 25px;
+    border-radius: 25px;
+}

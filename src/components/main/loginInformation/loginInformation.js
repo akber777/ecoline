@@ -112,19 +112,19 @@ const LoginInformation = () => {
                     <div className='formBox'>
                         <div className='formItem'>
                             <span>Ad:</span>
-                            <input value={isLoading === false && (data.data.name)} />
+                            <input value={isLoading === false ? (data.data.name) : ''} />
                         </div>
                         <div className='formItem'>
                             <span>Soyad:</span>
-                            <input value={isLoading === false && (data.data.surname)} />
+                            <input value={isLoading === false ? (data.data.surname) : ''} />
                         </div>
                         <div className='formItem'>
                             <span>Telefon:</span>
-                            <input value={isLoading === false && (data.data.phone)} />
+                            <input value={isLoading === false ? (data.data.phone) : ''} />
                         </div>
                         <div className='formItem'>
                             <span>E mail:</span>
-                            <input value={isLoading === false && (data.data.email)} />
+                            <input value={isLoading === false ? (data.data.email) : ''} />
                         </div>
                         {/* <div className='formItem'>
                             <span>Dogum tarixi:</span>

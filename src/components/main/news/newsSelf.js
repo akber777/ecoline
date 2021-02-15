@@ -7,8 +7,6 @@ import { Col, Container, Row } from 'reactstrap';
 // react router dom
 import { NavLink, useLocation } from 'react-router-dom';
 
-// queries
-import { blogs } from '../../queries/queries';
 
 // react query
 import { useQuery } from 'react-query';
@@ -53,6 +51,14 @@ const NewsSelf = () => {
     })
 
 
+    useLayoutEffect(() => {
+
+        if (isLoading === false) {
+            setBlog(oldArray => [...oldArray, ...data.data])
+        }
+
+    }, [data])
+
     window.onscroll = function () {
 
         if (isLoading === false) {
@@ -62,13 +68,10 @@ const NewsSelf = () => {
                 if (isLoading === false) {
                     if (blog.includes(...data.data) === false) {
                         setBlog(oldArray => [...oldArray, ...data.data])
-
                     }
                 }
             }
-
         }
-
     }
 
 

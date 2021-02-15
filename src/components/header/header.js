@@ -40,7 +40,7 @@ const Header = () => {
 
     let { pathname } = useLocation()
 
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     let { data, isLoading } = useQuery(['header', ''], async () => {
 

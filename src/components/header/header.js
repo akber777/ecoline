@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 
 // css
 
@@ -32,7 +32,8 @@ import axios from 'axios';
 // helper
 import { checkedUrl } from '../helper/helper';
 
-
+// jquery
+import $ from 'jquery';
 
 
 const Header = () => {
@@ -50,6 +51,21 @@ const Header = () => {
     }, {
         refetchOnWindowFocus: false
     })
+
+
+    useLayoutEffect(() => {
+
+        if (pathname === '/') {
+
+            $('.header__navList a:first').addClass('activeItem')
+        }
+
+        else if (pathname === 'index') {
+            $('.header__navList a:first').addClass('activeItem')
+        }
+
+    }, [data])
+
 
     return (
         <header className='header'>

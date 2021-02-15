@@ -31,11 +31,14 @@ const WhyUs = (props) => {
         });
     }, []);
 
-    let { pathname } = useLocation()
+    let { pathname } = useLocation();
+
+    let updatedPath = pathname === '/' ? 'index' : pathname.split('/')[1]
 
     let { data, isLoading } = useQuery(['advantage', pathname], async () => {
 
-        const res = axios.get(baseUrl + 'page/' + pathname.split('/')[1])
+
+        const res = axios.get(baseUrl + 'page/' + updatedPath)
 
 
         return (await res).data

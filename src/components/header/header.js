@@ -56,15 +56,34 @@ const Header = () => {
     useLayoutEffect(() => {
 
         if (pathname === '/') {
-
             $('.header__navList a:first').addClass('activeItem')
         }
 
-        else if (pathname === 'index') {
+        else if (pathname === '/index') {
+            $('.header__navList a:first').addClass('activeItem')
+        }
+        else{
+            $('.header__navList a:first').removeClass('activeItem')
+        }
+
+    },[data])
+
+
+    
+    useLayoutEffect(() => {
+
+        if (pathname === '/') {
             $('.header__navList a:first').addClass('activeItem')
         }
 
-    }, [data])
+        else if (pathname === '/index') {
+            $('.header__navList a:first').addClass('activeItem')
+        }
+        else{
+            $('.header__navList a:first').removeClass('activeItem')
+        }
+
+    })
 
 
     return (

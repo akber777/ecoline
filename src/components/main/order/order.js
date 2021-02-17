@@ -184,6 +184,15 @@ const Order = () => {
             zIndex: 5555
         })
 
+
+        $('.order__result ').css({
+            position: 'sticky',
+            bottom: 0,
+            zIndex: 5555,
+            backgroundColor:'#fff',
+            padding:15
+        })
+
     }, [data])
 
     return (

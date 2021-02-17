@@ -13,8 +13,9 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { baseUrl } from '../../api/api';
 
-const NewsSelf = () => {
 
+
+const NewsSelf = () => {
 
 
     let { pathname } = useLocation();
@@ -42,7 +43,6 @@ const NewsSelf = () => {
                 number: 3
             }
         })
-
 
         return res.data
 

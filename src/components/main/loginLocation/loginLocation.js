@@ -52,28 +52,27 @@ const LoginLocation = () => {
 
 
     // register
-    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add),{
-        onSuccess:function(succ){
-            
-            if(succ.status===200)
-            {
+    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add), {
+        onSuccess: function (succ) {
+
+            if (succ.status === 200) {
                 setId(null);
                 setName(null);
                 setPhone(null);
                 setAddress(null);
                 setLang(null);
                 setLati(null);
-                $('.openAddPopup input').val('');   
+                $('.openAddPopup input').val('');
             }
         },
-        onError:function(error){
-          
+        onError: function (error) {
+
             swal({
                 title: "Inputlari Doldurmaniz Lazimdir!",
                 icon: "error",
                 button: "Bağla",
             });
-            
+
         }
     })
 
@@ -107,7 +106,7 @@ const LoginLocation = () => {
     let [address, setAddress] = useState()
     let [lati, setLati] = useState(40.34126114625568)
     let [lang, setLang] = useState(48.83849702929688)
-    let [city_id, setCity] = useState()
+    let [city_id, setCity] = useState(isLoading === false && data!==undefined&&(data.data.data.cities.data[0].id))
     let [checkedCity, setCheckedCity] = useState()
 
 
@@ -361,7 +360,7 @@ const LoginLocation = () => {
                                                             key={item.id}
                                                             value={item.id}
                                                             defaultValue={city_id}
-                                                            selected={checkedCity!==undefined && item.id===checkedCity.city.data.id ? 'selected' : ''}
+                                                            selected={checkedCity !== undefined && item.id === checkedCity.city.data.id ? 'selected' : ''}
                                                         >
                                                             {
                                                                 item.name

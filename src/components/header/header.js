@@ -274,14 +274,12 @@ const Header = () => {
             </div>
             <div className='header__navGetMobile header__navGet' style={{
                 display: pathname.split('/')[1] === 'order' ||
-                    pathname.split('/')[1] === 'ordercomplete'||
+                    pathname.split('/')[1] === 'ordercomplete' ||
+                    pathname.split('/')[1] === 'location' ||
                     pathname.split('/')[1] === 'payment'
 
                     ? 'none' : 'block'
             }}>
-                {
-                    console.log(pathname.split('/')[1])
-                }
                 <NavLink to={'/order'}>
                     {
                         t('sifaris')

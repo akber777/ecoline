@@ -3,8 +3,13 @@ import { initReactI18next } from "react-i18next";
 
 import translationAz from '../language/translationAz.json';
 
+import { useState } from 'react';
+
 // the translations
 // (tip move them in a JSON file and import them)
+
+
+
 const resources = {
     az: {
         translation: translationAz

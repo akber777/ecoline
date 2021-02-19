@@ -32,6 +32,8 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 // mapStyle
 import mapStyle from '../map/mapStyle';
 
+// sweet alert
+import swal from 'sweetalert';
 
 
 const LoginLocation = () => {
@@ -49,15 +51,31 @@ const LoginLocation = () => {
 
 
 
-
-
-
-
-
-
-
     // register
-    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add))
+    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add),{
+        onSuccess:function(succ){
+            
+            if(succ.status===200)
+            {
+                setId(null);
+                setName(null);
+                setPhone(null);
+                setAddress(null);
+                setLang(null);
+                setLati(null);
+                $('.openAddPopup input').val('');   
+            }
+        },
+        onError:function(error){
+          
+            swal({
+                title: "Inputlari Doldurmaniz Lazimdir!",
+                icon: "error",
+                button: "Bağla",
+            });
+            
+        }
+    })
 
     const mutationUpdated = useMutation(update => axios.put(baseUrl + 'address', update), {
         onSuccess: function () {
@@ -90,6 +108,7 @@ const LoginLocation = () => {
     let [lati, setLati] = useState(40.34126114625568)
     let [lang, setLang] = useState(48.83849702929688)
     let [city_id, setCity] = useState()
+    let [checkedCity, setCheckedCity] = useState()
 
 
 
@@ -158,7 +177,7 @@ const LoginLocation = () => {
     const [state, setState] = useState({
         showingInfoWindow: false,
         activeMarker: '',
-        zoomMap: 8,
+        zoomMap: 7,
         selectedPlace: '',
         center:
         {
@@ -337,8 +356,12 @@ const LoginLocation = () => {
                                             isLoading === false && data !== undefined && (
 
                                                 data.data.data.length !== 0 && (
-                                                    data.data.data.cities.data.map(item => (
-                                                        <option key={item.id}
+                                                    data.data.data.cities.data.map((item, index) => (
+                                                        <option
+                                                            key={item.id}
+                                                            value={item.id}
+                                                            defaultValue={city_id}
+                                                            selected={checkedCity!==undefined && item.id===checkedCity.city.data.id ? 'selected' : ''}
                                                         >
                                                             {
                                                                 item.name
@@ -465,7 +488,7 @@ const LoginLocation = () => {
                                                 setName(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].name : '')
                                                 setPhone(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].phone : '')
                                                 setAddress(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].address : '')
-                                                setCity(isLoading === false ? data.data.data.cities.data[1].name : '')
+                                                setCheckedCity(isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')] : '')
                                                 setLang(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lang : '')
                                                 setLati(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lat : '')
 

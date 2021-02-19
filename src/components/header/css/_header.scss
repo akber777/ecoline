@@ -111,11 +111,21 @@
     }
 
     &__navList {
+        display: flex;
+        position: relative;
+
         a {
             transition: all 0.2s;
             color: #3d3d3d;
             padding: 10px;
             border-radius: 24px;
+            position: relative;
+
+            &:hover {
+                .header__subItem {
+                    display: block;
+                }
+            }
 
             @media (max-width: 1739px) {
                 font-size: 13px;
@@ -141,6 +151,11 @@
                 transition: all 0.2s;
                 color: #fff;
                 background-color: #8cbd29;
+
+                a {
+                    background: #fff;
+                    color: #8cbd29;
+                }
             }
         }
     }
@@ -150,7 +165,7 @@
 
         a {
             display: inline-flex;
-            width: 144px;
+            width: auto;
             height: 46px;
             background-color: #8cbd29;
             align-items: center;
@@ -158,6 +173,9 @@
             border-radius: 25px;
             transition: all 0.2s;
             color: #fff !important;
+            font-size: 12px;
+            padding: 13px;
+            text-align: center;
 
             @media (max-width: 1739px) {
                 width: auto;
@@ -172,8 +190,6 @@
             // }
         }
     }
-
-    overflow: hidden;
 
     .headerMobWrap {
         position: fixed;
@@ -202,9 +218,10 @@
     .headerMobileMenu {
         display: flex;
         flex-direction: column;
-        padding-top: 25px;
+        padding-top: 42px;
 
         > a {
+            position: relative;
             width: 100%;
             display: flex;
             padding-left: 15px;
@@ -213,9 +230,23 @@
             font-weight: bold;
             transition: all 0.2s;
 
+            .header__subItem {
+                left: 15px;
+                border-radius: 2px;
+            }
+
+            &.activeItem {
+                transition: all 0.2s;
+                color: #3d3d3d;
+            }
+
             &:hover {
                 transition: all 0.2s;
                 color: #3d3d3d;
+
+                .header__subItem {
+                    display: block;
+                }
             }
         }
 
@@ -233,5 +264,38 @@
     .openMenu {
         transform: translateX(0);
         display: block;
+    }
+
+    &__subItem {
+        position: absolute;
+        right: 0;
+        width: 200px;
+        min-height: 200px;
+        height: auto;
+        background: #fff;
+        z-index: 555;
+        padding: 10px 5px;
+        top: 44px;
+        display: inline-flex;
+        flex-direction: column;
+        -webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.75);
+        display: none;
+        border-radius: 10px;
+
+        a {
+            padding: 5px 5px;
+
+            &:hover {
+                background: transparent !important;
+                color: #8cbd29 !important;
+            }
+        }
+    }
+
+
+    .noHover{
+        background-color: transparent !important;
     }
 }

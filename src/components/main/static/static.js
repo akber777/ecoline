@@ -40,7 +40,7 @@ const Static = () => {
 
     let { pathname } = useLocation()
 
-    let { data, isLoading } = useQuery(['staticPages', ''], async () => {
+    let { data, isLoading } = useQuery(['staticPages', pathname], async () => {
 
         const res = axios.get(baseUrl + 'page' + pathname)
 
@@ -91,14 +91,14 @@ const Static = () => {
                     {
                         isLoading === false && data !== undefined && (
                             <>
-                                {/* <h4>
+                                <h4>
                                     {
                                         data.data.viewBag.title
                                     }
                                 </h4>
                                 {
                                     checkType(data.data.markup)
-                                } */}
+                                }
                             </>
                         )
                     }

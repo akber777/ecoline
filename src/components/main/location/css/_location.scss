@@ -48,7 +48,7 @@
 
         @media (max-width: 1050px) {
             border-radius: 25px;
-            min-height: 50px;
+            height: 50px;
             padding: 15px;
         }
 
@@ -91,7 +91,7 @@
 
     &__contentRight {
         width: 147px !important;
-        height: 56px;
+        min-height: 56px;
         background-color: #8cbd29;
         border-top-right-radius: 50px;
         border-bottom-right-radius: 50px;
@@ -125,6 +125,10 @@
             svg {
                 color: #fff;
                 font-size: 30px;
+
+                @media (max-width: 992px) {
+                    font-size: 18px;
+                }
             }
         }
 
@@ -142,6 +146,7 @@
             padding-left: 14px;
 
             input {
+                position: absolute;
                 opacity: 0;
             }
 
@@ -244,7 +249,7 @@
 
 .locationCon {
     .location__contentRight {
-        width: 147px !important;
+        min-width: 94px !important;
     }
 }
 
@@ -254,4 +259,16 @@
     background-image: url("../../../images/edit.png");
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.mapInp {
+    @media (max-width: 512px) {
+        display: none !important;
+    }
+}
+
+.mapCoordinate {
+    @media (max-width: 500px) {
+        height: 190px;
+    }   
 }

@@ -32,6 +32,9 @@ import axios from 'axios';
 // helper
 import { decimalAdjust } from '../../helper/helper';
 
+// jquery
+import $ from 'jquery';
+
 
 const OrderComplete = () => {
 
@@ -109,7 +112,7 @@ const OrderComplete = () => {
                     setOrder({
                         address_id: null,
                         payment_method: null,
-                        amount: total.reduce(reducer),
+                        amount: total.length !== 0 ? total.reduce(reducer) : null,
                         is_exspress: null,
                         items: JSON.parse(localStorage.getItem('items'))
                     })
@@ -169,6 +172,9 @@ const OrderComplete = () => {
 
     const reducer = (accumulator, currentValue) => round10(accumulator + currentValue, -1);
 
+
+    let mathEmp=[]
+
     useLayoutEffect(() => {
 
         if (total.length === 0) {
@@ -176,6 +182,29 @@ const OrderComplete = () => {
                 pathname: '/order'
             })
         }
+
+
+
+        $.each($('.order__itemBox strong'), function (index, item) {
+
+            mathEmp.push($(item).height())
+
+
+        })
+
+
+        if (mathEmp.length !== 0) {
+            $.each($('.order__itemBox strong'), function (index, item) {
+
+                $(item).css({
+                    height: Math.max(...mathEmp)
+                })
+
+
+            })
+
+        }
+
     })
 
 
@@ -320,7 +349,7 @@ const OrderComplete = () => {
                             JSON.parse(window.localStorage.getItem('items')) !== null && (
                                 JSON.parse(window.localStorage.getItem('items')).map(pro => (
 
-                                    <Col md='6' lg='2' key={pro.id}>
+                                    <Col xs='4' lg='2' key={pro.id}>
                                         <div className='order__itemBox'>
                                             <div className='order__itemBox--img'>
                                                 <img src={pro.img !== null && pro.img.length !== 0 ? pro.img : ''} alt='' />
@@ -399,10 +428,10 @@ const OrderComplete = () => {
                                 Prev
                             </button>
                         </NavLink>
-                        <NavLink to={total.reduce(reducer) !== 0 ? checkedToken() : '/order'} onClick={nextPageButton}>
+                        <NavLink to={total.length !== 0 ? checkedToken() : '/order'} onClick={nextPageButton}>
                             <button className='success'>
                                 Next
-                            </button>
+                                </button>
                         </NavLink>
                     </div>
                 </div>

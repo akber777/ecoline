@@ -62,14 +62,40 @@ const Header = () => {
         else if (pathname === '/index') {
             $('.header__navList a:first').addClass('activeItem')
         }
-        else{
+        else {
             $('.header__navList a:first').removeClass('activeItem')
         }
 
-    },[data])
+
+        $.each($('.header__subItem'), function (index, item) {
+
+            $(item).parents('a').addClass('noHover')
+
+            if ($(item).find('a').hasClass('active') === true) {
+
+                $(item).parents('a').css({
+                    color: '#8cbd29'
+                })
+            } else {
+                $(item).parents('a').css({
+                    color: '#3d3d3d'
+                })
+            }
 
 
-    
+            $(item).parents('a').removeClass('activeItem')
+
+        })
+
+
+        $('.headerMobileMenu > a').on('click', function () {
+            $('.headerMobWrap ').removeClass('openMenu')
+        })
+
+    }, [data])
+
+
+
     useLayoutEffect(() => {
 
         if (pathname === '/') {
@@ -79,11 +105,32 @@ const Header = () => {
         else if (pathname === '/index') {
             $('.header__navList a:first').addClass('activeItem')
         }
-        else{
+        else {
             $('.header__navList a:first').removeClass('activeItem')
         }
 
+
+        $.each($('.header__subItem'), function (index, item) {
+
+            $(item).parents('a').addClass('noHover')
+
+            if ($(item).find('a').hasClass('active') === true) {
+                $(item).parents('a').css({
+                    color: '#8cbd29'
+                })
+                
+            } else {
+                $(item).parents('a').css({
+                    color: '#3d3d3d'
+                })
+            }
+
+            $(item).parents('a').removeClass('activeItem')
+        })
+
     })
+
+
 
 
     return (
@@ -96,10 +143,27 @@ const Header = () => {
                     {
                         isLoading === false && data !== undefined && (
                             data.map((item, index) => (
-                                <NavLink to={checkedUrl(item)} key={index} className={checkedUrl(item) === pathname ? 'activeItem' : ''}>
+                                <NavLink
+                                    to={checkedUrl(item)}
+                                    key={index}
+                                    className={checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''}>
                                     {
                                         item.title
                                     }
+                                    {
+                                        item.items !== undefined ? item.items.map((subitem, indexSub) => (
+                                            <div className='header__subItem'>
+                                                <NavLink to={checkedUrl(subitem)} key={indexSub}>
+                                                    {
+                                                        subitem.title
+                                                    }
+                                                </NavLink>
+                                            </div>
+                                        ))
+                                            :
+                                            ''
+                                    }
+
                                 </NavLink>
                             ))
                         )
@@ -163,10 +227,30 @@ const Header = () => {
                                 {
                                     isLoading === false && data !== undefined && (
                                         data.map((item, index) => (
-                                            <NavLink to={checkedUrl(item)} key={index} className={checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''}>
+                                            <NavLink
+                                                to={checkedUrl(item)}
+                                                key={index}
+                                                className={
+                                                    checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''
+                                                }
+                                            >
                                                 {
                                                     item.title
                                                 }
+                                                {
+                                                    item.items !== undefined ? item.items.map((subitem, indexSub) => (
+                                                        <div className='header__subItem'>
+                                                            <NavLink to={checkedUrl(subitem)} key={indexSub}>
+                                                                {
+                                                                    subitem.title
+                                                                }
+                                                            </NavLink>
+                                                        </div>
+                                                    ))
+                                                        :
+                                                        ''
+                                                }
+
                                             </NavLink>
                                         ))
                                     )

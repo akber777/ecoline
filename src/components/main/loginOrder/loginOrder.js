@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 // css
 
@@ -9,7 +9,7 @@ import './css/_loginOrder.scss';
 import { NavLink, useHistory } from 'react-router-dom';
 
 // reactstrap
-import { Container, Col, Row } from 'reactstrap';
+import { Container, Col, Row, Input } from 'reactstrap';
 
 // map
 import Map from '../map/map';
@@ -31,32 +31,16 @@ import $ from 'jquery';
 // helper
 import { createDate, capitalize } from '../../helper/helper';
 
+// map
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+// mapStyle
+import mapStyle from '../map/mapStyle';
+
 
 const LoginOrder = () => {
 
     let history = useHistory()
-
-    // settings
-    let settings = useQuery(['settings', ''], async () => {
-
-        const res = await axios.get(baseUrl + 'setting')
-
-        return res.data
-    }, {
-        refetchOnWindowFocus: false,
-
-    })
-
-
-    const locate = settings.isLoading === false && (
-        settings.data.data.map_location.map(item => (
-            [
-                Number(item.lat),
-                Number(item.long)
-            ]
-        ))
-    )
-
 
     let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder, {
         refetchOnWindowFocus: false,
@@ -66,14 +50,60 @@ const LoginOrder = () => {
 
     useLayoutEffect(() => {
 
+        $('.showPin').on('click', function () {
+
+            $('.openMapPopup').show();
+
+
+            $('.infoPopup').css({
+                opacity: 0,
+                zIndex: -1
+            })
+
+
+            $('.openMapPopup').css({
+                opacity: 1,
+                zIndex: 5555
+            })
+
+        })
+
+        $('.closeModalMap').on('click', function () {
+
+
+            $('.infoPopup').css({
+                opacity: 1,
+                zIndex: 55555
+            })
+
+
+            $('.openMapPopup').hide();
+
+        })
+
+
+        $('.sendInfoMap').on('click', function () {
+
+
+            $('.infoPopup').css({
+                opacity: 1,
+                zIndex: 55555
+            })
+
+
+            $('.openMapPopup').hide();
+
+        })
+
+
         $('.orderLogin__top').on('click', function () {
 
             $(this).next().stop().slideToggle()
 
         })
 
+    }, [data])
 
-    })
 
 
     if (localStorage.getItem('token') === null) {
@@ -83,8 +113,50 @@ const LoginOrder = () => {
     }
 
 
+    let [adress, setAdress] = useState();
+
+    let [lati, setLati] = useState(null)
+    let [lang, setLang] = useState(null)
+
+
+    // map
+
+    const [state, setState] = useState({
+        showingInfoWindow: false,
+        activeMarker: '',
+        zoomMap: 7,
+        selectedPlace: '',
+        center:
+        {
+            lat: Number(lati),
+            lng: Number(lang)
+        },
+        show: false,
+        positions: '',
+        langlat: null
+    });
+
+
+
+    const mapContainerStyle = {
+        height: '409px',
+        width: '100%',
+
+    }
+
+
+    // map style and checkking controls
+    const mapOptions = {
+        styles: mapStyle,
+        fullscreenControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl: false,
+
+    };
+
     return (
-        <main className='info order'>
+        <main className='info order loginLocation'>
             <div className='rules__banner'>
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
@@ -118,8 +190,97 @@ const LoginOrder = () => {
                         </NavLink>
                     </div>
                 </div>
+                {/* map popup */}
+                <div className='infoPopup openMapPopup'>
+                    <div className='info__WrapperModal'>
+                        <button className='closeModal closeModalMap' onClick={(event) => {
+                            document.querySelector('.openMapPopup').style.display = 'none'
+                        }}>
+                            x
+                            </button>
+                        <h4>Xəritə</h4>
+                        <LoadScript
+                            googleMapsApiKey='AIzaSyANektuMKczEQdzMI82zHlFnMTVSmT55Vw'>
+                            <GoogleMap
+                                id='mapCoordinate'
+                                mapContainerStyle={mapContainerStyle}
+                                zoom={state.zoomMap}
+                                center={{
+                                    lat: Number(lati),
+                                    lng: Number(lang)
+                                }}
+                                options={mapOptions}
+                            >
+                                <Marker
+                                    draggable={false}
+                                    onDrag={(event) => {
+                                        setLang(event.latLng.lng())
+                                        setLati(event.latLng.lat())
+                                    }}
+                                    icon={{
+                                        url: require('../../images/pin.png').default,
+                                        // size: { width: 30, height: 30, }
+                                    }}
+
+                                    position={
+                                        {
+                                            lat: Number(lati),
+                                            lng: Number(lang)
+                                        }
+                                    }
+                                    animation={2}
+                                />
+                            </GoogleMap>
+                        </LoadScript>
+                        <button className='sendInfoMap'>
+                            Bağla
+                        </button>
+                    </div>
+                </div>
+                {/* info popup */}
+                <div className='infoPopup openUpdatedPopup'>
+                    <div className='info__WrapperModal'>
+                        <button className='closeModal' onClick={(event) => {
+                            document.querySelector('.openUpdatedPopup').style.display = 'none'
+                        }}>
+                            x
+                            </button>
+                        <h4>Teslimat Unvani</h4>
+                        <div className='formBox'>
+                            <div className='formItem'>
+                                <span>Ad:</span>
+                                <Input type='text'
+                                    value={adress !== undefined ? adress.name : ''} />
+                            </div>
+                            <div className='formItem'>
+                                <span>Telefon:</span>
+                                <Input type='phone'
+                                    value={adress !== undefined ? adress.phone : ''}
+                                />
+                            </div>
+                            <div className='formItem fromLocate'>
+                                <span>Ünvan:</span>
+                                <Input type='text'
+                                    value={adress !== undefined ? adress.address : ''}
+                                />
+                            </div>
+                            <div className='formItem'>
+                                <span>Xəritədə göstər:</span>
+                                <p className='showPin'>
+                                    <img src={require('../../images/newPin.png').default} alt='' />
+                                </p>
+                            </div>
+                            <div className='formItem'>
+                                <span>Şəhər:</span>
+                                <Input type='text'
+                                    value={adress !== undefined ? adress.city.data.name : ''}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {
-                    isLoading === false && (
+                    isLoading === false && data != undefined && (
                         data.data.map((item, index) => (
                             <div className='orderLogin__info' key={index}>
                                 <div className='orderLogin__top'>
@@ -182,12 +343,21 @@ const LoginOrder = () => {
                                         }
                                     </Row>
                                     <div className='order__buttonBox'>
-                                        <NavLink to={''}>
+                                        <NavLink
+                                            data-index={index}
+                                            to={'#'}
+                                            onClick={(event) => {
+                                                document.querySelector('.openUpdatedPopup').style.display = 'block';
+                                                setAdress(isLoading === false && data !== undefined && (data.data[event.target.getAttribute('data-index')].address.data))
+                                                setLati(isLoading === false && data !== undefined && (data.data[event.target.getAttribute('data-index')].address.data.lat))
+                                                setLang(isLoading === false && data !== undefined && (data.data[event.target.getAttribute('data-index')].address.data.lang))
+                                            }}
+                                        >
                                             TƏSLİMAT ÜNVANI
                                         </NavLink>
-                                        <NavLink to={''}>
+                                        {/* <NavLink to={'#'}>
                                             SİFARİŞİ QIYMƏTLƏNDİR
-                                        </NavLink>
+                                        </NavLink> */}
                                     </div>
                                 </div>
                             </div>
@@ -195,14 +365,6 @@ const LoginOrder = () => {
                     )
                 }
             </Container>
-
-            <div id='map'>
-                {
-                    settings.isLoading === false && (
-                        <Map locations={locate} />
-                    )
-                }
-            </div>
         </main >
     );
 }

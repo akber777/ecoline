@@ -95,8 +95,13 @@ export function capitalize(word) {
 
 export const checkedUrl = (type) => {
 
+
     if (type.type === 'url') {
         return type.url
+    }
+    else if (type.type === 'header') {
+
+        return '#'
     }
     else if (type.type === 'static-page') {
         return `/${type.reference}`

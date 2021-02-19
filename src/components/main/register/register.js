@@ -43,7 +43,6 @@ import { useRecoilValue } from 'recoil';
 
 // sweet alert
 import swal from 'sweetalert';
-import { func } from 'prop-types';
 
 
 

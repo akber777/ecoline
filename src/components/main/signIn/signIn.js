@@ -93,7 +93,7 @@ const SignIn = () => {
 
 
 
-    const locate = settings.isLoading === false && (
+    const locate = settings.isLoading === false && settings.data !== undefined && (
         settings.data.data.map_location.map(item => (
             [
                 Number(item.lat),

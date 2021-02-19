@@ -62,7 +62,6 @@ const Location = () => {
     }
 
 
-
     // settings
     let settings = useQuery(['settings', ''], async () => {
 
@@ -72,8 +71,6 @@ const Location = () => {
     }, {
         refetchOnWindowFocus: false
     })
-
-
 
 
     const locate = settings.isLoading === false && (
@@ -88,9 +85,6 @@ const Location = () => {
 
     let [updatedPage, setUpdatedPage] = useState(true)
 
-
-
-
     let { data, isLoading } = useQuery(['infoLocation'], async (key) => {
 
         const res = axios.get(baseUrl + 'selectable?include=cities')
@@ -102,15 +96,15 @@ const Location = () => {
     })
 
 
-
-
     let [id, setId] = useState(null)
     let [name, setName] = useState()
     let [phone, setPhone] = useState()
     let [address, setAddress] = useState()
-    let [city_id, setCity] = useState(isLoading === false && (data.data.data.cities.data[0].name))
+    let [city_id, setCity] = useState(isLoading === false && data!==undefined&&(data.data.data.cities.data[0].id))
     let [lati, setLati] = useState(40.34126114625568)
     let [lang, setLang] = useState(48.83849702929688)
+    let [checkedCity, setCheckedCity] = useState()
+
 
 
 
@@ -124,9 +118,31 @@ const Location = () => {
         id: id
     }
 
-
     // register
-    const mutationAdd = useMutation(up => axios.post(baseUrl + 'address/add', up))
+    const mutationAdd = useMutation(add => axios.post(baseUrl + 'address/add', add),{
+        onSuccess:function(succ){
+            
+            if(succ.status===200)
+            {
+                setId(null);
+                setName(null);
+                setPhone(null);
+                setAddress(null);
+                setLang(null);
+                setLati(null);
+                $('.openAddPopup input').val('');   
+            }
+        },
+        onError:function(error){
+          
+            swal({
+                title: "Inputlari Doldurmaniz Lazimdir!",
+                icon: "error",
+                button: "Bağla",
+            });
+            
+        }
+    })
 
     const mutationUpdated = useMutation(update => axios.put(baseUrl + 'address', update), {
         onSuccess: function (succ) {
@@ -137,7 +153,6 @@ const Location = () => {
             }
         }
     })
-
 
 
     let addressApi = useQuery(['addressApi', mutationUpdated.data, mutationAdd.data], async (key) => {
@@ -152,10 +167,9 @@ const Location = () => {
     })
 
 
-    let [allOder, setOrder] = useRecoilState(order)
+    let [allOder, setOrder] = useRecoilState(order);
 
-    let orderValue = useRecoilValue(order)
-
+    let orderValue = useRecoilValue(order);
 
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
@@ -173,7 +187,9 @@ const Location = () => {
 
 
             $('.changeInfo').show();
+            
             $('.changeInfo').find('input').prop('checked', false);
+
             $('.changeInfo').next().css({
                 opacity: 0
             })
@@ -214,6 +230,7 @@ const Location = () => {
 
         })
 
+        
         $('.sendInfoMap').on('click', function () {
 
             $('.infoPopup').css({
@@ -225,28 +242,34 @@ const Location = () => {
 
         })
 
+        
         $('.showPin').on('click', function () {
 
             $('.openMapPopup').show();
+
 
             $('.infoPopup').css({
                 opacity: 0,
                 zIndex: -1
             })
 
+
             $('.openMapPopup').css({
                 opacity: 1,
                 zIndex: 5555
             })
+
         })
 
         $('.closeModalMap').on('click', function () {
 
+            
             $('.infoPopup').css({
                 opacity: 1,
                 zIndex: 55555
             })
 
+            
             $('.openMapPopup').hide();
 
         })
@@ -261,7 +284,7 @@ const Location = () => {
     const [state, setState] = useState({
         showingInfoWindow: false,
         activeMarker: '',
-        zoomMap: 8,
+        zoomMap: 7,
         selectedPlace: '',
         center:
         {
@@ -424,16 +447,20 @@ const Location = () => {
                                             <span>Şəhər:</span>
                                             <select
                                                 onChange={(event) => {
-                                                    setCity(event.target.value)
-
+                                                    setCity(parseInt(event.target.value))
+                                                    
                                                 }}
                                             >
                                                 {
                                                     isLoading === false && data !== undefined && (
 
                                                         data.data.data.length !== 0 && (
-                                                            data.data.data.cities.data.map(item => (
-                                                                <option key={item.id}
+                                                            data.data.data.cities.data.map((item,index) => (
+                                                                <option 
+                                                                    key={item.id}
+                                                                    value={item.id}
+                                                                    defaultValue={city_id}
+                                                                    selected={checkedCity!==undefined && item.id===checkedCity.city.data.id ? 'selected' : ''}
                                                                 >
                                                                     {
                                                                         item.name
@@ -503,8 +530,7 @@ const Location = () => {
                                             <span>Şəhər:</span>
                                             <select
                                                 onChange={(event) => {
-                                                    setCity(event.target.value)
-
+                                                    setCity(parseInt(event.target.value))
                                                 }}
                                             >
                                                 {
@@ -512,7 +538,9 @@ const Location = () => {
 
                                                         data.data.data.length !== 0 && (
                                                             data.data.data.cities.data.map(item => (
-                                                                <option key={item.id}
+                                                                <option
+                                                                    key={item.id}
+                                                                    value={item.id}
                                                                 >
                                                                     {
                                                                         item.name
@@ -557,11 +585,9 @@ const Location = () => {
                                                         setName(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].name : '')
                                                         setPhone(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].phone : '')
                                                         setAddress(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].address : '')
-                                                        setCity(isLoading === false ? data.data.data.cities.data[1].name : '')
+                                                        setCheckedCity(isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')] : '')
                                                         setLang(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lang : '')
                                                         setLati(addressApi.isLoading === false ? addressApi.data.data.data[event.target.getAttribute('data-index')].lat : '')
-
-                                                        console.log(lati)
                                                     }}>
                                                     </p>
                                                 </div>

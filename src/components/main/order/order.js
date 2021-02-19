@@ -176,6 +176,8 @@ const Order = () => {
     });
 
 
+    let mathEmp = []
+
     useLayoutEffect(() => {
 
         $('.oder__content nav').css({
@@ -189,9 +191,33 @@ const Order = () => {
             position: 'sticky',
             bottom: 0,
             zIndex: 5555,
-            backgroundColor:'#fff',
-            padding:15
+            backgroundColor: '#fff',
+            padding: 15
         })
+
+
+        $.each($('.order__itemBox strong'), function (index, item) {
+
+            mathEmp.push($(item).height())
+
+
+        })
+
+
+        if (mathEmp.length !== 0) {
+            $.each($('.order__itemBox strong'), function (index, item) {
+
+                $(item).css({
+                    height:Math.max(...mathEmp)
+                })
+
+
+            })
+
+        }
+
+
+
 
     }, [data])
 
@@ -222,7 +248,7 @@ const Order = () => {
                                             <Row>
                                                 {
                                                     item.products.data.map(pro => (
-                                                        <Col md='6' lg='2' key={pro.id}>
+                                                        <Col xs='4' lg='2' key={pro.id}>
                                                             <div className='order__itemBox'>
                                                                 <div className='order__itemBox--img'>
                                                                     <img src={pro.img !== null && pro.img.length !== 0 ? pro.img.order : ''} alt='' />

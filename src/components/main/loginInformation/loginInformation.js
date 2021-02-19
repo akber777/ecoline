@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 // css
 
@@ -11,14 +11,14 @@ import './css/_info.scss';
 import { NavLink, useHistory } from 'react-router-dom';
 
 // reactstrap
-import { Container } from 'reactstrap';
+import { Container, Input } from 'reactstrap';
 
 // component
 import Map from '../map/map';
 
 
 // query
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 
 // baseUrl
 import { baseUrl } from '../../api/api';
@@ -30,11 +30,20 @@ import axios from 'axios';
 
 import { user } from '../../queries/queries';
 
+// swal
+import swal from 'sweetalert';
+
+// react i18
+import { useTranslation } from 'react-i18next';
+
 
 const LoginInformation = () => {
 
 
     let history = useHistory()
+
+
+    let { t } = useTranslation()
 
     // settings
     let settings = useQuery(['settings', ''], async () => {
@@ -45,6 +54,7 @@ const LoginInformation = () => {
     }, {
         refetchOnWindowFocus: false,
     })
+
 
 
 
@@ -61,17 +71,66 @@ const LoginInformation = () => {
 
     // user information
 
-    let { data, isLoading } = useQuery(['user', ''], user, {
-        refetchOnWindowFocus: false,
-        cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000
+    const mutation = useMutation(update => axios.put(baseUrl + 'user', update), {
+        onSuccess: function (succ) {
+
+            if (succ.status === 200) {
+                swal({
+                    title: t('alert'),
+                    icon: "success",
+                    button: "Bağla",
+                });
+
+                localStorage.removeItem('user');
+                localStorage.setItem('user',JSON.stringify(params))
+            }
+
+        }
+
     })
 
+
+    let [name, setName] = useState()
+    let [surname, setSurname] = useState()
+    let [phone, setPhone] = useState()
+    let [email, setEmail] = useState()
+
+    let params = {
+        name: name,
+        surname: surname,
+        phone: phone,
+        email: email,
+
+    }
+
+
+    let { data } = useQuery(['user', '', mutation.data], user, {
+        refetchOnWindowFocus: false,
+        cacheTime: localStorage.getItem('token') && localStorage.getItem('user') === null ? 0 : 5000,
+    })
 
     if (localStorage.getItem('token') === null) {
         history.push({
             pathname: '/signin'
         })
+
     }
+
+
+    useLayoutEffect(() => {
+
+        if (data !== undefined) {
+            setName(data.data.name)
+            setSurname(data.data.surname)
+            setPhone(data.data.phone)
+            setEmail(data.data.email)
+        }
+
+    }, [data])
+
+
+
+
 
     return (
         <main className='info'>
@@ -112,19 +171,35 @@ const LoginInformation = () => {
                     <div className='formBox'>
                         <div className='formItem'>
                             <span>Ad:</span>
-                            <input value={isLoading === false ? (data.data.name) : ''} />
+                            <Input value={name}
+                                onChange={(event) => {
+                                    setName(event.target.value)
+                                }}
+                            />
                         </div>
                         <div className='formItem'>
                             <span>Soyad:</span>
-                            <input value={isLoading === false ? (data.data.surname) : ''} />
+                            <input value={surname}
+                                onChange={(event) => {
+                                    setSurname(event.target.value)
+                                }}
+                            />
                         </div>
                         <div className='formItem'>
                             <span>Telefon:</span>
-                            <input value={isLoading === false ? (data.data.phone) : ''} />
+                            <Input value={phone}
+                                onChange={(event) => {
+                                    setPhone(event.target.value)
+                                }}
+                            />
                         </div>
                         <div className='formItem'>
                             <span>E mail:</span>
-                            <input value={isLoading === false ? (data.data.email) : ''} />
+                            <input value={email}
+                                onChange={(event) => {
+                                    setEmail(event.target.value)
+                                }}
+                            />
                         </div>
                         {/* <div className='formItem'>
                             <span>Dogum tarixi:</span>
@@ -136,7 +211,11 @@ const LoginInformation = () => {
                         </div> */}
                     </div>
                     <div className='login__sendBtn infoSend'>
-                        <button>
+                        <button
+                            onClick={() => {
+                                mutation.mutate(params)
+                            }}
+                        >
                             YADDA SAXLA
                         </button>
                     </div>

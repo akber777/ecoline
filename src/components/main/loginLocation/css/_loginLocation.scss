@@ -90,6 +90,10 @@
             margin-bottom: 25px;
             color: #8cbd29;
             font-weight: bold;
+
+            @media (max-width: 575px) {
+                font-size: 20px;
+            }
         }
 
         @media (max-width: 575px) {
@@ -108,10 +112,13 @@
         border: none;
 
         @media (max-width: 575px) {
-            right: 24px;
-            top: 5px;
+            right: 18px;
+            top: 2px;
             color: #3d3d3d;
+            font-size: 24px;
         }
+
+        
     }
 
     .sendInfo {

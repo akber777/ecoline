@@ -220,6 +220,10 @@
         flex-direction: column;
         padding-top: 42px;
 
+        a {
+            color: #8cbd29;
+        }
+
         > a {
             position: relative;
             width: 100%;
@@ -270,7 +274,7 @@
         position: absolute;
         right: 0;
         width: 200px;
-        min-height: 200px;
+        min-height: 100px;
         height: auto;
         background: #fff;
         z-index: 555;
@@ -294,8 +298,31 @@
         }
     }
 
-
-    .noHover{
+    .noHover {
         background-color: transparent !important;
+    }
+
+    .noHoverMob {
+        background-color: transparent !important;
+
+        a {
+            color: #3d3d3d !important;
+        }
+    }
+
+    &__navGetMobile {
+        display: none;
+        position:fixed;
+        bottom: 25px;
+        right: 10px;
+        z-index: 111;
+        
+        a{
+            height: 30px !important;
+        }
+
+        @media (max-width: 500px) {
+            display: block;
+        }
     }
 }

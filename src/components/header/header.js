@@ -67,30 +67,32 @@ const Header = () => {
         }
 
 
-        $.each($('.header__subItem'), function (index, item) {
+        $.each($('header__navList .header__subItem'), function (index, item) {
 
             $(item).parents('a').addClass('noHover')
 
             if ($(item).find('a').hasClass('active') === true) {
-
                 $(item).parents('a').css({
                     color: '#8cbd29'
                 })
+
             } else {
                 $(item).parents('a').css({
                     color: '#3d3d3d'
                 })
             }
 
-
             $(item).parents('a').removeClass('activeItem')
 
         })
 
 
-        $('.headerMobileMenu > a').on('click', function () {
-            $('.headerMobWrap ').removeClass('openMenu')
-        })
+        $('.headerMobileMenu a').removeClass('noHover')
+
+
+        // $('.headerMobileMenu > a').on('click', function () {
+        //     $('.headerMobWrap ').removeClass('openMenu');
+        // })
 
     }, [data])
 
@@ -110,7 +112,7 @@ const Header = () => {
         }
 
 
-        $.each($('.header__subItem'), function (index, item) {
+        $.each($(' .header__subItem'), function (index, item) {
 
             $(item).parents('a').addClass('noHover')
 
@@ -118,7 +120,7 @@ const Header = () => {
                 $(item).parents('a').css({
                     color: '#8cbd29'
                 })
-                
+
             } else {
                 $(item).parents('a').css({
                     color: '#3d3d3d'
@@ -128,6 +130,8 @@ const Header = () => {
             $(item).parents('a').removeClass('activeItem')
         })
 
+
+        $('.headerMobileMenu a').removeClass('noHover')
     })
 
 
@@ -268,7 +272,23 @@ const Header = () => {
                     </nav>
                 </Container>
             </div>
-        </header>
+            <div className='header__navGetMobile header__navGet' style={{
+                display: pathname.split('/')[1] === 'order' ||
+                    pathname.split('/')[1] === 'ordercomplete'||
+                    pathname.split('/')[1] === 'payment'
+
+                    ? 'none' : 'block'
+            }}>
+                {
+                    console.log(pathname.split('/')[1])
+                }
+                <NavLink to={'/order'}>
+                    {
+                        t('sifaris')
+                    }
+                </NavLink>
+            </div>
+        </header >
     );
 }
 

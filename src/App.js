@@ -77,6 +77,9 @@ import { SetToken } from './components/api/token';
 import NotFound from './components/main/404/404';
 
 
+// seo helmet
+import HelmetApp from './components/helmet/helmet';
+
 
 
 function App() {
@@ -94,11 +97,13 @@ function App() {
 
   SetToken()
 
+
   return (
     <div className="App">
       <Resize />
       <Header />
       <OpenMenu />
+      <HelmetApp />
       <Switch>
         {
           pathname.split('/')[1] !== '' &&

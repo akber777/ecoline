@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 
 // css
 
@@ -35,6 +35,16 @@ import { checkedUrl } from '../helper/helper';
 // jquery
 import $ from 'jquery';
 
+// react helmet
+import { Helmet } from "react-helmet";
+
+// recoil
+import {
+    useRecoilState,
+} from 'recoil';
+
+// atoms
+import { titleHelmet } from '../atoms/atoms';
 
 const Header = () => {
 
@@ -135,6 +145,7 @@ const Header = () => {
     })
 
 
+    let [titleHel, setTitle] = useRecoilState(titleHelmet)
 
 
     return (
@@ -237,20 +248,27 @@ const Header = () => {
                                                 className={
                                                     checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''
                                                 }
+                                                onClick={()=>{
+                                                    setTitle(item.title)
+                                                }}
                                             >
                                                 {
                                                     item.title
                                                 }
                                                 {
-                                                    item.items !== undefined ? item.items.map((subitem, indexSub) => (
+                                                    item.items !== undefined ?
                                                         <div className='header__subItem'>
-                                                            <NavLink to={checkedUrl(subitem)} key={indexSub}>
-                                                                {
-                                                                    subitem.title
-                                                                }
-                                                            </NavLink>
+                                                            {
+                                                                item.items.map((subitem, indexSub) => (
+                                                                    <NavLink to={checkedUrl(subitem)} key={indexSub}>
+                                                                        {
+                                                                            subitem.title
+                                                                        }
+                                                                    </NavLink>
+                                                                ))
+                                                            }
                                                         </div>
-                                                    ))
+
                                                         :
                                                         ''
                                                 }

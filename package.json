@@ -30,6 +30,7 @@
     "react-dom": "^17.0.1",
     "react-google-map": "^3.1.1",
     "react-google-maps": "^9.4.5",
+    "react-helmet": "^6.1.0",
     "react-i18next": "^11.8.6",
     "react-multi-carousel": "^2.6.1",
     "react-query": "^3.5.16",

@@ -100,7 +100,7 @@ const Location = () => {
     let [name, setName] = useState()
     let [phone, setPhone] = useState()
     let [address, setAddress] = useState()
-    let [city_id, setCity] = useState(isLoading === false && data!==undefined&&(data.data.data.cities.data[0].id))
+    let [city_id, setCity] = useState()
     let [lati, setLati] = useState(40.34126114625568)
     let [lang, setLang] = useState(48.83849702929688)
     let [checkedCity, setCheckedCity] = useState()
@@ -124,12 +124,12 @@ const Location = () => {
             
             if(succ.status===200)
             {
-                setId(null);
-                setName(null);
-                setPhone(null);
-                setAddress(null);
-                setLang(null);
-                setLati(null);
+                setId();
+                setName();
+                setPhone();
+                setAddress();
+                setLang();
+                setLati();
                 $('.openAddPopup input').val('');   
             }
         },
@@ -149,7 +149,7 @@ const Location = () => {
 
             if (succ.status===200)
             {
-                $('.formItem input').val('')
+                $('.formItem input').val('');
             }
         }
     })
@@ -174,6 +174,8 @@ const Location = () => {
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
     useLayoutEffect(() => {
+
+        setCity(isLoading === false && data!==undefined&&(data.data.data.cities.data[0].id))
 
         $('.changeInfo').on('click', function () {
 
@@ -629,7 +631,7 @@ const Location = () => {
                             </NavLink>
                             <NavLink to={orderValue !== null ? (orderValue.address_id === null ? '/location' : '/payment') :'/location'}>
                                 <button className='success' onClick={()=>{
-                                    if (orderValue === null) {
+                                    if (orderValue===null) {
                                         swal({
                                             title: "Seçim etməmisiniz!",
                                             icon: "error",

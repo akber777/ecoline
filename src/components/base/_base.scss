@@ -106,6 +106,16 @@ img[src^='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABbCAYAAADOZvPBAAAA
 .newsSelf {
     min-height: 700px;
 }
-.swal-button{
+.swal-button {
     background-color: #8cbd29;
+}
+
+.staticH4 {
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }

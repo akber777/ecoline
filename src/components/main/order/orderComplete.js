@@ -119,7 +119,7 @@ const OrderComplete = () => {
 
                 }
 
-                event.target.parentNode.parentNode.children[2].children[1].textContent = endRes[0].count * Number(endRes[0].price)
+                event.target.parentNode.parentNode.children[3].children[1].textContent = endRes[0].count * Number(endRes[0].price)
             }
         }
     }
@@ -147,7 +147,7 @@ const OrderComplete = () => {
             endRes[0].count++
             localStorage.setItem('items', JSON.stringify(product))
             setMyBasket(JSON.parse(localStorage.getItem('items')))
-            event.target.parentNode.parentNode.children[2].children[1].textContent = endRes[0].count * Number(endRes[0].price)
+            event.target.parentNode.parentNode.children[3].children[1].textContent = endRes[0].count * Number(endRes[0].price)
 
             if (endRes !== 0) {
                 event.target.nextElementSibling.style.display = 'block'
@@ -173,7 +173,7 @@ const OrderComplete = () => {
     const reducer = (accumulator, currentValue) => round10(accumulator + currentValue, -1);
 
 
-    let mathEmp=[]
+    let mathEmp = []
 
     useLayoutEffect(() => {
 
@@ -385,7 +385,7 @@ const OrderComplete = () => {
                                                 </div>
                                             </div>
                                             <strong>{pro.name}</strong>
-                                            {/* <span>{item.name}</span> */}
+                                            <span>{pro.category}</span>
                                             <div className='flex'>
                                                 <p className='priceBtn'>
                                                     <span style={{ width: 100 + '%' }}>

@@ -38,7 +38,10 @@ import axios from 'axios';
 import Carousel from 'react-multi-carousel';
 
 
+
+
 const Home = () => {
+
 
 
     const responsive = {
@@ -110,9 +113,13 @@ const Home = () => {
 
 
 
+
     let category = useQuery(['category', ''], categories, {
         refetchOnWindowFocus: false
     })
+
+
+
 
 
 

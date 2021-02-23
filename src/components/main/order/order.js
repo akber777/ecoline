@@ -201,14 +201,18 @@ const Order = () => {
             mathEmp.push($(item).height())
 
 
+
         })
 
 
         if (mathEmp.length !== 0) {
+
+
+
             $.each($('.order__itemBox strong'), function (index, item) {
 
                 $(item).css({
-                    height:Math.max(...mathEmp)
+                    height: Math.max(...mathEmp)
                 })
 
 
@@ -258,6 +262,7 @@ const Order = () => {
                                                                             img: pro.img !== null ? pro.img.order : '',
                                                                             name: pro.name,
                                                                             price: pro.price,
+                                                                            category: item.name,
                                                                             count: 0
                                                                         }, event)
                                                                     }}>
@@ -269,6 +274,7 @@ const Order = () => {
                                                                             img: pro.img !== null ? pro.img.order : '',
                                                                             price: pro.price,
                                                                             name: pro.name,
+                                                                            category: item.name,
                                                                             count: 1
                                                                         }, event)
                                                                     }}>
@@ -284,7 +290,7 @@ const Order = () => {
                                                                     </div>
                                                                 </div>
                                                                 <strong>{pro.name}</strong>
-                                                                <span>{item.name}</span>
+                                                                {/* <span>{item.name}</span> */}
                                                                 <div className='flex'>
                                                                     <p className='priceBtn'>
                                                                         <span>

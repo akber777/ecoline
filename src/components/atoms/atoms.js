@@ -31,6 +31,12 @@ export let error = atom({
 
 
 export let mapCoor = atom({
-    ket: 'mapCoordinates',
+    key: 'mapCoordinates',
+    default: null
+})
+
+
+export let titleHelmet = atom({
+    key: 'titleHelmet',
     default: null
 })

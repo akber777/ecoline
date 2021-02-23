@@ -106,8 +106,9 @@ const LoginLocation = () => {
     let [address, setAddress] = useState()
     let [lati, setLati] = useState(40.34126114625568)
     let [lang, setLang] = useState(48.83849702929688)
-    let [city_id, setCity] = useState(isLoading === false && data!==undefined&&(data.data.data.cities.data[0].id))
+    let [city_id, setCity] = useState()
     let [checkedCity, setCheckedCity] = useState()
+
 
 
 
@@ -124,6 +125,9 @@ const LoginLocation = () => {
 
 
     useLayoutEffect(() => {
+
+        setCity(isLoading === false && data !== undefined && (data.data.data.cities.data[0].id))
+
         $('.sendInfo').on('click', function () {
 
             $('.infoPopup').hide()

@@ -29,6 +29,9 @@ import { checkType } from '../../helper/helper';
 
 const Static = () => {
 
+
+
+
     useLayoutEffect(() => {
 
         window.scrollTo({
@@ -77,7 +80,7 @@ const Static = () => {
             <div className='rules__banner' style={{ backgroundImage: `url(${require('../../images/rules.png').default})` }}>
                 {/* <img src={require('../../images/rules.png').default} alt='' /> */}
                 <Container>
-                    <h4 className='rules__title'>
+                    <h4 className='rules__title staticH4'>
                         {
                             isLoading === false && data !== undefined && data.data.length !== 0 && (
                                 data.data.viewBag.title
@@ -91,11 +94,11 @@ const Static = () => {
                     {
                         isLoading === false && data !== undefined && (
                             <>
-                                <h4>
+                                {/* <h4>
                                     {
                                         data.data.viewBag.title
                                     }
-                                </h4>
+                                </h4> */}
                                 {
                                     checkType(data.data.markup)
                                 }

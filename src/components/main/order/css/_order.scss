@@ -26,10 +26,11 @@
             img {
                 height: 195px;
                 width: 100%;
+                object-fit: contain;
 
-                @media (max-width: 575px) {
-                    object-fit: contain;
-                }
+                // @media (max-width: 575px) {
+                //     object-fit: contain;
+                // }
             }
 
             .show {

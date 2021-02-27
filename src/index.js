@@ -31,12 +31,8 @@ import {
 import './components/i18next/i18n';
 
 
-
-
-
-
-
 let client = new QueryClient()
+
 
 ReactDOM.render(
   <React.StrictMode>

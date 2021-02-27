@@ -40,10 +40,11 @@ import { useTranslation } from 'react-i18next';
 const LoginInformation = () => {
 
 
-    let history = useHistory()
+    let history = useHistory();
 
+    let [refresh, setRefresh] = useState()
 
-    let { t } = useTranslation()
+    let { t } = useTranslation();
 
     // settings
     let settings = useQuery(['settings', ''], async () => {
@@ -76,13 +77,14 @@ const LoginInformation = () => {
 
             if (succ.status === 200) {
                 swal({
-                    title: t('alert'),
+                    title: t('Profil Məlumatlarınız Yeniləndi'),
                     icon: "success",
                     button: "Bağla",
                 });
 
+
                 localStorage.removeItem('user');
-                localStorage.setItem('user',JSON.stringify(params))
+                localStorage.setItem('user', JSON.stringify(params))
             }
 
         }
@@ -138,7 +140,9 @@ const LoginInformation = () => {
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
                     <h4 className='rules__title'>
-                        ONLİNE SİFARİŞ
+                        {
+                            t('ONLİNE SİFARİŞ')
+                        }
                     </h4>
                 </Container>
             </div>
@@ -146,16 +150,24 @@ const LoginInformation = () => {
                 <div className='info__top'>
                     <div className='info__topItem'>
                         <NavLink to={'/loginorder'}>
-                            Sifarişlərim
+                            {
+                                t('Sifarişlərim')
+                            }
                         </NavLink>
                         <NavLink to={'/loginlocation'}>
-                            Ünvanlarım
+                            {
+                                t('Ünvanlarım')
+                            }
                         </NavLink>
                         <NavLink to={'/logininformation'} className='activeMenu'>
-                            Məlumatlarım
+                            {
+                                t('Məlumatlarım')
+                            }
                         </NavLink>
                         <NavLink to={'/passwordupdate'}>
-                            Şifrəni yenilə
+                            {
+                                t('Şifrəni yenilə')
+                            }
                         </NavLink>
                         <NavLink to={'/index'}
                             onClick={() => {
@@ -163,14 +175,20 @@ const LoginInformation = () => {
                                 localStorage.removeItem('user')
                             }}
                         >
-                            Çıxış
+                            {
+                                t('Çıxış')
+                            }
                         </NavLink>
                     </div>
                 </div>
                 <div className='info__content'>
                     <div className='formBox'>
                         <div className='formItem'>
-                            <span>Ad:</span>
+                            <span>
+                                {
+                                    t('Ad')
+                                }
+                            </span>
                             <Input value={name}
                                 onChange={(event) => {
                                     setName(event.target.value)
@@ -178,7 +196,11 @@ const LoginInformation = () => {
                             />
                         </div>
                         <div className='formItem'>
-                            <span>Soyad:</span>
+                            <span>
+                                {
+                                    t('Soyad')
+                                }
+                            </span>
                             <input value={surname}
                                 onChange={(event) => {
                                     setSurname(event.target.value)
@@ -186,7 +208,11 @@ const LoginInformation = () => {
                             />
                         </div>
                         <div className='formItem'>
-                            <span>Telefon:</span>
+                            <span>
+                                {
+                                    t('Telefon')
+                                }
+                            </span>
                             <Input value={phone}
                                 onChange={(event) => {
                                     setPhone(event.target.value)
@@ -194,7 +220,11 @@ const LoginInformation = () => {
                             />
                         </div>
                         <div className='formItem'>
-                            <span>E mail:</span>
+                            <span>
+                                {
+                                    t('Email')
+                                }
+                            </span>
                             <input value={email}
                                 onChange={(event) => {
                                     setEmail(event.target.value)
@@ -216,7 +246,9 @@ const LoginInformation = () => {
                                 mutation.mutate(params)
                             }}
                         >
-                            YADDA SAXLA
+                            {
+                                t('YADDA SAXLA')
+                            }
                         </button>
                     </div>
                 </div>

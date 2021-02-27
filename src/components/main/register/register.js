@@ -44,6 +44,9 @@ import { useRecoilValue } from 'recoil';
 // sweet alert
 import swal from 'sweetalert';
 
+// react i18
+import { useTranslation } from 'react-i18next';
+
 
 
 
@@ -54,7 +57,7 @@ const mapLocate = [
 
 const Login = () => {
 
-
+    const { t } = useTranslation();
 
 
     let [name, setName] = useState()
@@ -116,13 +119,19 @@ const Login = () => {
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
                     <h4 className='rules__title'>
-                        Login
+                        {
+                            t('Daxil ol')
+                        }
                     </h4>
                 </Container>
             </div>
             <div className='rules__content login__content'>
                 <Container>
-                    <h4>QEYDİYYATDAN KEÇ VƏ YA DAXİL OL</h4>
+                    <h4>
+                        {
+                            t('QEYDİYYATDAN KEÇ VƏ YA DAXİL OL')
+                        }
+                    </h4>
                     <div className='login__info'>
                         {/* <div className='login__social'>
                             <a href='2#'>
@@ -135,44 +144,50 @@ const Login = () => {
                             </a>
                         </div> */}
                         <div className='login__info'>
-                            <h4>XÜSUSİ QEYDİYYAT</h4>
+                            <h4>
+                                {
+                                    t('XÜSUSİ QEYDİYYAT')
+                                }
+                            </h4>
                             <div className='login__formBox'>
-                                <Input placeholder='AD' type='text'
+                                <Input placeholder={t('AD')} type='text'
                                     onChange={(event) => {
                                         setName(event.target.value)
                                     }}
                                 />
                                 <p className='alertLogin'>Ad Daxil Edin</p>
-                                <Input placeholder='SOYAD' type='text'
+                                <Input placeholder={t('SOYAD')} type='text'
                                     onChange={(event) => {
                                         setSurname(event.target.value)
                                     }}
                                 />
-                                <p className='alertLogin'>Soyad Daxil Edin</p>
-                                <Input placeholder='EMAIL' type='text'
+                                <p className='alertLogin'>{t('Soyad Daxil Edin')}</p>
+                                <Input placeholder={t('EMAIL')} type='text'
                                     onChange={(event) => {
                                         setEmail(event.target.value)
                                     }} />
-                                <p className='alertLogin'>Emaili Daxil Edin</p>
-                                <Input placeholder='ŞİFRƏ' type='password'
+                                <p className='alertLogin'>{t('Emaili Daxil Edin')}</p>
+                                <Input placeholder={t('ŞİFRƏ')} type='password'
                                     onChange={(event) => {
                                         setPassword(event.target.value)
                                     }}
                                 />
-                                <p className='alertLogin'>Şifrə Daxil Edin</p>
-                                <Input placeholder='ŞİFRƏ TƏKRAR' type='password'
+                                <p className='alertLogin'>{t('Şifrə Daxil Edin')}</p>
+                                <Input placeholder={t('ŞİFRƏ TƏKRAR')} type='password'
                                     onChange={(event) => {
                                         setPasswordRepeat(event.target.value)
                                     }}
                                 />
-                                <p className='alertLogin'>Şifrəni Təkrar Daxil Edin</p>
+                                <p className='alertLogin'>{t('Şifrəni Təkrar Daxil Edin')}</p>
                             </div>
                             <div className='login__formBoxEnd'>
                                 {/* <NavLink to={''}>
                                     ŞİFRƏMİ UNUTDUM
                                 </NavLink> */}
                                 <NavLink to={''}>
-                                    DAXİL OL
+                                    {
+                                        t('DAXİL OL')
+                                    }
                                 </NavLink>
                             </div>
                             <div className='login__sendBtn'>
@@ -204,7 +219,9 @@ const Login = () => {
 
                                     }}
                                 >
-                                    QEYDİYYAT
+                                    {
+                                        t('Qeydiyyat')
+                                    }
                                 </button>
                             </div>
                         </div>

@@ -184,27 +184,6 @@ const OrderComplete = () => {
         }
 
 
-
-        $.each($('.order__itemBox strong'), function (index, item) {
-
-            mathEmp.push($(item).height())
-
-
-        })
-
-
-        if (mathEmp.length !== 0) {
-            $.each($('.order__itemBox strong'), function (index, item) {
-
-                $(item).css({
-                    height: Math.max(...mathEmp)
-                })
-
-
-            })
-
-        }
-
     })
 
 

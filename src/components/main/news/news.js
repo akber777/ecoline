@@ -20,7 +20,12 @@ import { blogs } from '../../queries/queries';
 // react query
 import { useQuery } from 'react-query';
 
+// react i18
+import { useTranslation } from 'react-i18next';
+
 const News = () => {
+
+    const { t } = useTranslation();
 
 
     useLayoutEffect(() => {
@@ -43,9 +48,15 @@ const News = () => {
     return (
         <div className='home__news' data-aos="fade-down">
             <div className='title'>
-                <h4>XƏBƏRLƏR</h4>
+                <h4>
+                    {
+                        t('BLOGLAR')
+                    }
+                </h4>
                 <NavLink to={'/blogs'}>
-                    DAHA ÇOX XƏBƏR ÜÇÜN ...
+                    {
+                        t('DAHA ÇOX BLOG ÜÇÜN ...')
+                    }
                 </NavLink>
             </div>
             <div className='home__newsContent'>

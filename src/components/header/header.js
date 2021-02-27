@@ -35,9 +35,6 @@ import { checkedUrl } from '../helper/helper';
 // jquery
 import $ from 'jquery';
 
-// react helmet
-import { Helmet } from "react-helmet";
-
 // recoil
 import {
     useRecoilState,
@@ -205,7 +202,10 @@ const Header = () => {
                                 window.localStorage.getItem('token') === null ?
                                     <NavLink to={'/signin'}>
                                         <img src={require('../images/phone.png').default} alt='' />
-                                        Daxil ol <span>/</span>
+                                        {
+                                            t('Daxil ol')
+                                        }
+                                        <span>/</span>
                                     </NavLink>
                                     :
                                     <NavLink to={'/loginorder'}>
@@ -218,7 +218,7 @@ const Header = () => {
                                 window.localStorage.getItem('token') === null ?
                                     <NavLink to={'/register'}>
                                         {
-                                            t('qeydiyyatLogin')
+                                            t('Qeydiyyat')
                                         }
                                     </NavLink>
                                     :
@@ -231,7 +231,11 @@ const Header = () => {
             <div className='header__menuBox'>
                 <Container>
                     <nav className='header__nav'>
-                        <NavLink to={'/index'} className='navLogo'>
+                        <NavLink to={'/index'}
+                            className='navLogo'
+                            onClick={() => {
+                                setTitle('Homepage')
+                            }}>
                             <img src={require('../images/logoHeader.png').default} alt='' />
                         </NavLink>
                         <div className='header__navItem'>
@@ -248,7 +252,7 @@ const Header = () => {
                                                 className={
                                                     checkedUrl(item) === '/' + pathname.split('/')[1] ? 'activeItem' : ''
                                                 }
-                                                onClick={()=>{
+                                                onClick={() => {
                                                     setTitle(item.title)
                                                 }}
                                             >
@@ -282,7 +286,7 @@ const Header = () => {
                             <div className='header__navGet'>
                                 <NavLink to={'/order'}>
                                     {
-                                        t('sifaris')
+                                        t('QİYMƏTLƏR VƏ ONLINE SİFARİŞ')
                                     }
                                 </NavLink>
                             </div>
@@ -300,7 +304,7 @@ const Header = () => {
             }}>
                 <NavLink to={'/order'}>
                     {
-                        t('sifaris')
+                        t('QİYMƏTLƏR VƏ ONLINE SİFARİŞ')
                     }
                 </NavLink>
             </div>

@@ -21,9 +21,12 @@ import { useQuery } from 'react-query';
 // axios
 import axios from 'axios';
 
-
+// react i18
+import { useTranslation } from 'react-i18next';
 
 const WhyUs = (props) => {
+
+    const { t } = useTranslation()
 
     useLayoutEffect(() => {
         AOS.init({
@@ -53,12 +56,20 @@ const WhyUs = (props) => {
             {
                 isLoading === false && data.data.length !== 0 && data.data.viewBag.advantage !== undefined && data !== undefined && (
                     <div className='home__whyUs' data-aos="fade-down">
-                        <h4>BİZİ SEÇMƏYİNİZ ÜÇÜN BİR NEÇƏ SƏBƏB</h4>
+                        <h4>
+                            {
+                                t('BİZİ SEÇMƏYİNİZ ÜÇÜN BİR NEÇƏ SƏBƏB')
+                            }
+                        </h4>
                         <div className='home__whyUsWrapper' style={{ backgroundImage: `url(${require('../../images/bacj.png').default})` }}>
                             {/* <img src={require('../../images/bacj.png').default} alt='' /> */}
                             <Container>
                                 <div className='home__whyUsContent'>
-                                    <h4>DAHA ÇOX MƏLUMAT ALMAQ ÜÇÜN ...</h4>
+                                    <h4>
+                                        {
+                                            t('DAHA ÇOX MƏLUMAT ALMAQ ÜÇÜN ...')
+                                        }
+                                    </h4>
                                     <Row>
                                         {
                                             isLoading === false && data.data.length !== 0 && (

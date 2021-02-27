@@ -37,11 +37,13 @@ import axios from 'axios';
 // slider
 import Carousel from 'react-multi-carousel';
 
-
+// react i18
+import { useTranslation } from 'react-i18next';
 
 
 const Home = () => {
 
+    const { t } = useTranslation();
 
 
     const responsive = {
@@ -148,7 +150,9 @@ const Home = () => {
                                             {
                                                 item.url !== '' && item.url !== null && (
                                                     <a href={item.url}>
-                                                        SİFARİŞ
+                                                        {
+                                                            t('SİFARİŞ')
+                                                        }
                                                     </a>
                                                 )
                                             }
@@ -167,7 +171,7 @@ const Home = () => {
                         <div className='home__banner--left'>
                             <h4>
                                 Qeydiyyatdan keçin, ilk siparişinizdə 25% endirim qazanın!
-                        </h4>
+                            </h4>
                             <span>
                                 İlk 100 müştəriyə xüsusi endirim kuponu veriləcəkdir.
                         </span>
@@ -176,7 +180,9 @@ const Home = () => {
                             {
                                 localStorage.getItem('token') === null && localStorage.getItem('user') === null && (
                                     <NavLink to={'/register'}>
-                                        QEYDİYYAT
+                                        {
+                                            t('Qeydiyyat')
+                                        }
                                     </NavLink>
                                 )
                             }
@@ -188,7 +194,7 @@ const Home = () => {
                 category.isLoading === false && (
                     <>
                         <div className='home__priceContent'>
-                            <h4 className='title'>QİYMƏTLƏR VƏ ONLINE SİFARİŞ</h4>
+                            <h4 className='title'>{t('QİYMƏTLƏR VƏ ONLINE SİFARİŞ')}</h4>
                         </div>
                         <Price data={category.data} />
                     </>

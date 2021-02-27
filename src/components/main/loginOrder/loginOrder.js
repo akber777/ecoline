@@ -37,10 +37,15 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 // mapStyle
 import mapStyle from '../map/mapStyle';
 
+// react i18
+import { useTranslation } from 'react-i18next';
 
 const LoginOrder = () => {
 
-    let history = useHistory()
+    let history = useHistory();
+
+
+    const { t } = useTranslation();
 
     let { data, isLoading } = useQuery(['loginOrder', ''], loginOrder, {
         refetchOnWindowFocus: false,
@@ -161,7 +166,9 @@ const LoginOrder = () => {
                 <img src={require('../../images/rules.png').default} alt='' />
                 <Container>
                     <h4 className='rules__title'>
-                        ONLİNE SİFARİŞ
+                        {
+                            t('ONLİNE SİFARİŞ')
+                        }
                     </h4>
                 </Container>
             </div>
@@ -169,16 +176,24 @@ const LoginOrder = () => {
                 <div className='info__top'>
                     <div className='info__topItem'>
                         <NavLink to={'/loginorder'} className='activeMenu'>
-                            Sifarişlərim
+                            {
+                                t('Sifarişlərim')
+                            }
                         </NavLink>
                         <NavLink to={'/loginlocation'}>
-                            Ünvanlarım
+                            {
+                                t('Ünvanlarım')
+                            }
                         </NavLink>
                         <NavLink to={'/logininformation'}>
-                            Məlumatlarım
+                            {
+                                t('Məlumatlarım')
+                            }
                         </NavLink>
                         <NavLink to={'/passwordupdate'}>
-                            Şifrəni yenilə
+                            {
+                                t('Şifrəni yenilə')
+                            }
                         </NavLink>
                         <NavLink to={'/index'}
                             onClick={() => {
@@ -186,7 +201,9 @@ const LoginOrder = () => {
                                 localStorage.removeItem('user')
                             }}
                         >
-                            Çıxış
+                            {
+                                t('Çıxış')
+                            }
                         </NavLink>
                     </div>
                 </div>
@@ -198,7 +215,11 @@ const LoginOrder = () => {
                         }}>
                             x
                             </button>
-                        <h4>Xəritə</h4>
+                        <h4>
+                            {
+                                t('Xəritə')
+                            }
+                        </h4>
                         <LoadScript
                             googleMapsApiKey='AIzaSyANektuMKczEQdzMI82zHlFnMTVSmT55Vw'>
                             <GoogleMap
@@ -233,7 +254,9 @@ const LoginOrder = () => {
                             </GoogleMap>
                         </LoadScript>
                         <button className='sendInfoMap'>
-                            Bağla
+                            {
+                                t("Bağla")
+                            }
                         </button>
                     </div>
                 </div>
@@ -245,33 +268,57 @@ const LoginOrder = () => {
                         }}>
                             x
                             </button>
-                        <h4>Teslimat Unvani</h4>
+                        <h4>
+                            {
+                                t('TƏSLİMAT ÜNVANI')
+                            }
+                        </h4>
                         <div className='formBox'>
                             <div className='formItem'>
-                                <span>Ad:</span>
+                                <span>
+                                    {
+                                        t('Ad')
+                                    }
+                                </span>
                                 <Input type='text'
                                     value={adress !== undefined ? adress.name : ''} />
                             </div>
                             <div className='formItem'>
-                                <span>Telefon:</span>
+                                <span>
+                                    {
+                                        t('Telefon')
+                                    }
+                                </span>
                                 <Input type='phone'
                                     value={adress !== undefined ? adress.phone : ''}
                                 />
                             </div>
                             <div className='formItem fromLocate'>
-                                <span>Ünvan:</span>
+                                <span>
+                                    {
+                                        t('Ünvan')
+                                    }
+                                </span>
                                 <Input type='text'
                                     value={adress !== undefined ? adress.address : ''}
                                 />
                             </div>
                             <div className='formItem'>
-                                <span>Xəritədə göstər:</span>
+                                <span>
+                                    {
+                                        t('Xəritədə göstər')
+                                    }
+                                </span>
                                 <p className='showPin'>
                                     <img src={require('../../images/newPin.png').default} alt='' />
                                 </p>
                             </div>
                             <div className='formItem'>
-                                <span>Şəhər:</span>
+                                <span>
+                                    {
+                                        t('Şəhər')
+                                    }
+                                </span>
                                 <Input type='text'
                                     value={adress !== undefined ? adress.city.data.name : ''}
                                 />
@@ -295,7 +342,9 @@ const LoginOrder = () => {
                                         </span>
                                     </p>
                                     <p>
-                                        MƏHSUL:
+                                        {
+                                            t('MƏHSUL')
+                                        }
                                         <span>
                                             {
                                                 item.items.data.length + ' ədəd'
@@ -303,16 +352,20 @@ const LoginOrder = () => {
                                         </span>
                                     </p>
                                     <p>
-                                        QİYMƏT:
-                                    <span>
+                                        {
+                                            t('QİYMƏT')
+                                        }
+                                        <span>
                                             {
                                                 item.amount
                                             }
                                         </span>
                                     </p>
                                     <p>
-                                        STATUS:
-                                    <span>
+                                        {
+                                            t('STATUS')
+                                        }
+                                        <span>
                                             Təhvil verildi
                                     </span>
                                     </p>
@@ -327,7 +380,7 @@ const LoginOrder = () => {
                                                             <img src={product.product.data.img !== null && product.product.data.img.length !== 0 ? product.product.data.img.order : ''} alt='' />
                                                         </div>
                                                         <strong>{product.product.data.name}</strong>
-                                                        <span>qısa</span>
+                                                        {/* <span>qısa</span> */}
                                                         <div className='flex'>
                                                             <p className='priceBtn'>
                                                                 <span data-minus="-20%">
@@ -353,7 +406,9 @@ const LoginOrder = () => {
                                                 setLang(isLoading === false && data !== undefined && (data.data[event.target.getAttribute('data-index')].address.data.lang))
                                             }}
                                         >
-                                            TƏSLİMAT ÜNVANI
+                                            {
+                                                t('TƏSLİMAT ÜNVANI')
+                                            }
                                         </NavLink>
                                         {/* <NavLink to={'#'}>
                                             SİFARİŞİ QIYMƏTLƏNDİR

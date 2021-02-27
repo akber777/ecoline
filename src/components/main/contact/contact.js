@@ -30,9 +30,12 @@ import swal from 'sweetalert';
 // jquery
 import $ from 'jquery';
 
+// react i18
+import { useTranslation } from 'react-i18next';
+
 const Contact = () => {
 
-
+    const { t } = useTranslation()
 
 
     // settings
@@ -125,31 +128,35 @@ const Contact = () => {
         <main className='contact'>
             <Container>
                 <div className="container">
-                    <h1>ƏLAQƏ</h1>
+                    <h1>
+                        {
+                            t('ƏLAQƏ')
+                        }
+                    </h1>
                     <div id="contact" action="" method="post">
                         <fieldset>
-                            <input placeholder="Ad" type="text" tabIndex="1" required autoFocus
+                            <input placeholder={t('Ad')} type="text" tabIndex="1" required autoFocus
                                 onChange={(event) => {
                                     setName(event.target.value)
                                 }}
                             />
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Soyad" type="email" tabIndex="2" required
+                            <input placeholder={t('SOYAD')} type="email" tabIndex="2" required
                                 onChange={(event) => {
                                     setSurname(event.target.value)
                                 }}
                             />
                         </fieldset>
                         <fieldset>
-                            <input placeholder="Nömrə" type="tel" className='noString' tabIndex="3" required
+                            <input placeholder={t('NÖMRƏ')} type="tel" className='noString' tabIndex="3" required
                                 onChange={(event) => {
                                     setPhone(event.target.value)
                                 }}
                             />
                         </fieldset>
                         <fieldset>
-                            <textarea placeholder="Mesajınız...." tabIndex="5" required
+                            <textarea placeholder={t('Mesajınız...')} tabIndex="5" required
                                 onChange={(event) => {
                                     setContent(event.target.value)
                                 }}
@@ -161,7 +168,11 @@ const Contact = () => {
                                     mutation.mutate(params)
                                 }}
 
-                            >Gonder</button>
+                            >
+                                {
+                                    t('GÖNDƏR')
+                                }
+                            </button>
                         </fieldset>
                     </div>
                 </div>

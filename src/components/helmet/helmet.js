@@ -21,7 +21,6 @@ const HelmetApp = () => {
                 <title>{title}</title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
-          ...
         </div >
     );
 };

@@ -20,7 +20,28 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 // react router dom
 import { NavLink } from 'react-router-dom';
 
+// react query
+import { useQuery } from 'react-query';
+
+// axios
+import axios from 'axios';
+
+// baseUrl
+import { baseUrl } from '../api/api';
+
 const Footer = () => {
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
+
     return (
         <footer className='footer'>
             <Container>
@@ -31,10 +52,15 @@ const Footer = () => {
                     <div className='footer__content'>
                         <p>© 2020. All Rights Reserved.</p>
                         <div className='footer__social'>
-                            <FontAwesomeIcon icon={faTwitter} />
-                            <FontAwesomeIcon icon={faFacebookF} />
-                            <FontAwesomeIcon icon={faPlay} />
-                            <FontAwesomeIcon icon={faLinkedinIn} />
+                            {
+                                settings.isLoading === false && settings.data !== undefined && (
+                                    settings.data.data.social.map(item => (
+                                        <a target="_blank" href={item.url}>
+                                            <i className={item.icon} ></i>
+                                        </a>
+                                    ))
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -57,9 +83,9 @@ const Footer = () => {
                             </NavLink>
                         </div>
                         <div className='footer__end--right'>
-                            <a href='tel:994 55 555 55 55'>
-                                +994 55 555 55 55
-                             </a>
+                            <a href={settings.isLoading === false && settings.data === false && (settings.data.data.header_phone)}>
+                                {settings.isLoading === false && settings.data && (settings.data.data.header_phone)}
+                            </a>
                         </div>
                     </div>
                 </Container>

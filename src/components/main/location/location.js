@@ -49,10 +49,16 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 // mapStyle
 import mapStyle from '../map/mapStyle';
 
+// react i18
+import { useTranslation } from 'react-i18next';
+
+
 const Location = () => {
 
 
-    let history = useHistory()
+    let history = useHistory();
+
+    const { t } = useTranslation();
 
 
     if (JSON.parse(localStorage.getItem('items')) === null) {
@@ -136,7 +142,7 @@ const Location = () => {
         onError:function(error){
           
             swal({
-                title: "Inputlari Doldurmaniz Lazimdir!",
+                title: t('Inputlari Doldurmaniz Lazimdir!'),
                 icon: "error",
                 button: "Bağla",
             });

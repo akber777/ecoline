@@ -43,6 +43,9 @@ import {
 // atoms
 import { titleHelmet } from '../atoms/atoms';
 
+
+import { baseUrl } from '../api/api';
+
 const Header = () => {
 
     let { pathname } = useLocation()
@@ -58,6 +61,18 @@ const Header = () => {
     }, {
         refetchOnWindowFocus: false
     })
+
+
+    // settings
+    let settings = useQuery(['settings', ''], async () => {
+
+        const res = await axios.get(baseUrl + 'setting')
+
+        return res.data
+    }, {
+        refetchOnWindowFocus: false
+    })
+
 
 
     useLayoutEffect(() => {
@@ -192,11 +207,11 @@ const Header = () => {
                 <Container>
                     <div className='header__topFlex'>
                         <div className='header__topLeft'>
-                            <p>Həftənin 7 günü saat 10:00`dan 18:00`a dək xidmətinizdəyik</p>
+                            <p>{settings.isLoading === false && (settings.data.data.header_open)}</p>
                         </div>
                         <div className='header__topRight'>
                             <a href='tel:'>
-                                ( 050 ) 222 22 22
+                                {settings.isLoading === false && (settings.data.data.header_phone)}
                             </a>
                             {
                                 window.localStorage.getItem('token') === null ?
@@ -234,9 +249,9 @@ const Header = () => {
                         <NavLink to={'/index'}
                             className='navLogo'
                             onClick={() => {
-                                setTitle('Homepage')
+                                setTitle('Ana Səhifə')
                             }}>
-                            <img src={require('../images/logoHeader.png').default} alt='' />
+                            <img src={settings.isLoading === false ? settings.data.data.header_logo.original : ''} alt='' />
                         </NavLink>
                         <div className='header__navItem'>
                             <div className='openMob'>

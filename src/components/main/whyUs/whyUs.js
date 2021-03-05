@@ -54,7 +54,7 @@ const WhyUs = (props) => {
     return (
         <>
             {
-                isLoading === false && data.data.length !== 0 && data.data.viewBag.advantage !== undefined && data !== undefined && (
+                isLoading === false && data !== undefined && data.data.viewBag !== undefined && data.data.viewBag.advantage !== undefined && (
                     <div className='home__whyUs' data-aos="fade-down">
                         <h4>
                             {
@@ -66,9 +66,9 @@ const WhyUs = (props) => {
                             <Container>
                                 <div className='home__whyUsContent'>
                                     <h4>
-                                        {
+                                        {/* {
                                             t('DAHA ÇOX MƏLUMAT ALMAQ ÜÇÜN ...')
-                                        }
+                                        } */}
                                     </h4>
                                     <Row>
                                         {

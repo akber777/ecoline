@@ -375,6 +375,10 @@
     &__whyUsContent {
         padding-bottom: 50px;
 
+        a{
+            cursor: unset;
+        }
+
         > h4 {
             position: relative;
             text-align: center;

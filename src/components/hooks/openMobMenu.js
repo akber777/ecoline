@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from 'react';
 
-import $ from 'jquery';
 
 const OpenMobMenu = () => {
 

@@ -161,6 +161,11 @@
     &__navGet {
         margin-left: 33px;
 
+        @media(max-width:575px)
+        {
+            display: none;
+        }
+
         a {
             display: inline-flex;
             width: auto;

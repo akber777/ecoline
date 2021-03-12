@@ -146,6 +146,10 @@ const Location = () => {
       onSuccess: function (succ) {
         if (succ.status === 200) {
           $(".formItem input").val("");
+          setId();
+          setName();
+          setPhone();
+          setAddress();
         }
       },
     }
@@ -532,8 +536,16 @@ const Location = () => {
                   <button
                     className="sendInfo"
                     onClick={() => {
-                      setUpdatedPage(true);
-                      mutationAdd.mutate(params);
+                      if (address !== undefined && name !== undefined) {
+                        setUpdatedPage(true);
+                        mutationAdd.mutate(params);
+                      } else {
+                        swal({
+                          title: t("Inputlari Doldurmaniz Lazimdir!"),
+                          icon: "error",
+                          button: "Bağla",
+                        });
+                      }
                     }}
                   >
                     ƏLAVƏ ET
@@ -543,8 +555,8 @@ const Location = () => {
 
               <div className="formBox">
                 {addressApi.isLoading === false &&
-                  addressApi.data !== undefined &&
-                  addressApi.data.data.data.length !== 0 &&
+                addressApi.data !== undefined &&
+                addressApi.data.data.data.length !== 0 ? (
                   addressApi.data.data.data.map((item, index) => (
                     <div className="location__content" key={item.id}>
                       <div className="location__contentLeft">
@@ -616,7 +628,25 @@ const Location = () => {
                         </i>
                       </div>
                     </div>
-                  ))}
+                  ))
+                ) : (
+                  <div
+                    style={{
+                      height: 500,
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      id="preloader"
+                      aria-busy="true"
+                      aria-label="Loading, please wait."
+                      role="progressbar"
+                    ></div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

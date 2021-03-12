@@ -119,3 +119,106 @@ img[src^='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABbCAYAAADOZvPBAAAA
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+
+/**
+* PAGE PRELOADER
+* Replace with your own icon or logo and use on your site
+*/
+
+/**
+* VARIABLES
+* Tweak them for prefered result 
+*/
+$diameter: 40px;
+$adjust-huener: 2px;
+$adjust-huener-color: #8cbd29;
+$icon-width: 10.6px;
+$icon-height: 25px;
+
+#site {
+  opacity: 0;
+  transition: all 2s ease;
+}
+
+#preloader {
+  height: $diameter;
+  width: $diameter;
+  position: absolute;
+    &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -($adjust-huener/2);
+    top: -($adjust-huener/2);
+    height: 100%;
+    width: 100%;
+    animation: rotation 1s linear infinite;
+    border: ($adjust-huener/2) solid $adjust-huener-color;
+    border-top: ($adjust-huener/2) solid transparent;
+    border-radius: 100%;
+    }
+    &>.icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: $icon-height;
+    width: $icon-width;
+    margin-top: -($icon-height/2);
+    margin-left: -($icon-width/2);
+    animation: wink 1s ease-in-out infinite alternate;
+  }
+}
+
+@media only screen and (min-width:768px) {
+  #preloader {
+    height: ($diameter*1.5);
+    width: ($diameter*1.5);
+      &:before {
+        left: -$adjust-huener;
+        top: -$adjust-huener;
+        border-top-width: $adjust-huener;
+        border-left-width: $adjust-huener;
+        border-bottom-width: $adjust-huener;
+        border-right-width: $adjust-huener;
+      }
+      &>.icon {
+        height: ($icon-height*1.5);
+        width: ($icon-width*1.5);
+        margin-top: -(($icon-height/2)*1.5);
+        margin-left: -(($icon-width/2)*1.5);
+    }
+  }
+}
+
+@media only screen and (min-width:1200px) {
+  #preloader {
+    height: ($diameter*2);
+    width: ($diameter*2);
+      &>.icon { 
+        height: ($icon-height*2);
+        width: ($icon-width*2);
+        margin-top: -(($icon-height/2)*2);
+        margin-left: -(($icon-width/2)*2);
+    }
+  }
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes wink {
+    from  { 
+      opacity:0; 
+    }
+    to  { 
+      opacity:1; 
+    }
+}

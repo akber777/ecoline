@@ -111,7 +111,7 @@ const Home = () => {
           arrows={false}
           dotListClass="alice-carousel__dots-item"
         >
-          {homeSlide.isLoading === false &&
+          {homeSlide.isLoading === false ? (
             homeSlide.data.data.map((item) => (
               <div className="home__sliderItem" key={item.id}>
                 <img
@@ -131,7 +131,24 @@ const Home = () => {
                   </div>
                 </Container>
               </div>
-            ))}
+            ))
+          ) : (
+            <div
+              style={{
+                height: 500,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                id="preloader"
+                aria-busy="true"
+                aria-label="Loading, please wait."
+                role="progressbar"
+              ></div>
+            </div>
+          )}
         </Carousel>
       </div>
       <div className="home__banner">
@@ -152,18 +169,52 @@ const Home = () => {
           </div>
         </Container>
       </div>
-      {category.isLoading === false && (
+      {category.isLoading === false ? (
         <>
           <div className="home__priceContent">
             <h4 className="title">{t("QİYMƏTLƏR VƏ ONLINE SİFARİŞ")}</h4>
           </div>
           <Price data={category.data} />
         </>
+      ) : (
+        <div
+          style={{
+            height: 500,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="preloader"
+            aria-busy="true"
+            aria-label="Loading, please wait."
+            role="progressbar"
+          ></div>
+        </div>
       )}
       <WhyUs />
       <News />
       <div id="map">
-        {settings.isLoading === false && <MapContainer locations={locate} />}
+        {settings.isLoading === false ? (
+          <MapContainer locations={locate} />
+        ) : (
+          <div
+            style={{
+              height: 300,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              id="preloader"
+              aria-busy="true"
+              aria-label="Loading, please wait."
+              role="progressbar"
+            ></div>
+          </div>
+        )}
       </div>
     </main>
   );

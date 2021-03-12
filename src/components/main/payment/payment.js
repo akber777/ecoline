@@ -34,7 +34,7 @@ import $ from "jquery";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 // atoms
-import { order } from "../../atoms/atoms";
+import { order, orderstatus } from "../../atoms/atoms";
 
 // fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -82,7 +82,10 @@ const Payment = () => {
 
   let [allOder, setOrder] = useRecoilState(order);
 
+  let [ordercheck, setOrderCheck] = useRecoilState(orderstatus);
+
   let orderValue = useRecoilValue(order);
+
 
   useLayoutEffect(() => {
     if (orderValue === null) {
@@ -101,6 +104,7 @@ const Payment = () => {
             : null,
         is_express: 1,
         items: JSON.parse(localStorage.getItem("items")),
+        orderNotes:localStorage.getItem("ordernotes")
       });
 
       $(".changeInfo").show();
@@ -133,15 +137,22 @@ const Payment = () => {
   let sendOder = async (params) => {
     const res = axios.post(baseUrl + "order/create", params);
 
-    if((await res).data.status===200)
-    {
-        history.push({
-           pathname:'/ordercheck'
-        })
+
+    console.log(res)
+
+    if ((await res).data.status === 200) {
+      // history.push({
+      //   pathname: "/ordercheck",
+      // });
+
+     
+
+      setOrderCheck((await res).data.status);
     }
 
     return res.data;
   };
+
 
   return (
     <main className="location payment">
@@ -203,7 +214,7 @@ const Payment = () => {
                 <button className="success">Prev</button>
               </NavLink>
               <NavLink
-                to={'/payment'}
+                to={"/payment"}
                 onClick={() => {
                   sendOder(orderValue);
                 }}

@@ -187,7 +187,7 @@ const Order = () => {
           <span className="activCrumbs">SİFARİŞ</span>
         </div>
         <div className="oder__content home__priceBox">
-          {isLoading === false && (
+          {isLoading === false && data !== undefined ? (
             <Tabs
               defaultActiveKey={
                 myTabName !== null ? myTabName : data.data[0].name
@@ -217,7 +217,8 @@ const Order = () => {
                                 sendMinus(
                                   {
                                     id: pro.id,
-                                    app_id:pro.app_id,
+                                    app_id: pro.app_id,
+                                    app_name: pro.app_name,
                                     img: pro.img !== null ? pro.img.order : "",
                                     name: pro.name,
                                     price: pro.price,
@@ -237,7 +238,8 @@ const Order = () => {
                                 sendPlus(
                                   {
                                     id: pro.id,
-                                    app_id:pro.app_id,
+                                    app_id: pro.app_id,
+                                    app_name: pro.app_name,
                                     img: pro.img !== null ? pro.img.order : "",
                                     price: pro.price,
                                     name: pro.name,
@@ -284,6 +286,22 @@ const Order = () => {
                 </Tab>
               ))}
             </Tabs>
+          ) : (
+            <div
+              style={{
+                height: 500,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                id="preloader"
+                aria-busy="true"
+                aria-label="Loading, please wait."
+                role="progressbar"
+              ></div>
+            </div>
           )}
         </div>
         <div className="order__result">
@@ -306,9 +324,9 @@ const Order = () => {
           </div>
         </div>
       </Container>
-      <div id="map">
+      {/* <div id="map">
         {settings.isLoading === false && <Map locations={locate} />}
-      </div>
+      </div> */}
     </main>
   );
 };

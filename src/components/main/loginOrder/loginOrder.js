@@ -247,8 +247,7 @@ const LoginOrder = () => {
             </div>
           </div>
         </div>
-        {isLoading === false &&
-          data != undefined &&
+        {isLoading === false && data != undefined ? (
           data.data.map((item, index) => (
             <div className="orderLogin__info" key={index}>
               <div className="orderLogin__top">
@@ -335,12 +334,30 @@ const LoginOrder = () => {
                     {t("TƏSLİMAT ÜNVANI")}
                   </NavLink>
                   {/* <NavLink to={'#'}>
-                                            SİFARİŞİ QIYMƏTLƏNDİR
-                                        </NavLink> */}
+                      SİFARİŞİ QIYMƏTLƏNDİR
+                  </NavLink> */}
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div
+            style={{
+              height: 250,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div
+              id="preloader"
+              aria-busy="true"
+              aria-label="Loading, please wait."
+              role="progressbar"
+            ></div>
+          </div>
+        )}
       </Container>
     </main>
   );

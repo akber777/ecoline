@@ -40,3 +40,9 @@ export let titleHelmet = atom({
     key: 'titleHelmet',
     default: null
 })
+
+
+export let orderstatus = atom({
+    key: 'orderstatus',
+    default: null
+})

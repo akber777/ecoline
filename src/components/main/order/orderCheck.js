@@ -19,16 +19,14 @@ import { useRecoilValue } from "recoil";
 const OrderCheck = (props) => {
   const { t } = useTranslation();
 
-  const recoilvalue = useRecoilValue(orderstatus);
+  const orderStatusValue = useRecoilValue(orderstatus);
 
-
-  console.log(recoilvalue)
 
   return (
     <main className="orderSuccess">
       <Container>
         <h1 className="orderSuccess__title">{t("Sifarişiniz Alındı")}</h1>
-        {localStorage.getItem("orderstatus") === "200" ? (
+        {orderStatusValue === 200 ? (
           <div class="success-animation">
             <svg
               className="checkmark"
@@ -69,7 +67,7 @@ const OrderCheck = (props) => {
                     r="41.5"
                   ></circle>
                   <circle
-                    class="ui-error-circle"
+                    className="ui-error-circle"
                     stroke="#F74444"
                     strokeWidth="4"
                     cx="41.5"
@@ -77,7 +75,7 @@ const OrderCheck = (props) => {
                     r="41.5"
                   ></circle>
                   <path
-                    class="ui-error-line1"
+                    className="ui-error-line1"
                     d="M22.244224,22 L60.4279902,60.1837662"
                     id="Line"
                     stroke="#F74444"
@@ -85,7 +83,7 @@ const OrderCheck = (props) => {
                     strokeLinecap="square"
                   ></path>
                   <path
-                    class="ui-error-line2"
+                    className="ui-error-line2"
                     d="M60.755776,21 L23.244224,59.8443492"
                     id="Line"
                     stroke="#F74444"

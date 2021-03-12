@@ -86,7 +86,6 @@ const Payment = () => {
 
   let orderValue = useRecoilValue(order);
 
-
   useLayoutEffect(() => {
     if (orderValue === null) {
       history.push({
@@ -104,7 +103,7 @@ const Payment = () => {
             : null,
         is_express: 1,
         items: JSON.parse(localStorage.getItem("items")),
-        orderNotes:localStorage.getItem("ordernotes")
+        orderNotes: localStorage.getItem("ordernotes"),
       });
 
       $(".changeInfo").show();
@@ -137,22 +136,17 @@ const Payment = () => {
   let sendOder = async (params) => {
     const res = axios.post(baseUrl + "order/create", params);
 
-
-    console.log(res)
-
     if ((await res).data.status === 200) {
-      // history.push({
-      //   pathname: "/ordercheck",
-      // });
-
-     
+      history.push({
+        pathname: "/ordercheck",
+      });
 
       setOrderCheck((await res).data.status);
+
     }
 
     return res.data;
   };
-
 
   return (
     <main className="location payment">
@@ -216,7 +210,9 @@ const Payment = () => {
               <NavLink
                 to={"/payment"}
                 onClick={() => {
-                  sendOder(orderValue);
+                  if (orderValue.payment_method !== null) {
+                    sendOder(orderValue);
+                  }
                 }}
               >
                 <button

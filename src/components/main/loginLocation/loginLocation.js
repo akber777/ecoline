@@ -31,7 +31,12 @@ import mapStyle from "../map/mapStyle";
 // sweet alert
 import swal from "sweetalert";
 
+// react i18
+import { useTranslation } from "react-i18next";
+
 const LoginLocation = () => {
+  const { t } = useTranslation();
+
   let { data, isLoading } = useQuery(
     ["infoLocation"],
     async (key) => {
@@ -44,55 +49,12 @@ const LoginLocation = () => {
     }
   );
 
-  // register
-  const mutationAdd = useMutation(
-    (add) => axios.post(baseUrl + "address/add", add),
-    {
-      onSuccess: function (succ) {
-        if (succ.status === 200) {
-          setId(null);
-          setName(null);
-          setPhone(null);
-          setAddress(null);
-          setLang(null);
-          setLati(null);
-          $(".openAddPopup input").val("");
-        }
-      },
-      onError: function (error) {
-        swal({
-          title: "Inputlari Doldurmaniz Lazimdir!",
-          icon: "error",
-          button: "Bağla",
-        });
-      },
-    }
-  );
-
   const mutationUpdated = useMutation(
     (update) => axios.put(baseUrl + "address", update),
     {
       onSuccess: function () {
         $(".formItem input").val("");
       },
-    }
-  );
-
-  // address
-
-  let addressApi = useQuery(
-    ["addressApi", mutationAdd.data, mutationUpdated.data],
-    async (key) => {
-      const res = axios.get(baseUrl + "address");
-
-      return res;
-    },
-    {
-      refetchOnWindowFocus: false,
-      cacheTime:
-        localStorage.getItem("token") && localStorage.getItem("user") === null
-          ? 0
-          : 5000,
     }
   );
 
@@ -114,6 +76,49 @@ const LoginLocation = () => {
     lat: lati,
     lang: lang,
   };
+
+  // register
+  const mutationAdd = useMutation(
+    (add) => axios.post(baseUrl + "address/add", add),
+    {
+      onSuccess: function (succ) {
+        if (succ.status === 200) {
+          setId();
+          setName();
+          setPhone();
+          setAddress();
+          setLang();
+          setLati();
+          $(".openAddPopup input").val("");
+        }
+      },
+      onError: function (error) {
+        swal({
+          title: "Inputlari Doldurmaniz Lazimdir!",
+          icon: "error",
+          button: "Bağla",
+        });
+      },
+    }
+  );
+
+  // address
+
+  let addressApi = useQuery(
+    ["addressApi", mutationAdd.data, mutationUpdated.data],
+    async (key) => {
+      const res = axios.get(baseUrl + "address");
+
+      return res;
+    },
+    {
+      refetchOnWindowFocus: false,
+      cacheTime:
+        localStorage.getItem("token") && localStorage.getItem("user") === null
+          ? 0
+          : 5000,
+    }
+  );
 
   useLayoutEffect(() => {
     setCity(
@@ -384,7 +389,7 @@ const LoginLocation = () => {
               >
                 x
               </button>
-              <h4>YENILE</h4>
+              <h4>Yeni Ünvan Əlavə et</h4>
               <div className="formBox">
                 <div className="formItem">
                   <span>Ad:</span>
@@ -441,7 +446,15 @@ const LoginLocation = () => {
               <button
                 className="sendInfo"
                 onClick={() => {
-                  mutationAdd.mutate(params);
+                  if (address !== undefined) {
+                    mutationAdd.mutate(params);
+                  } else {
+                    swal({
+                      title: t("Bütün inputları doldurmanız lazımdır!"),
+                      icon: "error",
+                      button: "Bağla",
+                    });
+                  }
                 }}
               >
                 ƏLAVƏ ET
@@ -461,8 +474,8 @@ const LoginLocation = () => {
                       <span>{item.address}</span>
                     </p>
                     {/* <p>
-                                                <img src={require('../../images/newPin.png').default} alt='' />
-                                            </p> */}
+                            <img src={require('../../images/newPin.png').default} alt='' />
+                        </p> */}
                   </div>
                   <div className="location__contentRight">
                     <span
@@ -549,6 +562,7 @@ const LoginLocation = () => {
                 setCity(
                   isLoading === false ? data.data.data.cities.data[0].name : ""
                 );
+                setAddress();
               }}
             >
               ÜNVAN ƏLAVƏ ET

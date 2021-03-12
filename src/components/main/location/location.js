@@ -125,8 +125,6 @@ const Location = () => {
           setName();
           setPhone();
           setAddress();
-          setLang();
-          setLati();
           $(".openAddPopup input").val("");
         }
       },
@@ -536,7 +534,7 @@ const Location = () => {
                   <button
                     className="sendInfo"
                     onClick={() => {
-                      if (address !== undefined && name !== undefined) {
+                      if (address !== undefined) {
                         setUpdatedPage(true);
                         mutationAdd.mutate(params);
                       } else {
@@ -657,6 +655,7 @@ const Location = () => {
                   document.querySelector(".openAddPopup").style.display =
                     "block";
                   setUpdatedPage(false);
+                  setAddress()
                 }}
               >
                 ÜNVAN ƏLAVƏ ET

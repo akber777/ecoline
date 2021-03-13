@@ -11,7 +11,7 @@ import News from "../news/news";
 import Map from "../map/map";
 
 // react router dom
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 // react query
 import { useQuery } from "react-query";
@@ -26,6 +26,8 @@ import { baseUrl } from "../../api/api";
 import { checkType } from "../../helper/helper";
 
 const Static = () => {
+  const history = useHistory();
+
   useLayoutEffect(() => {
     window.scrollTo({
       top: 0,
@@ -34,11 +36,30 @@ const Static = () => {
 
   let { pathname } = useLocation();
 
-  let { data, isLoading } = useQuery(["staticPages", pathname], async () => {
-    const res = axios.get(baseUrl + "page" + pathname);
+  let { data, isLoading } = useQuery(
+    ["staticPages", pathname],
+    async () => {
+      const res = axios.get(baseUrl + "page" + pathname);
 
-    return (await res).data;
-  });
+      return (await res).data;
+    },
+    {
+      onSuccess: function (succ) {
+        if (succ.data.length === 0) {
+          history.push({
+            pathname: "/notfound",
+          });
+        }
+      },
+      onError: function (err) {
+        if (err) {
+          history.push({
+            pathname: "/notfound",
+          });
+        }
+      },
+    }
+  );
 
   // settings
   let settings = useQuery(
@@ -59,14 +80,6 @@ const Static = () => {
       Number(item.lat),
       Number(item.long),
     ]);
-
- 
-    useLayoutEffect(()=>{
-
-      if (isLoading === false) {
-        console.log(data);
-      }
-    })
 
   return (
     <main className="rules">

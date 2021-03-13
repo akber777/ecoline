@@ -4,23 +4,24 @@ import renderHTML from "react-render-html";
 import * as moment from "moment";
 import "moment/locale/az";
 
-
 export const checkType = (data) => {
   // endResult.push(data.replace(myRegex, `<img src=${item} />`))
 
-  let myRegex = /<img.*?src="(.*?)"[^>]+>/g;
+  if (data !== undefined) {
+    let myRegex = /<img.*?src="(.*?)"[^>]+>/g;
 
-  let result = data.search(myRegex);
+    let result = data.search(myRegex);
 
-  if (result > -1) {
-    let myData = data.replaceAll(
-      "/storage/",
-      "http://apiecoline.gocreative.az/storage/"
-    );
+    if (result > -1) {
+      let myData = data.replaceAll(
+        "/storage/",
+        "http://apiecoline.gocreative.az/storage/"
+      );
 
-    return renderHTML(myData);
-  } else {
-    return renderHTML(data);
+      return renderHTML(myData);
+    } else {
+      return renderHTML(data);
+    }
   }
 };
 

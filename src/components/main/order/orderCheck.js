@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 
 // tools
 // reactstrap
@@ -8,46 +8,90 @@ import { Container } from "reactstrap";
 import { useTranslation } from "react-i18next";
 
 // react router rom
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 
 // atoms
-import { orderstatus } from "../../atoms/atoms";
+import { order, orderstatus } from "../../atoms/atoms";
 
 // recoil
 import { useRecoilValue } from "recoil";
+
+// query
+import { useQuery } from "react-query";
+
+// baseUrl
+import { azerTurkReturn } from "../../api/api";
+import axios from "axios";
 
 const OrderCheck = (props) => {
   const { t } = useTranslation();
 
   const orderStatusValue = useRecoilValue(orderstatus);
 
+  const history = useHistory();
+
+  const { pathname } = useLocation();
+
+  function useQueryData() {
+    return new URLSearchParams(useLocation().search);
+  }
+
+  let query = useQueryData();
+
+  let params = {
+    orderId: query.get("orderId"),
+  };
+
+  const { data, isLoading } = useQuery(
+    ["orderstatus", ""],
+    async () => {
+      const res = axios.get(azerTurkReturn, {
+        params: params,
+      });
+
+      return (await res).data;
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+
 
   return (
     <main className="orderSuccess">
       <Container>
-        <h1 className="orderSuccess__title">{t("Sifarişiniz Alındı")}</h1>
-        {orderStatusValue === 200 ? (
-          <div class="success-animation">
+        {isLoading === false && data.status === 200 && (
+          <h1 className="orderSuccess__title">{t("Sifarişiniz Alındı")}</h1>
+        )}
+        {isLoading === false && data.status === 400 && (
+          <h1 className="orderSuccess__title">{data.ErrorMessage}</h1>
+        )}
+
+        {isLoading === false && data.status === 200 && (
+          <div className="success-animation">
             <svg
               className="checkmark"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 52 52"
             >
               <circle
-                class="checkmark__circle"
+                className="checkmark__circle"
                 cx="26"
                 cy="26"
                 r="25"
                 fill="none"
               />
               <path
-                class="checkmark__check"
+                className="checkmark__check"
                 fill="none"
                 d="M14.1 27.2l7.1 7.2 16.7-16.8"
               />
             </svg>
           </div>
-        ) : (
+        )}
+
+        {isLoading === false && data.status === 400 && (
           <div className="ui-error">
             <svg viewBox="0 0 87 87" version="1.1">
               <g
@@ -95,6 +139,7 @@ const OrderCheck = (props) => {
             </svg>
           </div>
         )}
+
         <div className="orderNavItem">
           <NavLink to={"/loginorder"}>{t("Sifarişlərim")}</NavLink>
         </div>

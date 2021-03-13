@@ -158,15 +158,17 @@ const Header = () => {
                 }
               >
                 {item.title}
-                {item.items !== undefined
-                  ? item.items.map((subitem, indexSub) => (
-                      <div className="header__subItem">
-                        <NavLink to={checkedUrl(subitem)} key={indexSub}>
-                          {subitem.title}
-                        </NavLink>
-                      </div>
-                    ))
-                  : ""}
+                {item.items !== undefined ? (
+                  <div className="header__subItem">
+                    {item.items.map((subitem, indexSub) => (
+                      <NavLink to={checkedUrl(subitem)} key={indexSub}>
+                        {subitem.title}
+                      </NavLink>
+                    ))}
+                  </div>
+                ) : (
+                  ""
+                )}
               </NavLink>
             ))}
           <div className="footer__social">

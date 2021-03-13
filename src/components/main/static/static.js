@@ -60,6 +60,14 @@ const Static = () => {
       Number(item.long),
     ]);
 
+ 
+    useLayoutEffect(()=>{
+
+      if (isLoading === false) {
+        console.log(data);
+      }
+    })
+
   return (
     <main className="rules">
       <div

@@ -18,12 +18,13 @@
     h4 {
       font-size: 25px;
       font-weight: bold;
+      color: #8cbd29;
     }
 
     textarea {
       width: 500px;
       height: 100px !important;
-      border: 1px solid #ccc;
+      border: 1px solid #8cbd29;
       background: #fff;
       margin: 0 0 5px;
       padding: 10px;
@@ -315,6 +316,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 100px;
 
     a {
       width: 201px;
@@ -342,8 +344,9 @@
 
   &__title {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 0px;
     font-weight: bold;
+    margin-bottom: 100px;
 
     @media (max-width: 575px) {
       font-size: 20px;
@@ -427,7 +430,7 @@
   .ui-error {
     width: 100px;
     height: 100px;
-    margin: 40px;
+    margin: 40px auto;
     // border:1px solid #eee;
   }
 

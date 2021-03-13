@@ -314,7 +314,7 @@ const Order = () => {
           <div className="btnBoxs">
             <NavLink
               to={
-                total.length !== 0 && total.reduce(reducer) !== 0
+                total.length !== 0 && total.reduce(reducer) >= 30
                   ? `/ordercomplete`
                   : "/order"
               }

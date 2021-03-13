@@ -136,13 +136,15 @@ const Payment = () => {
   let sendOder = async (params) => {
     const res = axios.post(baseUrl + "order/create", params);
 
+
     if ((await res).data.status === 200) {
       history.push({
-        pathname: "/ordercheck",
+        pathname: "/ordercheckcash",
       });
 
       setOrderCheck((await res).data.status);
-
+    } else if ((await res).data.status === 302) {
+      window.location.href = (await res).data.url;
     }
 
     return res.data;

@@ -26,6 +26,8 @@ import OrderComplete from "./components/main/order/orderComplete";
 
 // orderSuccess
 import OrderCheck from "./components/main/order/orderCheck";
+import OrderCheckCash from "./components/main/order/orderCheckCash";
+
 // import location
 import Location from "./components/main/location/location";
 
@@ -77,6 +79,7 @@ import NotFound from "./components/main/404/404";
 // seo helmet
 import HelmetApp from "./components/helmet/helmet";
 
+
 function App() {
   let { pathname } = useLocation();
 
@@ -111,13 +114,19 @@ function App() {
           pathname.split("/")[1] !== "delivery" &&
           pathname.split("/")[1] !== "payment" &&
           pathname.split("/")[1] !== "services" &&
-          pathname.split("/")[1] !== "ordercheck" && (
+          pathname.split("/")[1] !== "ordercheck" &&
+          pathname.split("/")[1] !== "ordercheckcash" &&
+          pathname.split("/")[1] !== "notfound" &&
+           (
             <Route path="/*">
               <Static />
             </Route>
           )}
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route exact path="/notfound">
+          <NotFound />
         </Route>
         <Route exact path="/index">
           <Home />
@@ -148,6 +157,9 @@ function App() {
         </Route>
         <Route path="/ordercheck">
           <OrderCheck />
+        </Route>
+        <Route path="/ordercheckcash">
+          <OrderCheckCash />
         </Route>
         <Route path="/services">
           <Services />

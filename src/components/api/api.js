@@ -6,4 +6,7 @@ export const loginApi = 'http://apiecoline.gocreative.az/api/login';
 
 export const imgPath = 'http://apiecoline.gocreative.az/storage/app/media';
 
+export const azerTurkReturn = 'http://apiecoline.gocreative.az/api/v1/payment/return';
+
+
 

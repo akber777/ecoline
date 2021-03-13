@@ -381,10 +381,10 @@ const OrderComplete = () => {
               <textarea
                 className="order__note"
                 onKeyUp={(event) => {
-                  localStorage.setItem('ordernotes',event.target.value)
+                  localStorage.setItem("ordernotes", event.target.value);
                 }}
                 onChange={(event) => {
-                    localStorage.setItem('ordernotes',event.target.value)
+                  localStorage.setItem("ordernotes", event.target.value);
                 }}
               ></textarea>
             </div>
@@ -402,7 +402,11 @@ const OrderComplete = () => {
               <button className="success">Prev</button>
             </NavLink>
             <NavLink
-              to={total.length !== 0 ? checkedToken() : "/order"}
+              to={
+                total.length !== 0 && total.reduce(reducer) >= 30
+                  ? checkedToken()
+                  : "/ordercomplete"
+              }
               onClick={nextPageButton}
             >
               <button className="success">Next</button>

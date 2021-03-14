@@ -15,7 +15,7 @@ import { Col, Container, Row } from "reactstrap";
 // map
 
 import Map from "../map/map";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 // tabs
 import Tab from "react-bootstrap/Tab";
@@ -29,7 +29,7 @@ import { categories } from "../../queries/queries";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 // atoms
-import { basket, myTab } from "../../atoms/atoms";
+import { basket, myTab, orderTotal } from "../../atoms/atoms";
 
 // baseUrl
 import { baseUrl } from "../../api/api";
@@ -40,12 +40,20 @@ import axios from "axios";
 // helper
 import { decimalAdjust } from "../../helper/helper";
 
-// import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
-
 // jquery
 import $ from "jquery";
 
+// sweet alert
+import swal from "sweetalert";
+
+// react i18 next
+import { useTranslation } from "react-i18next";
+
 const Order = () => {
+  const { t } = useTranslation();
+
+  const history = useHistory();
+
   // settings
   let settings = useQuery(
     ["settings", ""],
@@ -66,6 +74,9 @@ const Order = () => {
       Number(item.long),
     ]);
 
+  const minAmount =
+    settings.isLoading === false && settings.data.data.min_amount;
+
   let { data, isLoading } = useQuery(["category", ""], categories, {
     refetchOnWindowFocus: false,
   });
@@ -74,6 +85,8 @@ const Order = () => {
 
   let [myBasket, setMyBasket] = useRecoilState(basket);
 
+  let [allOrder, setAllOrder] = useRecoilState(orderTotal);
+
   let [changeTab, setChangeTab] = useRecoilState(myTab);
 
   let myTabName = useRecoilValue(myTab);
@@ -81,8 +94,8 @@ const Order = () => {
   let [total] = useState([]);
 
   if (JSON.parse(localStorage.getItem("items")) !== null) {
-    product = JSON.parse(localStorage.getItem("items"));
-    total = JSON.parse(localStorage.getItem("total"));
+    product = JSON.parse(JSON.stringify(myBasket));
+    total = JSON.parse(allOrder);
   }
 
   function sendMinus(value, event) {
@@ -108,6 +121,8 @@ const Order = () => {
           total.splice(index, 1);
 
           window.localStorage.setItem("total", JSON.stringify(total));
+
+          setAllOrder(JSON.stringify(total));
         }
       }
     }
@@ -144,6 +159,8 @@ const Order = () => {
     total.push(Number(value.price));
 
     window.localStorage.setItem("total", JSON.stringify(total));
+
+    setAllOrder(JSON.stringify(total));
   }
 
   const round10 = (value, exp) => decimalAdjust("round", value, exp);
@@ -173,6 +190,38 @@ const Order = () => {
       padding: 15,
     });
   }, [data]);
+
+  function checkedAmount() {
+    if (total.length !== 0) {
+      if (total.reduce(reducer) < minAmount) {
+        swal({
+          title:
+            t("Sifariş Məbləği") +
+            " " +
+            minAmount +
+            " " +
+            t("Azn-dan az ola bilməz"),
+          icon: "error",
+          button: "Bağla",
+        });
+      }
+    }
+
+    return "/order";
+  }
+
+  function checkedThief() {
+    if (localStorage.getItem("total") === "") {
+      window.location.reload();
+    } else {
+      if (
+        JSON.parse(allOrder).toString() !==
+        JSON.parse(localStorage.getItem("total")).toString()
+      ) {
+        window.location.reload();
+      }
+    }
+  }
 
   return (
     <main className="order home__price">
@@ -308,16 +357,24 @@ const Order = () => {
           <p>
             ÜMUMİ MƏBLƏĞ:
             <span className="res">
-              {total.length !== 0 ? total.reduce(reducer) + " AZN" : 0 + " AZN"}
+              {total.length !== 0 && total.length !== 0
+                ? total.reduce(reducer) + " AZN"
+                : 0 + " AZN"}
             </span>
           </p>
           <div className="btnBoxs">
             <NavLink
               to={
-                total.length !== 0 && total.reduce(reducer) >= 30
-                  ? `/ordercomplete`
+                total !== undefined &&
+                total.length !== 0 &&
+                total.reduce(reducer) >= minAmount
+                  ? "/ordercomplete"
                   : "/order"
               }
+              onClick={() => {
+                checkedAmount();
+                checkedThief();
+              }}
             >
               <button className="success">Next</button>
             </NavLink>

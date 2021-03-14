@@ -28,7 +28,7 @@ import { baseUrl } from "../../api/api";
 import axios from "axios";
 
 //  jquery
-import $ from "jquery";
+import $, { data } from "jquery";
 
 // recoil
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -133,18 +133,32 @@ const Payment = () => {
     });
   }, []);
 
-  let sendOder = async (params) => {
+  let sendOrder = async (params) => {
     const res = axios.post(baseUrl + "order/create", params);
 
+    document.querySelector('.perloaderOrder').classList.add('showPerloader');
 
-    if ((await res).data.status === 200) {
+    if (data !== undefined) {
+      if ((await res).data.status === 200) {
+        document.querySelector('.perloaderOrder').classList.remove('showPerloader');
+
+        history.push({
+          pathname: "/ordercheckcash",
+        });
+
+        localStorage.removeItem("total");
+        localStorage.removeItem("items");
+        localStorage.removeItem("ordernotes");
+
+        setOrderCheck((await res).data.status);
+        
+      } else if ((await res).data.status === 302) {
+        window.location.href = (await res).data.url;
+      }
+    } else {
       history.push({
-        pathname: "/ordercheckcash",
+        pathname: "/signin",
       });
-
-      setOrderCheck((await res).data.status);
-    } else if ((await res).data.status === 302) {
-      window.location.href = (await res).data.url;
     }
 
     return res.data;
@@ -152,6 +166,23 @@ const Payment = () => {
 
   return (
     <main className="location payment">
+      <div className="perloaderOrder">
+        <div
+          style={{
+            height: 300,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="preloader"
+            aria-busy="true"
+            aria-label="Loading, please wait."
+            role="progressbar"
+          ></div>
+        </div>
+      </div>
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
@@ -213,7 +244,7 @@ const Payment = () => {
                 to={"/payment"}
                 onClick={() => {
                   if (orderValue.payment_method !== null) {
-                    sendOder(orderValue);
+                    sendOrder(orderValue);
                   }
                 }}
               >

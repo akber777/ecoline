@@ -138,6 +138,12 @@ const Header = () => {
 
   let [titleHel, setTitle] = useRecoilState(titleHelmet);
 
+  useLayoutEffect(() => {
+
+    $('.headerMobWrap').removeClass('openMenu')
+
+  }, [pathname]);
+
   return (
     <header className="header">
       <div className=" headerMobWrap">

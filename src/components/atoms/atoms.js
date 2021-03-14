@@ -46,3 +46,9 @@ export let orderstatus = atom({
     key: 'orderstatus',
     default: null
 })
+
+
+export let orderTotal = atom({
+    key: 'orderTotal',
+    default: null
+})

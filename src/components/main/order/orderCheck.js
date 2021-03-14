@@ -21,6 +21,8 @@ import { useQuery } from "react-query";
 
 // baseUrl
 import { azerTurkReturn } from "../../api/api";
+
+// axios
 import axios from "axios";
 
 const OrderCheck = (props) => {
@@ -53,10 +55,15 @@ const OrderCheck = (props) => {
     },
     {
       refetchOnWindowFocus: false,
+      onSuccess: function (succ) {
+        if (succ.status === 200) {
+          localStorage.removeItem("total");
+          localStorage.removeItem("items");
+          localStorage.removeItem("ordernotes");
+        }
+      },
     }
   );
-
-
 
   return (
     <main className="orderSuccess">

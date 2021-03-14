@@ -30,6 +30,11 @@
       padding: 10px;
       border-radius: 25px;
       resize: none;
+
+      @media(max-width:575px)
+      {
+        width: 90%;
+      }
     }
   }
 
@@ -346,7 +351,8 @@
     text-align: center;
     margin-top: 0px;
     font-weight: bold;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
+    margin-top: 50px;
 
     @media (max-width: 575px) {
       font-size: 20px;
@@ -517,3 +523,6 @@
     }
   }
 }
+
+
+

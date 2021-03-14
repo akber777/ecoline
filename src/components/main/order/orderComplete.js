@@ -11,7 +11,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
 // atoms
-import { basket, order } from "../../atoms/atoms";
+import { basket, order,orderTotal } from "../../atoms/atoms";
 
 // query
 import { useQuery, useMutation } from "react-query";
@@ -25,8 +25,8 @@ import axios from "axios";
 // helper
 import { decimalAdjust } from "../../helper/helper";
 
-// jquery
-import $ from "jquery";
+// sweet alert
+import swal from "sweetalert";
 
 // i18next
 import { useTranslation } from "react-i18next";
@@ -54,9 +54,14 @@ const OrderComplete = () => {
       Number(item.long),
     ]);
 
+  const minAmount =
+    settings.isLoading === false && settings.data.data.min_amount;
+
   let [product, setProduct] = useState([]);
 
   let [myBasket, setMyBasket] = useRecoilState(basket);
+
+  let [allOrderTotal, setAllOrderTotal] = useRecoilState(orderTotal);
 
   let [allOder, setOrder] = useRecoilState(order);
 
@@ -66,10 +71,14 @@ const OrderComplete = () => {
 
   let history = useHistory();
 
-  if (JSON.parse(localStorage.getItem("items")) !== null) {
-    product = JSON.parse(localStorage.getItem("items"));
-    total = JSON.parse(localStorage.getItem("total"));
+
+  if (
+    JSON.parse(localStorage.getItem("items")) !== null
+  ) {
+    product = JSON.parse(JSON.stringify(myBasket));
+    total=JSON.parse(allOrderTotal)
   }
+
 
   function sendMinus(value, event) {
     const endRes = product.filter((id) => id.id === value.id);
@@ -92,6 +101,8 @@ const OrderComplete = () => {
         if (index > -1) {
           total.splice(index, 1);
           window.localStorage.setItem("total", JSON.stringify(total));
+
+          setAllOrderTotal(JSON.stringify(total))
 
           setOrder({
             address_id: null,
@@ -139,6 +150,7 @@ const OrderComplete = () => {
 
     total.push(Number(value.price));
     window.localStorage.setItem("total", JSON.stringify(total));
+    setAllOrderTotal(JSON.stringify(total))
 
     setOrder({
       address_id: null,
@@ -177,6 +189,20 @@ const OrderComplete = () => {
     } else {
       return "/ordercomplete";
     }
+  }
+
+  function checkedAmount() {
+    document.querySelector(".openUpdatedPopup").style.display = "none";
+
+    if (total.reduce(reducer) < minAmount) {
+      swal({
+        title: t("Sifariş Məbləği 30 Azn -dan az ola bilməz"),
+        icon: "error",
+        button: "Bağla",
+      });
+    }
+
+    return "/ordercomplete";
   }
 
   function nextPageButton() {
@@ -357,9 +383,9 @@ const OrderComplete = () => {
                     <div className="flex">
                       <p className="priceBtn">
                         <span style={{ width: 100 + "%" }}>{pro.price}</span>
-                        {/* <i>
-                                                        13%
-                                                    </i> */}
+                      {/* <i>
+                            13%
+                        </i> */}
                       </p>
                       <p className="setCount">
                         {round10(
@@ -403,11 +429,14 @@ const OrderComplete = () => {
             </NavLink>
             <NavLink
               to={
-                total.length !== 0 && total.reduce(reducer) >= 30
+                total.length !== 0 && total.reduce(reducer) >= minAmount
                   ? checkedToken()
-                  : "/ordercomplete"
+                  : "ordercomplete"
               }
-              onClick={nextPageButton}
+              onClick={() => {
+                nextPageButton();
+                checkedAmount();
+              }}
             >
               <button className="success">Next</button>
             </NavLink>

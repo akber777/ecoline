@@ -16,8 +16,6 @@ import { order, orderstatus } from "../../atoms/atoms";
 // recoil
 import { useRecoilValue } from "recoil";
 
-
-
 const OrderCheckCash = (props) => {
   const { t } = useTranslation();
 
@@ -30,6 +28,10 @@ const OrderCheckCash = (props) => {
       history.push({
         pathname: "/",
       });
+
+      localStorage.removeItem("total");
+      localStorage.removeItem("items");
+      localStorage.removeItem("ordernotes");
     }
   });
 

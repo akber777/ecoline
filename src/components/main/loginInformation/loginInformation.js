@@ -74,6 +74,9 @@ const LoginInformation = () => {
             button: "Bağla",
           });
 
+          document
+            .querySelector(".perloaderOrder")
+            .classList.remove("showPerloader");
           localStorage.removeItem("user");
           localStorage.setItem("user", JSON.stringify(params));
         }
@@ -118,6 +121,23 @@ const LoginInformation = () => {
 
   return (
     <main className="info">
+      <div className="perloaderOrder">
+        <div
+          style={{
+            height: 300,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="preloader"
+            aria-busy="true"
+            aria-label="Loading, please wait."
+            role="progressbar"
+          ></div>
+        </div>
+      </div>
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
@@ -295,6 +315,9 @@ const LoginInformation = () => {
             <button
               onClick={() => {
                 mutation.mutate(params);
+                document
+                  .querySelector(".perloaderOrder")
+                  .classList.add("showPerloader");
               }}
             >
               {t("YADDA SAXLA")}

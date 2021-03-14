@@ -93,9 +93,14 @@ const Order = () => {
 
   let [total] = useState([]);
 
-  if (JSON.parse(localStorage.getItem("items")) !== null) {
-    product = JSON.parse(JSON.stringify(myBasket));
-    total = JSON.parse(allOrder);
+  if (
+    localStorage.getItem("items") !== "" &&
+    localStorage.getItem("items") !== null
+  ) {
+    if (JSON.parse(localStorage.getItem("items")) !== null) {
+      product = JSON.parse(localStorage.getItem("items"));
+      total = JSON.parse(localStorage.getItem("total"));
+    }
   }
 
   function sendMinus(value, event) {
@@ -211,8 +216,14 @@ const Order = () => {
   }
 
   function checkedThief() {
-    if (localStorage.getItem("total") === "") {
-      window.location.reload();
+    if (total.length !== 0) {
+      if (localStorage.getItem("total") === "") {
+        window.location.reload();
+      }
+
+      if (JSON.stringify(myBasket) !== localStorage.getItem("items")) {
+        window.location.reload();
+      }
     }
   }
 

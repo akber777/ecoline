@@ -173,7 +173,6 @@ const OrderComplete = () => {
   });
 
   // checked token
-
   let loginPopup = useRef();
 
   // function checkedToken() {
@@ -205,6 +204,10 @@ const OrderComplete = () => {
   function nextPageButton() {
     if (loginPopup.current !== undefined) {
       loginPopup.current.style.display = "block";
+    }
+
+    if (JSON.stringify(myBasket) !== localStorage.getItem("items")) {
+      window.location.reload();
     }
   }
 

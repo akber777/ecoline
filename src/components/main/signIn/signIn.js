@@ -66,6 +66,9 @@ const SignIn = () => {
       }
     },
     onError: function (error) {
+      document
+        .querySelector(".perloaderOrder")
+        .classList.remove("showPerloader");
       document.querySelector(".loginAlertBox").style.display = "block";
     },
   });

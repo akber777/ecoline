@@ -52,9 +52,7 @@ const Header = () => {
   let { data, isLoading } = useQuery(
     ["header", ""],
     async () => {
-      const res = axios.get(
-        "http://apiecoline.gocreative.az/api/v1/data/menu/header"
-      );
+      const res = axios.get(baseUrl + "menu/header");
 
       return (await res).data;
     },
@@ -139,9 +137,7 @@ const Header = () => {
   let [titleHel, setTitle] = useRecoilState(titleHelmet);
 
   useLayoutEffect(() => {
-
-    $('.headerMobWrap').removeClass('openMenu')
-
+    $(".headerMobWrap").removeClass("openMenu");
   }, [pathname]);
 
   return (

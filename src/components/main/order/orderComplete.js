@@ -11,7 +11,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
 // atoms
-import { basket, order,orderTotal } from "../../atoms/atoms";
+import { basket, order, orderTotal } from "../../atoms/atoms";
 
 // query
 import { useQuery, useMutation } from "react-query";
@@ -71,14 +71,10 @@ const OrderComplete = () => {
 
   let history = useHistory();
 
-
-  if (
-    JSON.parse(localStorage.getItem("items")) !== null
-  ) {
+  if (JSON.parse(localStorage.getItem("items")) !== null) {
     product = JSON.parse(JSON.stringify(myBasket));
-    total=JSON.parse(allOrderTotal)
+    total = JSON.parse(allOrderTotal);
   }
-
 
   function sendMinus(value, event) {
     const endRes = product.filter((id) => id.id === value.id);
@@ -102,7 +98,7 @@ const OrderComplete = () => {
           total.splice(index, 1);
           window.localStorage.setItem("total", JSON.stringify(total));
 
-          setAllOrderTotal(JSON.stringify(total))
+          setAllOrderTotal(JSON.stringify(total));
 
           setOrder({
             address_id: null,
@@ -150,7 +146,7 @@ const OrderComplete = () => {
 
     total.push(Number(value.price));
     window.localStorage.setItem("total", JSON.stringify(total));
-    setAllOrderTotal(JSON.stringify(total))
+    setAllOrderTotal(JSON.stringify(total));
 
     setOrder({
       address_id: null,
@@ -180,16 +176,17 @@ const OrderComplete = () => {
 
   let loginPopup = useRef();
 
-  function checkedToken() {
-    if (
-      localStorage.getItem("token") !== null &&
-      localStorage.getItem("user") !== null
-    ) {
-      return "/location";
-    } else {
-      return "/ordercomplete";
-    }
-  }
+  // function checkedToken() {
+  //   if (
+  //     localStorage.getItem("token") !== null &&
+  //     localStorage.getItem("user") !== null &&
+  //     localStorage.getItem("total") !== ""
+  //   ) {
+  //     return "/location";
+  //   } else {
+  //     return "/ordercomplete";
+  //   }
+  // }
 
   function checkedAmount() {
     document.querySelector(".openUpdatedPopup").style.display = "none";
@@ -383,7 +380,7 @@ const OrderComplete = () => {
                     <div className="flex">
                       <p className="priceBtn">
                         <span style={{ width: 100 + "%" }}>{pro.price}</span>
-                      {/* <i>
+                        {/* <i>
                             13%
                         </i> */}
                       </p>
@@ -430,8 +427,8 @@ const OrderComplete = () => {
             <NavLink
               to={
                 total.length !== 0 && total.reduce(reducer) >= minAmount
-                  ? checkedToken()
-                  : "ordercomplete"
+                  ? "/location"
+                  : "/ordercomplete"
               }
               onClick={() => {
                 nextPageButton();

@@ -213,13 +213,6 @@ const Order = () => {
   function checkedThief() {
     if (localStorage.getItem("total") === "") {
       window.location.reload();
-    } else {
-      if (
-        JSON.parse(allOrder).toString() !==
-        JSON.parse(localStorage.getItem("total")).toString()
-      ) {
-        window.location.reload();
-      }
     }
   }
 

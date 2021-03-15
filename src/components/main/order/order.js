@@ -380,7 +380,7 @@ const Order = () => {
                 checkedThief();
               }}
             >
-              <button className="success">Next</button>
+              <button className="success">İrəli</button>
             </NavLink>
           </div>
         </div>

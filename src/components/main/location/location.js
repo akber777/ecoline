@@ -664,7 +664,7 @@ const Location = () => {
 
             <div className="btnBoxs">
               <NavLink to={"/ordercomplete"}>
-                <button className="success">Prev</button>
+                <button className="success">Geri</button>
               </NavLink>
               <NavLink
                 to={
@@ -687,7 +687,7 @@ const Location = () => {
                     }
                   }}
                 >
-                  Next
+                  İrəli
                 </button>
               </NavLink>
             </div>

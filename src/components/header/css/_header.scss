@@ -115,6 +115,9 @@
         position: relative;
 
         a {
+            display: inline-flex;
+            align-items: center;
+            height: 50px;
             transition: all 0.2s;
             color: #3d3d3d;
             padding: 10px;
@@ -205,6 +208,8 @@
         height: 100%;
         width: 100%;
 
+
+
         .closeMob {
             position: absolute;
             display: inline-flex;
@@ -224,7 +229,7 @@
         padding-top: 42px;
 
         a {
-            color: #8cbd29;
+            color: #8cbd29 !important;
         }
 
         > a {

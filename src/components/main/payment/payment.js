@@ -200,7 +200,7 @@ const Payment = () => {
           <div className="payment__content">
             <div className="location__content">
               <div className="location__contentLeft">
-                <p>Qapida odenis</p>
+                <p>Qapida Ödəniş</p>
               </div>
               <div className="location__contentRight">
                 <span className="changeInfo" data-id={2}>
@@ -214,7 +214,7 @@ const Payment = () => {
             </div>
             <div className="location__content">
               <div className="location__contentLeft">
-                <p>Online Odenis</p>
+                <p>Online Ödəniş</p>
               </div>
               <div className="location__contentRight">
                 <span className="changeInfo" data-id={1}>
@@ -238,7 +238,7 @@ const Payment = () => {
             </p>
             <div className="btnBoxs" style={{ marginTop: 15 }}>
               <NavLink to={"/location"}>
-                <button className="success">Prev</button>
+                <button className="success">Geri</button>
               </NavLink>
               <NavLink
                 to={"/payment"}
@@ -260,7 +260,7 @@ const Payment = () => {
                     }
                   }}
                 >
-                  Next
+                  İrəli
                 </button>
               </NavLink>
             </div>

@@ -425,7 +425,7 @@ const OrderComplete = () => {
           </p>
           <div className="btnBoxs">
             <NavLink to={"/order"}>
-              <button className="success">Prev</button>
+              <button className="success">Geri</button>
             </NavLink>
             <NavLink
               to={
@@ -438,7 +438,7 @@ const OrderComplete = () => {
                 checkedAmount();
               }}
             >
-              <button className="success">Next</button>
+              <button className="success">İrəli</button>
             </NavLink>
           </div>
         </div>

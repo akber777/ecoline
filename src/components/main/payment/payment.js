@@ -227,7 +227,7 @@ const Payment = () => {
               </div>
             </div>
           </div>
-          <div className="order__result">
+          <div className="order__result noBoxShadow">
             <p>
               ÜMUMİ MƏBLƏĞ:
               <span className="res">

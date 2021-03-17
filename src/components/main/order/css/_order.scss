@@ -31,8 +31,7 @@
       border-radius: 25px;
       resize: none;
 
-      @media(max-width:575px)
-      {
+      @media (max-width: 575px) {
         width: 90%;
       }
     }
@@ -161,6 +160,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    -webkit-box-shadow: 0px -3px 11px 0px rgba(0, 0, 0, 0.31);
+    -moz-box-shadow: 0px -3px 11px 0px rgba(0, 0, 0, 0.31);
+    box-shadow: 0px -3px 11px 0px rgba(0, 0, 0, 0.31);
 
     p {
       font-size: 30px;
@@ -523,6 +525,3 @@
     }
   }
 }
-
-
-

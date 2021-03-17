@@ -81,6 +81,13 @@ const LoginInformation = () => {
           localStorage.setItem("user", JSON.stringify(params));
         }
       },
+      onError: function (err) {
+        if (err) {
+          document
+            .querySelector(".perloaderOrder")
+            .classList.remove("showPerloader");
+        }
+      },
     }
   );
 

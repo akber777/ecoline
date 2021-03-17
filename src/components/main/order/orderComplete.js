@@ -31,6 +31,9 @@ import swal from "sweetalert";
 // i18next
 import { useTranslation } from "react-i18next";
 
+// jquery
+import $ from 'jquery';
+
 const OrderComplete = () => {
   const { t } = useTranslation();
 
@@ -242,6 +245,23 @@ const OrderComplete = () => {
     },
   });
 
+
+  useLayoutEffect(() => {
+    $(".oder__content nav").css({
+      position: "sticky",
+      top: 20,
+      zIndex: 5555,
+    });
+
+    $(".order__result ").css({
+      position: "sticky",
+      bottom: 0,
+      zIndex: 5555,
+      backgroundColor: "#fff",
+      padding: 15,
+    });
+  }, []);
+
   return (
     <main className="complete loginLocation">
       <div className="checkedLoginPopup info__content">
@@ -416,7 +436,8 @@ const OrderComplete = () => {
             </div>
           </Row>
         </div>
-        <div className="order__result">
+      </Container>
+      <div className="order__result">
           <p>
             ÜMUMİ MƏBLƏĞ:
             <span className="res">
@@ -442,10 +463,9 @@ const OrderComplete = () => {
             </NavLink>
           </div>
         </div>
-      </Container>
-      <div id="map">
+      {/* <div id="map">
         {settings.isLoading === false && <Map locations={locate} />}
-      </div>
+      </div> */}
     </main>
   );
 };

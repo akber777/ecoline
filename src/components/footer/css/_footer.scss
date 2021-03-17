@@ -84,7 +84,7 @@
 
             a {
                 color: #fff;
-                font-size: 14px;
+                font-size: 15px;
 
                 &:not(:last-child) {
                     margin-right: 26px;
@@ -99,7 +99,7 @@
         &--right {
             a {
                 color: #fff !important;
-                font-size: 14px;
+                font-size: 15px;
 
                 @media (max-width: 765px) {
                     display: flex;

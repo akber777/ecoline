@@ -154,6 +154,16 @@ const Login = () => {
                 />
                 <p className="alertLogin">{t("Soyad Daxil Edin")}</p>
                 <Input
+                  placeholder={t("Telefon")}
+                  type="text"
+                  onChange={(event) => {
+                    setPhone(event.target.value);
+                  }}
+                />
+                <p className="alertLogin">
+                  {t("Telefon Nömrənizi Daxil Edin")}
+                </p>
+                <Input
                   placeholder={t("EMAIL")}
                   type="text"
                   onChange={(event) => {

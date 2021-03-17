@@ -357,7 +357,7 @@
         position: relative;
 
         @media (max-width: 575px) {
-            padding-top: 50px;
+            padding-top: 0px;
         }
 
         > h4 {
@@ -397,6 +397,8 @@
         background-position: center;
         background-size: cover;
         background-attachment: fixed;
+
+        
 
         > img {
             position: absolute;

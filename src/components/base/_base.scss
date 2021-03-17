@@ -238,3 +238,7 @@ $icon-height: 25px;
 .showPerloader{
   display: flex;
 }
+
+.noBoxShadow{
+  box-shadow: unset !important;
+}

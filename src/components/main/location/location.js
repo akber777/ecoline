@@ -648,7 +648,7 @@ const Location = () => {
               </div>
             </div>
           </div>
-          <div className="order__result">
+          <div className="order__result noBoxShadow">
             <div className="login__sendBtn infoSend">
               <button
                 onClick={() => {

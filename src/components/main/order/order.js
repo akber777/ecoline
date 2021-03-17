@@ -357,7 +357,8 @@ const Order = () => {
             </div>
           )}
         </div>
-        <div className="order__result">
+      </Container>
+      <div className="order__result">
           <p>
             ÜMUMİ MƏBLƏĞ:
             <span className="res">
@@ -384,7 +385,6 @@ const Order = () => {
             </NavLink>
           </div>
         </div>
-      </Container>
       {/* <div id="map">
         {settings.isLoading === false && <Map locations={locate} />}
       </div> */}

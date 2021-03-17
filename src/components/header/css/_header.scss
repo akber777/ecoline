@@ -180,13 +180,13 @@
       transition: all 0.2s;
       color: #fff !important;
       font-size: 13px;
-      padding: 13px;
+      padding: 12px;
+      padding-bottom: 8px;
       text-align: center;
 
       @media (max-width: 1739px) {
         width: auto;
-        height: auto;
-        padding: 2px 13px;
+        height: 32px;
       }
 
       &:hover {
@@ -324,10 +324,15 @@
     bottom: 25px;
     right: 10px;
     z-index: 111;
+    width: auto;
+    height: 32px;
+    padding: 0;
 
     a {
       height: 30px !important;
       font-weight: bold;
+      padding-top: 12px;
+      padding-top: 11px;
     }
 
     @media (max-width: 500px) {

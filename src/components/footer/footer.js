@@ -66,17 +66,11 @@ const Footer = () => {
               <NavLink to={""}>Təkliflər və şikayətlər</NavLink>
             </div>
             <div className="footer__end--right">
-              <a
-                href={
-                  settings.isLoading === false &&
-                  settings.data === false &&
-                  settings.data.data.header_phone
-                }
-              >
-                {settings.isLoading === false &&
-                  settings.data &&
-                  settings.data.data.header_phone}
-              </a>
+              {settings.isLoading === false && (
+                <a href={"tel:" + settings.data.data.header_phone}>
+                  {settings.data.data.header_phone}
+                </a>
+              )}
             </div>
           </div>
         </Container>

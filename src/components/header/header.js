@@ -104,6 +104,21 @@ const Header = () => {
     // $('.headerMobileMenu > a').on('click', function () {
     //     $('.headerMobWrap ').removeClass('openMenu');
     // })
+
+    $(window).scroll(function () {
+      if (
+        $(window).scrollTop() + $(window).height() >
+        $(document).height() - $(".footer__end").height()
+      ) {
+        $(".header__navGetMobile").css({
+          bottom: $(".footer__end").height() + 50,
+        });
+      } else {
+        $(".header__navGetMobile").css({
+          bottom: 25,
+        });
+      }
+    });
   }, [data]);
 
   useLayoutEffect(() => {

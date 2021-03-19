@@ -34,6 +34,7 @@ const Footer = () => {
       refetchOnWindowFocus: false,
     }
   );
+  
 
   return (
     <footer className="footer">

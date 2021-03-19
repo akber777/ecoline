@@ -234,11 +234,29 @@ $icon-height: 25px;
   z-index: 555;
 }
 
-
-.showPerloader{
+.showPerloader {
   display: flex;
 }
 
-.noBoxShadow{
+.noBoxShadow {
   box-shadow: unset !important;
+  background-color: #fff !important;
+
+  .success {
+    background-color: #8cbd29;
+    color: #fff;
+
+    &:hover {
+      transition: all 0.2s;
+      color: #8cbd29;
+      background-color: #fff;
+      border: 2px solid #8cbd29;
+    }
+  }
+}
+
+.navGetColor {
+  a {
+    background-color: #608a0c !important;
+  }
 }

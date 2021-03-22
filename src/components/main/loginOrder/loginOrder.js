@@ -271,7 +271,7 @@ const LoginOrder = () => {
                 </p>
                 <p>
                   {t("STATUS")}
-                  <span>Təhvil verildi</span>
+                  <span>{item.status}</span>
                 </p>
               </div>
               <div className="order__content">

@@ -1,18 +1,23 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import translationAz from "../language/translationAz";
+import translationEn from "../language/translationEn";
 
-import translationAz from "../language/translationAz.json";
+// helper
+import { multiTranslate } from "../helper/helper";
+
+multiTranslate();
 
 const resources = {
   az: {
     translation: translationAz,
   },
   en: {
-    translation: "",
+    translation: translationEn,
   },
   ru: {
     translation: {
-      "Welcome to React": "Bienvenue à React et react-i18next",
+      translation: "",
     },
   },
 };

@@ -4,6 +4,13 @@ import renderHTML from "react-render-html";
 import * as moment from "moment";
 import "moment/locale/az";
 
+// axios
+import axios from "axios";
+
+// baseUrl
+import { baseUrl } from "../api/api";
+import { data } from "jquery";
+
 export const checkType = (data) => {
   // endResult.push(data.replace(myRegex, `<img src=${item} />`))
 
@@ -83,3 +90,16 @@ export const checkedUrl = (type) => {
     return "";
   }
 };
+
+export function multiTranslate() {
+  async function getAllTranslation() {
+    const res = await axios.get(baseUrl + "translation/messages");
+
+    if (res.status === 200) {
+      localStorage.removeItem("lang");
+      localStorage.setItem("lang", JSON.stringify(res.data));
+    }
+  }
+
+  getAllTranslation();
+}

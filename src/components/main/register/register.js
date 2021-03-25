@@ -13,9 +13,12 @@ import { Container, Input } from "reactstrap";
 import WhyUs from "../whyUs/whyUs";
 import News from "../news/news";
 import Map from "../map/map";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEnvelope, faGlassMartiniAlt } from '@fortawesome/free-solid-svg-icons';
-// import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faGlassMartiniAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 
 // ract router dom
 import { NavLink, useHistory } from "react-router-dom";
@@ -28,7 +31,7 @@ import axios from "axios";
 
 // apis
 
-import { registerApi } from "../../api/api";
+import { loginSosial, registerApi } from "../../api/api";
 
 // token
 import { error } from "../../atoms/atoms";
@@ -124,16 +127,16 @@ const Login = () => {
         <Container>
           <h4>{t("QEYDİYYATDAN KEÇ VƏ YA DAXİL OL")}</h4>
           <div className="login__info">
-            {/* <div className='login__social'>
-                            <a href='2#'>
-                                <FontAwesomeIcon icon={faEnvelope} />
-                                Log in Email
-                            </a>
-                            <a href='2#'>
-                                <FontAwesomeIcon icon={faFacebookF} />
-                                Connect to facebook
-                            </a>
-                        </div> */}
+            <div className="login__social">
+              <a href={loginSosial + "/flynsarmy/sociallogin/Google"}>
+                <FontAwesomeIcon icon={faEnvelope} />
+                Log in Email
+              </a>
+              <a href="2#">
+                <FontAwesomeIcon icon={faFacebookF} />
+                Connect to facebook
+              </a>
+            </div>
             <div className="login__info">
               <h4>{t("XÜSUSİ QEYDİYYAT")}</h4>
               <div className="login__formBox">

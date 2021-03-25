@@ -79,7 +79,6 @@ import NotFound from "./components/main/404/404";
 // seo helmet
 import HelmetApp from "./components/helmet/helmet";
 
-
 function App() {
   let { pathname } = useLocation();
 
@@ -116,8 +115,7 @@ function App() {
           pathname.split("/")[1] !== "services" &&
           pathname.split("/")[1] !== "ordercheck" &&
           pathname.split("/")[1] !== "ordercheckcash" &&
-          pathname.split("/")[1] !== "notfound" &&
-           (
+          pathname.split("/")[1] !== "notfound" && (
             <Route path="/*">
               <Static />
             </Route>

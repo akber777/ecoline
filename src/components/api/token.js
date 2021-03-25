@@ -10,6 +10,10 @@ import { useRecoilState } from "recoil";
 // atoms
 import { error } from "../atoms/atoms";
 
+function useQueryData() {
+  return new URLSearchParams(useLocation().search);
+}
+
 export function SetToken() {
   let [err, setError] = useRecoilState(error);
 
@@ -17,11 +21,22 @@ export function SetToken() {
 
   let { pathname } = useLocation();
 
+  let query = useQueryData();
+
   axios.interceptors.request.use(function (config) {
-    let token = localStorage.getItem("token");
+    let token =
+      localStorage.getItem("token") === null
+        ? query.get("token")
+        : localStorage.getItem("token");
+
+    if (query.get("token") !== null) {
+      localStorage.getItem("token", query.get("token"));
+    }
+
+    config.headers["locale"] = localStorage.getItem("i18nextLng");
+
     if (token) {
       config.headers["Authorization"] = "Bearer " + JSON.parse(token);
-
     } else {
       delete config.headers["Authorization"];
     }

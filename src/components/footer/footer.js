@@ -21,6 +21,12 @@ import axios from "axios";
 // baseUrl
 import { baseUrl } from "../api/api";
 
+// react whatsapp
+import ReactWhatsapp from "react-whatsapp";
+
+// jquery
+import $ from "jquery";
+
 const Footer = () => {
   // settings
   let settings = useQuery(
@@ -34,17 +40,46 @@ const Footer = () => {
       refetchOnWindowFocus: false,
     }
   );
-  
+
+  $(window).scroll(function () {
+    if (
+      $(window).scrollTop() + $(window).height() >
+      $(document).height() - $(".footer__end").height()
+    ) {
+      $(".header__navGetMobile").css({
+        bottom: $(".footer__end").height() + 50,
+      });
+    } else {
+      $(".header__navGetMobile").css({
+        bottom: 10,
+      });
+    }
+  });
 
   return (
     <footer className="footer">
+      <ReactWhatsapp
+        className="header__navGetMobile wpBox"
+        number="+994502765599"
+        message=""
+      >
+        <div className="whatsap_div">
+          <a target="_blank" rel="noreferrer" title="" href="2#">
+            <img
+              className="full"
+              src={require("../images/whatsapp.png").default}
+              alt=""
+            />
+          </a>
+        </div>
+      </ReactWhatsapp>
       <Container>
         <div className="footer__top">
           <div className="footer__logo">
             <img src={require("../images/logoHeader.png").default} alt="" />
           </div>
           <div className="footer__content">
-            <p>© 2020. All Rights Reserved.</p>
+            <p>© 2021. All Rights Reserved.</p>
             <div className="footer__social">
               {settings.isLoading === false &&
                 settings.data !== undefined &&
@@ -61,13 +96,12 @@ const Footer = () => {
         <Container>
           <div className="footer__wrapEnd">
             <div className="footer__end--left">
-              <NavLink to={"/rules"}>Qaydalar və şərtlər</NavLink>
-              <NavLink to={""}>Bizimlə əlaqə</NavLink>
-              <NavLink to={""}>Sıx Soruşulan Sual</NavLink>
-              <NavLink to={""}>Təkliflər və şikayətlər</NavLink>
+              <NavLink to={"/blog"}> Blog</NavLink>
+              <NavLink to={"/xidmetlerimiz"}>Xidmətlər </NavLink>
+              <NavLink to={"/contact"}>Əlaqə</NavLink>
             </div>
             <div className="footer__end--right">
-              {settings.isLoading === false && (
+              {settings.isLoading === false && settings.data !== undefined && (
                 <a href={"tel:" + settings.data.data.header_phone}>
                   {settings.data.data.header_phone}
                 </a>

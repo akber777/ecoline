@@ -24,6 +24,9 @@ import axios from "axios";
 // react i18
 import { useTranslation } from "react-i18next";
 
+// react splide
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
 const WhyUs = (props) => {
   const { t } = useTranslation();
 
@@ -67,12 +70,32 @@ const WhyUs = (props) => {
                       t('DAHA ÇOX MƏLUMAT ALMAQ ÜÇÜN ...')
                   } */}
                 </h4>
-                <Row>
+                <Splide
+                  options={{
+                    width: "auto",
+                    gap: "1rem",
+                    autoplay: true,
+                    interval: 4000,
+                    type: "loop",
+                    perPage: 3,
+                    arrows: false,
+                    perMove: 1,
+                    pagination: false,
+                    breakpoints: {
+                      1052: {
+                        perPage: 2,
+                      },
+                      775: {
+                        perPage: 1,
+                      },
+                    }
+                  }}
+                >
                   {isLoading === false &&
                     data.data.length !== 0 &&
                     (data.data.viewBag.advantage !== undefined ? (
                       data.data.viewBag.advantage.map((item, index) => (
-                        <Col lg="4" key={index}>
+                        <SplideSlide>
                           <NavLink to={""}>
                             <div className="home__whyUsItems">
                               <div className="home__whyUsItems--imgBox">
@@ -91,7 +114,7 @@ const WhyUs = (props) => {
                               </div>
                             </div>
                           </NavLink>
-                        </Col>
+                        </SplideSlide>
                       ))
                     ) : (
                       <div
@@ -110,7 +133,7 @@ const WhyUs = (props) => {
                         ></div>
                       </div>
                     ))}
-                </Row>
+                </Splide>
               </div>
             </Container>
           </div>

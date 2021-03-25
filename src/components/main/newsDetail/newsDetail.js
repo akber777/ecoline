@@ -70,13 +70,7 @@ const NewsDetail = () => {
       <div
         className="rules__banner"
         style={{
-          backgroundImage: `url(${
-            isLoading === false &&
-            data.data.length !== 0 &&
-            data.data.img !== null
-              ? data.data.img.detail
-              : ""
-          })`,
+          backgroundImage: `url(${require("../../images/rules.png").default})`,
         }}
       >
         <Container>

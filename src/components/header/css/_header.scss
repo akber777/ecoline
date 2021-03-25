@@ -261,7 +261,7 @@
           left: 11px !important;
           width: 93%;
 
-          a{
+          a {
             text-align: center;
           }
         }
@@ -346,6 +346,22 @@
 
     @media (max-width: 500px) {
       display: block;
+    }
+  }
+
+  &__langBox {
+    margin-left: 33px;
+
+    button {
+      background-color: transparent;
+      color: #3d3d3d;
+      border: none;
+      padding: 5px;
+      font-weight: bold;
+
+      &.activeLang {
+        color: #8cbd29;
+      }
     }
   }
 }

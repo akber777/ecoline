@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // reactstrap
-import { Container } from "reactstrap";
+import { Container, Input } from "reactstrap";
 
 // scss
 import "./css/_contact.scss";
@@ -58,6 +58,7 @@ const Contact = () => {
 
   const [name, setName] = useState(null);
   const [surname, setSurname] = useState(null);
+  const [email, setEmail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [content, setContent] = useState(null);
   const [gRecaptcharesponse, setGRecaptchaResponse] = useState(null);
@@ -67,6 +68,7 @@ const Contact = () => {
     surname: surname,
     phone: phone,
     content: content,
+    email: email,
     recaptcha: gRecaptcharesponse,
   };
 
@@ -83,14 +85,16 @@ const Contact = () => {
           });
 
           setName();
+          setEmail();
           setSurname();
           setPhone();
           setContent();
 
-          $("#contact input,textarea").val("");
+          $("#contact input").val("");
 
-          $("#contact input,textarea").removeClass("alert alert-danger");
-          $("#contact input,textarea").removeAttr("role");
+          $("#contact .formItem").removeClass("alert alert-danger");
+          $("#contact .formItem").removeAttr("role");
+          $(".perloaderOrder").removeClass("showPerloader");
         }
       },
       onError: function (error) {
@@ -100,7 +104,7 @@ const Contact = () => {
           button: t("Bağla"),
         });
 
-        $.each($("#contact fieldset input,textarea"), function (index, item) {
+        $.each($("#contact .formItem"), function (index, item) {
           if ($(item).val() === "") {
             $(item).addClass("alert alert-danger");
             $(item).attr("role", "alert");
@@ -119,92 +123,142 @@ const Contact = () => {
 
   return (
     <main className="contact">
+      <div
+        className="rules__banner"
+        style={{
+          backgroundImage: `url(${require("../../images/rules.png").default})`,
+        }}
+      >
+        <Container>
+          <h4 className="rules__title staticH4">{t("ƏLAQƏ")}</h4>
+        </Container>
+      </div>
+      <div className="perloaderOrder">
+        <div
+          style={{
+            height: 300,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            id="preloader"
+            aria-busy="true"
+            aria-label="Loading, please wait."
+            role="progressbar"
+          ></div>
+        </div>
+      </div>
       <Container>
         <div className="container">
-          <h1>{t("ƏLAQƏ")}</h1>
           <div id="contact" action="" method="post">
-            <fieldset>
-              <input
-                placeholder={t("Ad")}
-                type="text"
-                tabIndex="1"
-                required
-                autoFocus
-                onChange={(event) => {
-                  setName(event.target.value);
-                }}
-              />
-            </fieldset>
-            <fieldset>
-              <input
-                placeholder={t("SOYAD")}
-                type="email"
-                tabIndex="2"
-                required
-                onChange={(event) => {
-                  setSurname(event.target.value);
-                }}
-              />
-            </fieldset>
-            <fieldset>
-              <input
-                placeholder={t("NÖMRƏ")}
-                type="tel"
-                className="noString"
-                tabIndex="3"
-                required
-                onChange={(event) => {
-                  setPhone(event.target.value);
-                }}
-              />
-            </fieldset>
-            <fieldset>
-              <textarea
-                placeholder={t("Mesajınız...")}
-                tabIndex="5"
-                required
-                onChange={(event) => {
-                  setContent(event.target.value);
-                }}
-              ></textarea>
-            </fieldset>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: 25,
-                marginTop: 25,
-              }}
-            >
-              <ReCAPTCHA
-                sitekey="6Ld_GngaAAAAAP83xh6jeeUHJbJM7QXaFOnyQ_uE"
-                onChange={onVerify}
-              />
-            </div>
-            <fieldset>
-              <button
-                type="submit"
-                id="contact-submit"
-                data-submit="...Sending"
-                onClick={() => {
-                  if (gRecaptcharesponse !== null) {
-                    mutation.mutate(params);
-                  } else {
-                    swal({
-                      title: t("Mesajınız Göndərilmədi!"),
-                      text: t("Google Recaptchani Doldurun!"),
-                      icon: "error",
-                      button: t("Bağla"),
-                    });
-                  }
+            <div className="info__content">
+              <div className="formBox">
+                <div className="formItem">
+                  <span>{t("Ad")}</span>
+                  <Input
+                    type="text"
+                    tabIndex="1"
+                    required
+                    autoFocus
+                    onChange={(event) => {
+                      setName(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="formItem">
+                  <span>{t("Soyad")}</span>
+                  <Input
+                    type="email"
+                    tabIndex="2"
+                    required
+                    onChange={(event) => {
+                      setSurname(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="formItem">
+                  <span>{t("Telefon")}</span>
+                  <Input
+                    type="tel"
+                    className="noString"
+                    tabIndex="3"
+                    required
+                    onChange={(event) => {
+                      setPhone(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="formItem">
+                  <span>{t("Email")}</span>
+                  <Input
+                    value={email}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="formItem textareaa">
+                  <span>{t("Mesajınız...")}</span>
+                  <Input
+                    tabIndex="5"
+                    required
+                    onChange={(event) => {
+                      setContent(event.target.value);
+                    }}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: 25,
+                  marginTop: 25,
                 }}
               >
-                {t("GÖNDƏR")}
-              </button>
-            </fieldset>
+                <ReCAPTCHA
+                  sitekey="6Ld_GngaAAAAAP83xh6jeeUHJbJM7QXaFOnyQ_uE"
+                  onChange={onVerify}
+                />
+              </div>
+              <div className="login__sendBtn infoSend">
+                <button
+                  type="submit"
+                  id="contact-submit"
+                  data-submit="...Sending"
+                  onClick={() => {
+                    if (gRecaptcharesponse !== null) {
+                      mutation.mutate(params);
+                      document
+                        .querySelector(".perloaderOrder")
+                        .classList.add("showPerloader");
+                    } else {
+                      swal({
+                        title: t("Mesajınız Göndərilmədi!"),
+                        text: t("Google Recaptchani Doldurun!"),
+                        icon: "error",
+                        button: t("Bağla"),
+                      });
+                    }
+                  }}
+                >
+                  {t("GÖNDƏR")}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </Container>
+      <div className="contact__footer">
+        <h4> Həsən Əliyev 7C</h4>
+        <p>
+          <a href="tel:+994 12 430 55 99 / +994 50 265 55 99">
+            +994 12 430 55 99 / +994 50 265 55 99
+          </a>
+        </p>
+      </div>
       <WhyUs />
       <div id="map">
         {settings.isLoading === false && <MapContainer locations={locate} />}

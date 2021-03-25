@@ -24,6 +24,9 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 // react i18
 import { useTranslation } from "react-i18next";
 
+// i18
+import i18n from "../i18next/i18n";
+
 // react query
 import { useQuery } from "react-query";
 
@@ -119,6 +122,10 @@ const Header = () => {
         });
       }
     });
+
+    if (localStorage.getItem("i18nextLng") === null) {
+      i18n.changeLanguage("az");
+    }
   }, [data]);
 
   useLayoutEffect(() => {
@@ -154,6 +161,11 @@ const Header = () => {
   useLayoutEffect(() => {
     $(".headerMobWrap").removeClass("openMenu");
   }, [pathname]);
+
+  const changeLang = (lang) => {
+    i18n.changeLanguage(lang);
+    window.location.reload();
+  };
 
   return (
     <header className="header">
@@ -209,12 +221,15 @@ const Header = () => {
           <div className="header__topFlex">
             <div className="header__topLeft">
               <p>
-                {settings.isLoading === false && settings.data.data.header_open}
+                {settings.isLoading === false &&
+                  settings.data !== undefined &&
+                  settings.data.data.header_open}
               </p>
             </div>
             <div className="header__topRight">
               <a href="tel:">
                 {settings.isLoading === false &&
+                  settings.data !== undefined &&
                   settings.data.data.header_phone}
               </a>
               {window.localStorage.getItem("token") === null ? (
@@ -225,7 +240,8 @@ const Header = () => {
                 </NavLink>
               ) : (
                 <NavLink to={"/loginorder"}>
-                  {JSON.parse(window.localStorage.getItem("user")).name}
+                  {localStorage.getItem("user") !== null &&
+                    JSON.parse(window.localStorage.getItem("user")).name}
                 </NavLink>
               )}
               {window.localStorage.getItem("token") === null ? (
@@ -240,16 +256,10 @@ const Header = () => {
       <div className="header__menuBox">
         <Container>
           <nav className="header__nav">
-            <NavLink
-              to={"/index"}
-              className="navLogo"
-              onClick={() => {
-                setTitle("Ana Səhifə");
-              }}
-            >
+            <NavLink to={"/index"} className="navLogo">
               <img
                 src={
-                  settings.isLoading === false
+                  settings.isLoading === false && settings.data !== undefined
                     ? settings.data.data.header_logo.original
                     : ""
                 }
@@ -272,9 +282,6 @@ const Header = () => {
                           ? "activeItem"
                           : ""
                       }
-                      onClick={() => {
-                        setTitle(item.title);
-                      }}
                     >
                       {item.title}
                       {item.items !== undefined ? (
@@ -290,6 +297,33 @@ const Header = () => {
                       )}
                     </NavLink>
                   ))}
+              </div>
+              <div className="header__langBox">
+                <button
+                  className={
+                    localStorage.getItem("i18nextLng") === "az"
+                      ? "activeLang"
+                      : ""
+                  }
+                  onClick={() => {
+                    changeLang("az");
+                  }}
+                >
+                  Az
+                </button>
+                <span>|</span>
+                <button
+                  className={
+                    localStorage.getItem("i18nextLng") === "en"
+                      ? "activeLang"
+                      : ""
+                  }
+                  onClick={() => {
+                    changeLang("en");
+                  }}
+                >
+                  En
+                </button>
               </div>
               <div className="header__navGet">
                 <NavLink to={"/order"}>

@@ -90,16 +90,3 @@ export const checkedUrl = (type) => {
     return "";
   }
 };
-
-export function multiTranslate() {
-  async function getAllTranslation() {
-    const res = await axios.get(baseUrl + "translation/messages");
-
-    if (res.status === 200) {
-      localStorage.removeItem("lang");
-      localStorage.setItem("lang", JSON.stringify(res.data));
-    }
-  }
-
-  getAllTranslation();
-}

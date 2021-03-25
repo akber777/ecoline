@@ -8,5 +8,7 @@ export const imgPath = 'https://apiecoline.gocreative.az/storage/app/media';
 
 export const azerTurkReturn = 'https://apiecoline.gocreative.az/api/v1/payment/return';
 
+export const loginSosial='https://apiecoline.gocreative.az';
+
 
 

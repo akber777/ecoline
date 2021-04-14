@@ -278,7 +278,7 @@ const OrderComplete = () => {
             </button>
             <div className="complete__popupItems">
               <div className="login__info">
-                <h4 className="complete__popupItems--title">DAXİL OL</h4>
+                <h4 className="complete__popupItems--title">{t('Daxil ol')}</h4>
                 <div className="login__formBox">
                   <Input
                     placeholder="EMAIL"
@@ -295,14 +295,14 @@ const OrderComplete = () => {
                     }}
                   />
                   <p className="loginAlertBox">
-                    Parol və login məlumatları səhvdir
+                   {t('Parol və login məlumatları səhvdir')}
                   </p>
                 </div>
                 <div className="login__formBoxEnd">
                   {/* <NavLink to={''}>
                                     ŞİFRƏMİ UNUTDUM
                                 </NavLink> */}
-                  <NavLink to={"/register"}>QEYDİYYATDAN KEÇ</NavLink>
+                  <NavLink to={"/register"}>{t('QEYDİYYATDAN KEÇ')}</NavLink>
                 </div>
                 <div className="login__sendBtn">
                   <button
@@ -310,7 +310,7 @@ const OrderComplete = () => {
                       mutation.mutate(params);
                     }}
                   >
-                    DAXİL OL
+                   {t('Daxil ol')}
                   </button>
                 </div>
               </div>
@@ -322,13 +322,13 @@ const OrderComplete = () => {
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
-          <h4 className="rules__title">ONLİNE SİFARİŞ</h4>
+          <h4 className="rules__title">{t('ONLİNE SİFARİŞ')}</h4>
         </Container>
       </div>
       <Container>
         <div className="order__breadCrumbs">
-          <span>SİFARİŞ</span>
-          <span className="activCrumbs">SİFARİŞLƏRİM</span>
+          <span>{t('ORDER')}</span>
+          <span className="activCrumbs">{t('Sifarişlərim')}</span>
         </div>
         <div className="oder__content home__priceBox">
           <Row>
@@ -439,14 +439,14 @@ const OrderComplete = () => {
       </Container>
       <div className="order__result">
           <p>
-            ÜMUMİ MƏBLƏĞ:
+            {t('ÜMUMİ MƏBLƏĞ')}:
             <span className="res">
               {total.length !== 0 && total.reduce(reducer) + " AZN"}
             </span>
           </p>
           <div className="btnBoxs">
             <NavLink to={"/order"}>
-              <button className="success">Geri</button>
+              <button className="success">{t('Geri')}</button>
             </NavLink>
             <NavLink
               to={
@@ -459,7 +459,7 @@ const OrderComplete = () => {
                 checkedAmount();
               }}
             >
-              <button className="success">İrəli</button>
+              <button className="success">{t("İrəli")}</button>
             </NavLink>
           </div>
         </div>

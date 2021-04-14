@@ -1,6 +1,4 @@
 .contact {
-  padding: 50px 0;
-
   h1 {
     display: block;
     font-size: 30px;
@@ -47,16 +45,28 @@
     margin-bottom: 60px;
 
     h4 {
-      text-align: center;
-      color: #3d3d3d;
-      font-size: 16px;
+      text-align: left;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     p {
-      text-align: center;
+      text-align: left;
+      font-size: 16px;
+      
 
       a {
-        color: #3d3d3d;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+
+    .sosial {
+      text-align: left !important;
+
+      a:not(:last-child) {
+        margin-right: 15px;
       }
     }
   }

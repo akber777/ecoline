@@ -205,12 +205,10 @@ const LoginLocation = () => {
       <Container>
         <div className="info__top">
           <div className="info__topItem">
-            <NavLink to={"/loginorder"}>Sifarişlərim</NavLink>
-            <NavLink to={"/loginlocation"} className="activeMenu">
-              Ünvanlarım
-            </NavLink>
-            <NavLink to={"/logininformation"}>Məlumatlarım</NavLink>
-            <NavLink to={"/passwordupdate"}>Şifrəni yenilə</NavLink>
+            <NavLink to={"/loginorder"}>{t("Sifarişlərim")}</NavLink>
+            <NavLink to={"/loginlocation"} className="activeMenu">{t("Ünvanlarım")}</NavLink>
+            <NavLink to={"/logininformation"}>{t("Məlumatlarım")}</NavLink>
+            <NavLink to={"/passwordupdate"}>{t("Şifrəni yenilə")}</NavLink>
             <NavLink
               to={"/index"}
               onClick={() => {
@@ -218,7 +216,7 @@ const LoginLocation = () => {
                 localStorage.removeItem("user");
               }}
             >
-              Çıxış
+              {t("Çıxış")}
             </NavLink>
           </div>
         </div>
@@ -300,7 +298,7 @@ const LoginLocation = () => {
               <h4>YENILE</h4>
               <div className="formBox">
                 <div className="formItem">
-                  <span>Ad:</span>
+                  <span>{t("Ad")}:</span>
                   <Input
                     type="text"
                     value={name}
@@ -310,7 +308,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem">
-                  <span>Telefon:</span>
+                  <span>{t("Telefon")}:</span>
                   <Input
                     type="phone"
                     value={phone}
@@ -320,7 +318,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem fromLocate">
-                  <span>Ünvan:</span>
+                  <span>{t("Ünvan")}:</span>
                   <Input
                     type="text"
                     value={address}
@@ -330,7 +328,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem">
-                  <span>Xəritədə göstər:</span>
+                  <span>{t("Xəritədə göstər")}:</span>
                   <p className="showPin">
                     <img
                       src={require("../../images/newPin.png").default}
@@ -339,7 +337,7 @@ const LoginLocation = () => {
                   </p>
                 </div>
                 <div className="formItem">
-                  <span>Şəhər:</span>
+                  <span>{t("Şəhər")}:</span>
                   <select
                     onChange={(event) => {
                       setCity(event.target.value);
@@ -372,7 +370,7 @@ const LoginLocation = () => {
                   mutationUpdated.mutate(params);
                 }}
               >
-                ƏLAVƏ ET
+                {t("ƏLAVƏ ET")}
               </button>
             </div>
           </div>
@@ -389,10 +387,10 @@ const LoginLocation = () => {
               >
                 x
               </button>
-              <h4>Yeni Ünvan Əlavə et</h4>
+              <h4>{t("Yeni Ünvan Əlavə et")}</h4>
               <div className="formBox">
                 <div className="formItem">
-                  <span>Ad:</span>
+                  <span>{t("Ad")}:</span>
                   <Input
                     type="text"
                     onChange={(event) => {
@@ -401,7 +399,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem">
-                  <span>Telefon:</span>
+                  <span>{t("Telefon")}:</span>
                   <Input
                     type="phone"
                     onChange={(event) => {
@@ -410,7 +408,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem fromLocate">
-                  <span>Ünvan:</span>
+                  <span>{t("Ünvan")}:</span>
                   <Input
                     type="text"
                     onChange={(event) => {
@@ -419,7 +417,7 @@ const LoginLocation = () => {
                   />
                 </div>
                 <div className="formItem">
-                  <span>Xəritədə göstər:</span>
+                  <span>{t("Xəritədə göstər")}:</span>
                   <p className="showPin">
                     <img
                       src={require("../../images/newPin.png").default}
@@ -428,7 +426,7 @@ const LoginLocation = () => {
                   </p>
                 </div>
                 <div className="formItem">
-                  <span>Şəhər:</span>
+                  <span>{t("Şəhər")}:</span>
                   <select
                     onChange={(event) => {
                       setCity(event.target.value);
@@ -452,90 +450,90 @@ const LoginLocation = () => {
                     swal({
                       title: t("Bütün inputları doldurmanız lazımdır!"),
                       icon: "error",
-                      button: "Bağla",
+                      button: t("Bağla"),
                     });
                   }
                 }}
               >
-                ƏLAVƏ ET
+                {t("ƏLAVƏ ET")}
               </button>
             </div>
           </div>
-
           <div className="formBox">
-            {addressApi.isLoading === false &&
-            addressApi.data !== undefined &&
-            addressApi.data.data.data.length !== 0 ? (
-              addressApi.data.data.data.map((item, index) => (
-                <div className="location__content" key={item.id}>
-                  <div className="location__contentLeft">
-                    <p>
-                      Ev ünvanım:
-                      <span>{item.address}</span>
-                    </p>
-                    {/* <p>
+            {addressApi.isLoading === false && addressApi.data !== undefined ? (
+              addressApi.data.data.address !== undefined ? (
+                ""
+              ) : (
+                addressApi.data.data.data.map((item, index) => (
+                  <div className="location__content" key={item.id}>
+                    <div className="location__contentLeft">
+                      <p>
+                        {t("Ev ünvanım")}:<span>{item.address}</span>
+                      </p>
+                      {/* <p>
                             <img src={require('../../images/newPin.png').default} alt='' />
                         </p> */}
+                    </div>
+                    <div className="location__contentRight">
+                      <span
+                        className="changeInfo"
+                        data-id={item.id}
+                        data-index={index}
+                        onClick={(event) => {
+                          document.querySelector(
+                            ".openUpdatedPopup"
+                          ).style.display = "block";
+                          setId(Number(event.target.getAttribute("data-id")));
+                          setName(
+                            addressApi.isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ].name
+                              : ""
+                          );
+                          setPhone(
+                            addressApi.isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ].phone
+                              : ""
+                          );
+                          setAddress(
+                            addressApi.isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ].address
+                              : ""
+                          );
+                          setCheckedCity(
+                            isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ]
+                              : ""
+                          );
+                          setLang(
+                            addressApi.isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ].lang
+                              : ""
+                          );
+                          setLati(
+                            addressApi.isLoading === false
+                              ? addressApi.data.data.data[
+                                  event.target.getAttribute("data-index")
+                                ].lat
+                              : ""
+                          );
+                        }}
+                      >
+                        {t("DÜZƏLİŞ ET")}
+                      </span>
+                    </div>
                   </div>
-                  <div className="location__contentRight">
-                    <span
-                      className="changeInfo"
-                      data-id={item.id}
-                      data-index={index}
-                      onClick={(event) => {
-                        document.querySelector(
-                          ".openUpdatedPopup"
-                        ).style.display = "block";
-                        setId(Number(event.target.getAttribute("data-id")));
-                        setName(
-                          addressApi.isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ].name
-                            : ""
-                        );
-                        setPhone(
-                          addressApi.isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ].phone
-                            : ""
-                        );
-                        setAddress(
-                          addressApi.isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ].address
-                            : ""
-                        );
-                        setCheckedCity(
-                          isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ]
-                            : ""
-                        );
-                        setLang(
-                          addressApi.isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ].lang
-                            : ""
-                        );
-                        setLati(
-                          addressApi.isLoading === false
-                            ? addressApi.data.data.data[
-                                event.target.getAttribute("data-index")
-                              ].lat
-                            : ""
-                        );
-                      }}
-                    >
-                      DÜZƏLİŞ ET
-                    </span>
-                  </div>
-                </div>
-              ))
+                ))
+              )
             ) : (
               <div
                 style={{
@@ -565,7 +563,7 @@ const LoginLocation = () => {
                 setAddress();
               }}
             >
-              ÜNVAN ƏLAVƏ ET
+              {t("ÜNVAN ƏLAVƏ ET")}
             </button>
           </div>
         </div>

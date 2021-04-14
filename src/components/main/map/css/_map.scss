@@ -1,88 +1,109 @@
 .map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  .ok {
+    position: relative;
+  }
+
+  &__infoBox {
+    display: block;
+    z-index: 5555;
+    background-color: #fff;
+    padding: 15px;
+    min-width: 10px;
+    transition: all 0.3s;
+
+    span {
+      font-size: 13px;
+    }
+  }
+
+  &__infoBoxClose {
     position: absolute;
-    width: 100%;
-    height: 100%;
-
-    &__infoBox {
-        display: block;
-        position: relative;
-        z-index: 5555;
-        right: 0;
-        background-color: #fff;
-        padding: 15px;
-        min-width: 10px;
-        transition: all 0.3s;
-
-        span {
-            font-size: 13px;
-        }
-    }
-
-    &__infoBoxClose {
-        position: absolute;
-        right: 3px;
-        width: 20px;
-        height: 20px;
-        top: 5px;
-        cursor: pointer;
-    }
+    right: 3px;
+    width: 20px;
+    height: 20px;
+    top: 5px;
+    cursor: pointer;
+  }
 }
 
 #mapWithClusters {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .cluster {
-    img {
-        width: 70px !important;
-    }
+  img {
+    width: 70px !important;
+  }
 }
 
 #map {
-    position: relative;
+  position: relative;
 
-    .zoomContainer {
-        position: absolute;
-        top: 0;
-        width: 50px;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        left: 41px;
+  .zoomContainer {
+    position: absolute;
+    top: 0;
+    width: 50px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    left: 41px;
 
-        button {
-            width: 26px;
-            height: 26px;
-            outline: 0;
-            border: none;
-            background-color: #fff;
-            // border-radius: 100%;
+    button {
+      width: 26px;
+      height: 26px;
+      outline: 0;
+      border: none;
+      background-color: #fff;
+      // border-radius: 100%;
 
-            &:nth-child(1) {
-                // background-image: url("../../images/plus.svg");
-                background-position: center;
-                background-repeat: no-repeat;
-                width: 51px;
-                height: 51px;
-                background-color: rgba(12, 12, 12, 0.36);
-            }
+      &:nth-child(1) {
+        // background-image: url("../../images/plus.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 51px;
+        height: 51px;
+        background-color: rgba(12, 12, 12, 0.36);
+      }
 
-            &:nth-child(2) {
-                // background-image: url("../../images/minus.svg");
-                background-position: center;
-                background-repeat: no-repeat;
-                width: 51px;
-                height: 51px;
-                background-color: rgba(12, 12, 12, 0.36);
-            }
+      &:nth-child(2) {
+        // background-image: url("../../images/minus.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 51px;
+        height: 51px;
+        background-color: rgba(12, 12, 12, 0.36);
+      }
 
-            &:not(:last-child) {
-                margin-bottom: 15px;
-            }
-        }
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
     }
+  }
+}
+
+.gm-style .gm-style-iw-c {
+  padding: 15px !important;
+  background-color: #8cbd29 !important;
+}
+
+.gm-style .gm-style-iw-d {
+  overflow: unset !important;
+}
+
+.gm-style .gm-style-iw-t::after {
+  background: unset !important;
+  background-color: #8cbd29 !important;
+}
+
+
+.gm-ui-hover-effect{
+  display: none !important;
 }

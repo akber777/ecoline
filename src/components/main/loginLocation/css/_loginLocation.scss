@@ -59,7 +59,7 @@
         border-radius: 36px;
 
         input {
-            width: 100%;
+            width: 50%;
         }
 
         select {
@@ -70,7 +70,7 @@
             border: none !important;
             box-shadow: none !important;
             color: #3d3d3d;
-            width: 100%;
+            width: 50%;
             height: 38px;
             padding: 0 15px;
             appearance: none;
@@ -145,6 +145,10 @@
     div {
         margin-top: 15px;
         width: 50%;
+
+        input{
+            width: 100% !important;
+        }
 
         p {
             color: #8cbd29;

@@ -87,6 +87,7 @@ const Home = () => {
     },
     {
       refetchOnWindowFocus: false,
+      cacheTime: 0,
     }
   );
 
@@ -156,7 +157,7 @@ const Home = () => {
           <div className="home__wrapper">
             <div className="home__banner--left">
               <h4>
-                Qeydiyyatdan keçin, ilk siparişinizdə 25% endirim qazanın!
+                Qeydiyyatdan keçin, ilk sifarişinizdə 25% endirim qazanın!
               </h4>
               <span>İlk 100 müştəriyə xüsusi endirim kuponu veriləcəkdir.</span>
             </div>

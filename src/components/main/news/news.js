@@ -21,6 +21,9 @@ import { useQuery } from "react-query";
 // react i18
 import { useTranslation } from "react-i18next";
 
+// helper
+import { createDate, capitalize } from "../../helper/helper";
+
 const News = () => {
   const { t } = useTranslation();
 
@@ -42,7 +45,7 @@ const News = () => {
     <div className="home__news" data-aos="fade-down">
       <div className="title">
         <h4>{t("BLOGLAR")}</h4>
-        <NavLink to={"/blogs"}>{t("DAHA ÇOX BLOG ÜÇÜN ...")}</NavLink>
+        <NavLink to={"/blogs"}>{t("DAHA ÇOX BLOG ÜÇÜN") + "..."}</NavLink>
       </div>
       <div className="home__newsContent">
         <Container>
@@ -60,7 +63,13 @@ const News = () => {
                         />
                       </div>
                       <div className="text">
-                        <span>15 DEKABR</span>
+                        <span>
+                          {createDate(item.created_at).newDate +
+                            " " +
+                            capitalize(createDate(item.created_at).month) +
+                            " " +
+                            createDate(item.created_at).year}
+                        </span>
                         <h4>{item.title}</h4>
                       </div>
                     </div>
@@ -71,7 +80,7 @@ const News = () => {
               <div
                 style={{
                   height: 500,
-                  width:'100%',
+                  width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",

@@ -27,7 +27,13 @@ import ReactWhatsapp from "react-whatsapp";
 // jquery
 import $ from "jquery";
 
+// react i18
+import { useTranslation } from "react-i18next";
+
+
+
 const Footer = () => {
+  const { t } = useTranslation();
   // settings
   let settings = useQuery(
     ["settings", ""],
@@ -79,7 +85,7 @@ const Footer = () => {
             <img src={require("../images/logoHeader.png").default} alt="" />
           </div>
           <div className="footer__content">
-            <p>© 2021. All Rights Reserved.</p>
+            <p>© 2021. {t('All Rights Reserved')}.</p>
             <div className="footer__social">
               {settings.isLoading === false &&
                 settings.data !== undefined &&
@@ -96,9 +102,9 @@ const Footer = () => {
         <Container>
           <div className="footer__wrapEnd">
             <div className="footer__end--left">
-              <NavLink to={"/blog"}> Blog</NavLink>
-              <NavLink to={"/xidmetlerimiz"}>Xidmətlər </NavLink>
-              <NavLink to={"/contact"}>Əlaqə</NavLink>
+              <NavLink to={"/blog"}> {t('Blog')}</NavLink>
+              <NavLink to={"/xidmetlerimiz"}> {t('Xidmətlər')}</NavLink>
+              <NavLink to={"/contact"}>{t('ƏLAQƏ')}</NavLink>
             </div>
             <div className="footer__end--right">
               {settings.isLoading === false && settings.data !== undefined && (

@@ -65,11 +65,6 @@ const WhyUs = (props) => {
             {/* <img src={require('../../images/bacj.png').default} alt='' /> */}
             <Container>
               <div className="home__whyUsContent">
-                <h4>
-                  {/* {
-                      t('DAHA ÇOX MƏLUMAT ALMAQ ÜÇÜN ...')
-                  } */}
-                </h4>
                 <Splide
                   options={{
                     width: "auto",

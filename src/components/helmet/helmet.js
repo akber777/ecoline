@@ -15,7 +15,6 @@ const HelmetApp = () => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>{title}</title>
-        <link rel="canonical" href="http://mysite.com/example" />
         <link rel="icon" href={require("../images/favicon.jpg").default} />
       </Helmet>
     </div>

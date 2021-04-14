@@ -3,6 +3,16 @@
     margin-bottom: 25px;
   }
 
+  .orderLogin__top {
+    cursor: pointer;
+    align-items: unset !important;
+
+    p {
+      display: flex;
+      width: calc(100% / 4);
+    }
+  }
+
   &__content {
     display: none;
   }

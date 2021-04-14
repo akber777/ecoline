@@ -168,7 +168,7 @@ const Contact = () => {
                   />
                 </div>
                 <div className="formItem">
-                  <span>{t("Soyad")}</span>
+                  <span>{t("SOYAD")}</span>
                   <Input
                     type="email"
                     tabIndex="2"
@@ -200,7 +200,7 @@ const Contact = () => {
                   />
                 </div>
                 <div className="formItem textareaa">
-                  <span>{t("Mesajınız...")}</span>
+                  <span>{t("Mesajınız")}...</span>
                   <Input
                     tabIndex="5"
                     required
@@ -251,14 +251,7 @@ const Contact = () => {
           </div>
         </div>
       </Container>
-      <div className="contact__footer">
-        <h4> Həsən Əliyev 7C</h4>
-        <p>
-          <a href="tel:+994 12 430 55 99 / +994 50 265 55 99">
-            +994 12 430 55 99 / +994 50 265 55 99
-          </a>
-        </p>
-      </div>
+
       <WhyUs />
       <div id="map">
         {settings.isLoading === false && <MapContainer locations={locate} />}

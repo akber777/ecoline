@@ -40,10 +40,10 @@ import { checkedUrl } from "../helper/helper";
 import $ from "jquery";
 
 // recoil
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 // atoms
-import { titleHelmet } from "../atoms/atoms";
+import { titleHelmet, userInfo } from "../atoms/atoms";
 
 import { baseUrl } from "../api/api";
 
@@ -167,6 +167,9 @@ const Header = () => {
     window.location.reload();
   };
 
+  // userData
+  let userData = useRecoilValue(userInfo);
+
   return (
     <header className="header">
       <div className=" headerMobWrap">
@@ -232,23 +235,24 @@ const Header = () => {
                   settings.data !== undefined &&
                   settings.data.data.header_phone}
               </a>
-              {window.localStorage.getItem("token") === null ? (
-                <NavLink to={"/signin"}>
-                  <img src={require("../images/phone.png").default} alt="" />
-                  {t("Daxil ol")}
-                  <span>/</span>
-                </NavLink>
-              ) : (
-                <NavLink to={"/loginorder"}>
-                  {localStorage.getItem("user") !== null &&
-                    JSON.parse(window.localStorage.getItem("user")).name}
-                </NavLink>
-              )}
-              {window.localStorage.getItem("token") === null ? (
-                <NavLink to={"/register"}>{t("Qeydiyyat")}</NavLink>
-              ) : (
-                ""
-              )}
+              <div className="flexAllNav">
+                {window.localStorage.getItem("token") === null ? (
+                  <NavLink to={"/signin"}>
+                    <img src={require("../images/phone.png").default} alt="" />
+                    {t("Daxil ol")}
+                    <span>/</span>
+                  </NavLink>
+                ) : (
+                  <NavLink to={"/loginorder"}>
+                    {userData !== null && userData.name}
+                  </NavLink>
+                )}
+                {window.localStorage.getItem("token") === null ? (
+                  <NavLink to={"/register"}>{t("Qeydiyyat")}</NavLink>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         </Container>
@@ -324,6 +328,19 @@ const Header = () => {
                 >
                   En
                 </button>
+                <span>|</span>
+                <button
+                  className={
+                    localStorage.getItem("i18nextLng") === "ru"
+                      ? "activeLang"
+                      : ""
+                  }
+                  onClick={() => {
+                    changeLang("ru");
+                  }}
+                >
+                  Ru
+                </button>
               </div>
               <div className="header__navGet">
                 <NavLink to={"/order"}>
@@ -335,7 +352,7 @@ const Header = () => {
         </Container>
       </div>
       <div
-        className="header__navGetMobile header__navGet"
+        className="header__navGetMobile zIndex header__navGet"
         style={{
           display:
             pathname.split("/")[1] === "order" ||

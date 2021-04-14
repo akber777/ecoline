@@ -46,7 +46,12 @@ import { decimalAdjust } from "../../helper/helper";
 // sweet alert
 import swal from "sweetalert";
 
+// react i18 next
+import { useTranslation } from "react-i18next";
+
 const Payment = () => {
+  const { t } = useTranslation();
+
   // settings
   let settings = useQuery(
     ["settings", ""],
@@ -186,25 +191,25 @@ const Payment = () => {
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
-          <h4 className="rules__title">ONLİNE SİFARİŞ</h4>
+          <h4 className="rules__title">{t('ONLİNE SİFARİŞ')}</h4>
         </Container>
       </div>
       <div className="locationWrapper">
         <div className="order__breadCrumbs">
-          <span>SİFARİŞ</span>
-          <span>SİFARİŞLƏRİM</span>
-          <span>ÜNVAN SEÇ</span>
-          <span className="activCrumbs">ÖDƏNİŞ ET</span>
+        <span>{t("SİFARİŞ")}</span>
+            <span>{t("Sifarişlərim")}</span>
+            <span >{t("ÜNVAN SEÇ")}</span>
+          <span className="activCrumbs">{t('ÖDƏNİŞ ET')}</span>
         </div>
         <Container>
           <div className="payment__content">
             <div className="location__content">
               <div className="location__contentLeft">
-                <p>Qapida Ödəniş</p>
+                <p>{t('Qapida Ödəniş')}</p>
               </div>
               <div className="location__contentRight">
                 <span className="changeInfo" data-id={2}>
-                  SEÇ
+                  {t('SEÇ')}
                   <input name="address_id" type="radio" />
                 </span>
                 <i style={{ opacity: 0 }} className="checkedI">
@@ -214,11 +219,11 @@ const Payment = () => {
             </div>
             <div className="location__content">
               <div className="location__contentLeft">
-                <p>Online Ödəniş</p>
+                <p>{t('Online Ödəniş')}</p>
               </div>
               <div className="location__contentRight">
                 <span className="changeInfo" data-id={1}>
-                  SEÇ
+                  {t('SEÇ')}
                   <input name="payment_id" type="radio" />
                 </span>
                 <i style={{ opacity: 0 }} className="checkedI">
@@ -229,7 +234,7 @@ const Payment = () => {
           </div>
           <div className="order__result noBoxShadow">
             <p>
-              ÜMUMİ MƏBLƏĞ:
+              {t('ÜMUMİ MƏBLƏĞ')}:
               <span className="res">
                 {JSON.parse(localStorage.getItem("total")) !== null &&
                   JSON.parse(localStorage.getItem("total")).reduce(reducer) +
@@ -238,7 +243,7 @@ const Payment = () => {
             </p>
             <div className="btnBoxs" style={{ marginTop: 15 }}>
               <NavLink to={"/location"}>
-                <button className="success">Geri</button>
+                <button className="success">{t('Geri')}</button>
               </NavLink>
               <NavLink
                 to={"/payment"}
@@ -253,14 +258,16 @@ const Payment = () => {
                   onClick={() => {
                     if (orderValue.payment_method === null) {
                       swal({
-                        title: "Seçim etməmisiniz!",
+                        title: t("Seçim etməmisiniz!"),
                         icon: "error",
-                        button: "Bağla",
+                        button: t('Bağla'),
                       });
                     }
                   }}
                 >
-                  İrəli
+                  {
+                    t('İrəli')
+                  }
                 </button>
               </NavLink>
             </div>

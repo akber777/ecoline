@@ -360,7 +360,6 @@
 
   &__whyUs {
     margin-top: 70px;
-    min-height: 665px;
     position: relative;
 
     @media (max-width: 575px) {
@@ -380,7 +379,7 @@
   }
 
   &__whyUsContent {
-    padding-bottom: 50px;
+    padding: 30px 0;
 
     a {
       cursor: unset;

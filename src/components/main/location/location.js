@@ -296,15 +296,15 @@ const Location = () => {
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
-          <h4 className="rules__title">ONLİNE SİFARİŞ</h4>
+          <h4 className="rules__title">{t("ONLİNE SİFARİŞ")}</h4>
         </Container>
       </div>
       <div className="locationWrapper">
         <Container>
           <div className="order__breadCrumbs">
-            <span>SİFARİŞ</span>
-            <span>SİFARİŞLƏRİM</span>
-            <span className="activCrumbs">ÜNVAN SEÇ</span>
+            <span>{t("SİFARİŞ")}</span>
+            <span>{t("Sifarişlərim")}</span>
+            <span className="activCrumbs">{t("ÜNVAN SEÇ")}</span>
           </div>
           <div className="info__content">
             {/* map popup */}
@@ -319,7 +319,7 @@ const Location = () => {
                 >
                   x
                 </button>
-                <h4>Xəritə</h4>
+                <h4>{t("Xəritə")}</h4>
                 <LoadScript googleMapsApiKey="AIzaSyANektuMKczEQdzMI82zHlFnMTVSmT55Vw">
                   <GoogleMap
                     id="mapCoordinate"
@@ -366,7 +366,7 @@ const Location = () => {
                     />
                   </div>
                 </div>
-                <button className="sendInfoMap">Yadda Saxla</button>
+                <button className="sendInfoMap">{t("YADDA SAXLA")}</button>
               </div>
             </div>
             <div className="infoFlexFull">
@@ -382,7 +382,7 @@ const Location = () => {
                   >
                     x
                   </button>
-                  <h4>YENILE</h4>
+                  <h4>{t("YENILE")}</h4>
                   <div className="formBox">
                     <div className="formItem">
                       <span>Ad:</span>
@@ -395,7 +395,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem">
-                      <span>Telefon:</span>
+                      <span>{t("Telefon")}:</span>
                       <Input
                         type="phone"
                         value={phone}
@@ -405,7 +405,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem fromLocate">
-                      <span>Ünvan:</span>
+                      <span>{t("Ünvan")}:</span>
                       <Input
                         type="text"
                         value={address}
@@ -415,7 +415,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem">
-                      <span>Xəritədə göstər:</span>
+                      <span>{t("Xəritədə göstər")}:</span>
                       <p className="showPin">
                         <img
                           src={require("../../images/newPin.png").default}
@@ -424,7 +424,7 @@ const Location = () => {
                       </p>
                     </div>
                     <div className="formItem">
-                      <span>Şəhər:</span>
+                      <span>{t("Şəhər")}:</span>
                       <select
                         onChange={(event) => {
                           setCity(parseInt(event.target.value));
@@ -458,7 +458,7 @@ const Location = () => {
                       mutationUpdated.mutate(params);
                     }}
                   >
-                    ƏLAVƏ ET
+                    {t("ƏLAVƏ ET")}
                   </button>
                 </div>
               </div>
@@ -475,10 +475,10 @@ const Location = () => {
                   >
                     x
                   </button>
-                  <h4>YENILE</h4>
+                  <h4>{t("YENILE")}</h4>
                   <div className="formBox">
                     <div className="formItem">
-                      <span>Ad:</span>
+                      <span>{t("Ad")}:</span>
                       <Input
                         type="text"
                         onChange={(event) => {
@@ -487,7 +487,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem">
-                      <span>Telefon:</span>
+                      <span>{t("Telefon")}:</span>
                       <Input
                         type="phone"
                         onChange={(event) => {
@@ -496,7 +496,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem fromLocate">
-                      <span>Ünvan:</span>
+                      <span>{t("Ünvan")}:</span>
                       <Input
                         type="text"
                         onChange={(event) => {
@@ -505,7 +505,7 @@ const Location = () => {
                       />
                     </div>
                     <div className="formItem">
-                      <span>Xəritədə göstər:</span>
+                      <span>{t("Xəritədə göstər")}:</span>
                       <p className="showPin">
                         <img
                           src={require("../../images/newPin.png").default}
@@ -514,7 +514,7 @@ const Location = () => {
                       </p>
                     </div>
                     <div className="formItem">
-                      <span>Şəhər:</span>
+                      <span>{t("Şəhər")}:</span>
                       <select
                         onChange={(event) => {
                           setCity(parseInt(event.target.value));
@@ -541,26 +541,23 @@ const Location = () => {
                         swal({
                           title: t("Inputlari Doldurmaniz Lazimdir!"),
                           icon: "error",
-                          button: "Bağla",
+                          button: t("Bağla"),
                         });
                       }
                     }}
                   >
-                    ƏLAVƏ ET
+                    {t("ƏLAVƏ ET")}
                   </button>
                 </div>
               </div>
 
               <div className="formBox">
-                {addressApi.isLoading === false &&
-                addressApi.data !== undefined
-                 ? (
+                {addressApi.isLoading === false && addressApi !== undefined ? (
                   addressApi.data.data.data.map((item, index) => (
                     <div className="location__content" key={item.id}>
                       <div className="location__contentLeft">
                         <p>
-                          Ev ünvanım:
-                          <span>{item.address}</span>
+                          {t("Ev ünvanım")}:<span>{item.address}</span>
                         </p>
                         <p
                           className="editIcon"
@@ -618,7 +615,7 @@ const Location = () => {
                       </div>
                       <div className="location__contentRight">
                         <span className="changeInfo" data-id={item.id}>
-                          SEÇ
+                          {t("SEÇ")}
                           <input name="address_id" type="radio" />
                         </span>
                         <i style={{ opacity: 0 }} className="checkedI">
@@ -655,16 +652,16 @@ const Location = () => {
                   document.querySelector(".openAddPopup").style.display =
                     "block";
                   setUpdatedPage(false);
-                  setAddress()
+                  setAddress();
                 }}
               >
-                ÜNVAN ƏLAVƏ ET
+                {t("ÜNVAN ƏLAVƏ ET")}
               </button>
             </div>
 
             <div className="btnBoxs">
               <NavLink to={"/ordercomplete"}>
-                <button className="success">Geri</button>
+                <button className="success">{t("Geri")}</button>
               </NavLink>
               <NavLink
                 to={
@@ -680,14 +677,14 @@ const Location = () => {
                   onClick={() => {
                     if (orderValue === null) {
                       swal({
-                        title: "Seçim etməmisiniz!",
+                        title: t("Seçim etməmisiniz!"),
                         icon: "error",
-                        button: "Bağla",
+                        button: t("Bağla"),
                       });
                     }
                   }}
                 >
-                  İrəli
+                  {t("İrəli")}
                 </button>
               </NavLink>
             </div>

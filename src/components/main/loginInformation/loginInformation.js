@@ -34,6 +34,12 @@ import swal from "sweetalert";
 // react i18
 import { useTranslation } from "react-i18next";
 
+// atoms
+import { userInfo } from "../../atoms/atoms";
+
+// recoil
+import { useRecoilState } from "recoil";
+
 const LoginInformation = () => {
   let history = useHistory();
 
@@ -56,6 +62,7 @@ const LoginInformation = () => {
 
   const locate =
     settings.isLoading === false &&
+    settings.data !== undefined &&
     settings.data.data.map_location.map((item) => [
       Number(item.lat),
       Number(item.long),
@@ -103,12 +110,26 @@ const LoginInformation = () => {
     email: email,
   };
 
+  let [userData, setUserData] = useRecoilState(userInfo);
+
   let { data, isLoading } = useQuery(["user", "", mutation.data], user, {
     refetchOnWindowFocus: false,
     cacheTime:
       localStorage.getItem("token") && localStorage.getItem("user") === null
         ? 0
         : 5000,
+    onSuccess: function (succ) {
+      if (succ) {
+        setUserData(succ.data);
+      }
+    },
+    onError: function (err) {
+      if (err) {
+        history.push({
+          pathname: "/signin",
+        });
+      }
+    },
   });
 
   if (localStorage.getItem("token") === null) {
@@ -208,7 +229,7 @@ const LoginInformation = () => {
               )}
             </div>
             <div className="formItem">
-              <span>{t("Soyad")}</span>
+              <span>{t("SOYAD")}</span>
               {isLoading === false ? (
                 <Input
                   value={surname}

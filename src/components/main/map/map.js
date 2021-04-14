@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 
 // // renderHtml
 // import renderHtml from 'react-render-html';
@@ -99,32 +104,49 @@ class MapContainer extends Component {
             center={this.state.center}
             options={mapOptions}
           >
-            <Marker>
-              {this.props.locations !== false
-                ? this.props.locations.map((item, index) => (
-                    <Marker
-                      key={index}
-                      onClick={
-                        (this.onMarkerClick = () => {
-                          this.setState({
-                            selectedPlace: item[0],
-                            center: { lat: item[0], lng: item[1] },
-                            showingInfoWindow: true,
-                            positions: this.props.locations,
-                            show: true,
-                          });
-                        })
-                      }
-                      icon={{
-                        url: require("../../images/pin.png").default,
-                        // size: { width: 30, height: 30, }
-                      }}
-                      position={{ lat: item[0], lng: item[1] }}
-                      animation={2}
-                    />
-                  ))
-                : ""}
-            </Marker>
+            {this.props.locations !== false
+              ? this.props.locations.map((item, index) => (
+                  <Marker
+                    key={index}
+                    onClick={
+                      (this.onMarkerClick = () => {
+                        this.setState({
+                          selectedPlace: item[0],
+                          center: { lat: item[0], lng: item[1] },
+                          showingInfoWindow: true,
+                          positions: this.props.locations,
+                          show: true,
+                        });
+                      })
+                    }
+                    icon={{
+                      url: require("../../images/pin.png").default,
+                      // size: { width: 30, height: 30, }
+                    }}
+                    position={{ lat: item[0], lng: item[1] }}
+                    animation={2}
+                  >
+                    <InfoWindow position={{ lat: item[0], lng: item[1] }}>
+                      <div className="contact__footer">
+                        <h4> Həsən Əliyev 7C</h4>
+                        <p>
+                          <a href="tel:+994 12 430 55 99 / +994 50 265 55 99">
+                            +994 12 430 55 99 / +994 50 265 55 99
+                          </a>
+                        </p>
+                        <p className="sosial">
+                          <a href="https://www.instagram.com/ecoline.az/">
+                            <i className="fab fa-instagram"></i>
+                          </a>
+                          <a href="https://www.facebook.com/ecoline.az/?hc_ref=ARSKrt1lRAa3NzpP5m5rW1ms_NAWleLp5a7ceIGhuVYv43MdUWQ37hp4hzCeY2UCZWk&ref=nf_target&__tn__=kC-R">
+                            <i className="fab fa-facebook-f"></i>
+                          </a>
+                        </p>
+                      </div>
+                    </InfoWindow>
+                  </Marker>
+                ))
+              : ""}
           </GoogleMap>
         </LoadScript>
       </div>

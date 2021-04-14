@@ -12,7 +12,7 @@ import { Container, Col, Row, Input } from "reactstrap";
 
 // query
 import { useQuery } from "react-query";
-import { loginOrder } from "../../queries/queries";
+import { loginOrder, user } from "../../queries/queries";
 
 // jquery
 import $ from "jquery";
@@ -29,10 +29,38 @@ import mapStyle from "../map/mapStyle";
 // react i18
 import { useTranslation } from "react-i18next";
 
+// atoms
+import { userInfo } from "../../atoms/atoms";
+
+// recoil
+import { useRecoilState } from "recoil";
+
 const LoginOrder = () => {
   let history = useHistory();
 
   const { t } = useTranslation();
+
+  let [userData, setUserData] = useRecoilState(userInfo);
+
+  useQuery(["user", ""], user, {
+    refetchOnWindowFocus: false,
+    cacheTime:
+      localStorage.getItem("token") && localStorage.getItem("user") === null
+        ? 0
+        : 5000,
+    onSuccess: function (succ) {
+      if (succ) {
+        setUserData(succ.data);
+      }
+    },
+    onError: function (err) {
+      if (err) {
+        history.push({
+          pathname: "/signin",
+        });
+      }
+    },
+  });
 
   let { data, isLoading } = useQuery(["loginOrder", ""], loginOrder, {
     refetchOnWindowFocus: false,
@@ -248,98 +276,102 @@ const LoginOrder = () => {
           </div>
         </div>
         {isLoading === false && data != undefined ? (
-          data.data.map((item, index) => (
-            <div className="orderLogin__info" key={index}>
-              <div className="orderLogin__top">
-                <p>
-                  {index + 1 + " :"}
-                  <span>
-                    {createDate(item.created_at).newDate +
-                      " " +
-                      capitalize(createDate(item.created_at).month) +
-                      " " +
-                      createDate(item.created_at).year}
-                  </span>
-                </p>
-                <p>
-                  {t("MƏHSUL")}
-                  <span>{item.items.data.length + " ədəd"}</span>
-                </p>
-                <p>
-                  {t("QİYMƏT")}
-                  <span>{item.amount}</span>
-                </p>
-                <p>
-                  {t("STATUS")}
-                  <span>{item.status}</span>
-                </p>
-              </div>
-              <div className="order__content">
-                <Row>
-                  {item.items.data.map((product, index) => (
-                    <Col md="6" lg="2" key={index}>
-                      <div className="order__itemBox">
-                        <div className="order__itemBox--img">
-                          <img
-                            src={
-                              product.product.data.img !== null &&
-                              product.product.data.img.length !== 0
-                                ? product.product.data.img.order
-                                : ""
-                            }
-                            alt=""
-                          />
+          data.order !== undefined ? (
+            ""
+          ) : (
+            data.data.map((item, index) => (
+              <div className="orderLogin__info" key={index}>
+                <div className="orderLogin__top">
+                  <p>
+                    {index + 1 + " :"}
+                    <span>
+                      {createDate(item.created_at).newDate +
+                        " " +
+                        capitalize(createDate(item.created_at).month) +
+                        " " +
+                        createDate(item.created_at).year}
+                    </span>
+                  </p>
+                  <p>
+                    {t("MƏHSUL")}
+                    <span>{item.items.data.length + " ədəd"}</span>
+                  </p>
+                  <p>
+                    {t("QİYMƏT")}
+                    <span>{item.amount}</span>
+                  </p>
+                  <p>
+                    {t("STATUS")}
+                    <span>{item.status}</span>
+                  </p>
+                </div>
+                <div className="order__content">
+                  <Row>
+                    {item.items.data.map((product, index) => (
+                      <Col md="6" lg="2" key={index}>
+                        <div className="order__itemBox">
+                          <div className="order__itemBox--img">
+                            <img
+                              src={
+                                product.product.data.img !== null &&
+                                product.product.data.img.length !== 0
+                                  ? product.product.data.img.order
+                                  : ""
+                              }
+                              alt=""
+                            />
+                          </div>
+                          <strong>{product.product.data.name}</strong>
+                          {/* <span>qısa</span> */}
+                          <div className="flex">
+                            <p className="priceBtn">
+                              <span data-minus="-20%">
+                                {product.product.data.price}
+                              </span>
+                            </p>
+                          </div>
                         </div>
-                        <strong>{product.product.data.name}</strong>
-                        {/* <span>qısa</span> */}
-                        <div className="flex">
-                          <p className="priceBtn">
-                            <span data-minus="-20%">
-                              {product.product.data.price}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-                <div className="order__buttonBox">
-                  <NavLink
-                    data-index={index}
-                    to={"#"}
-                    onClick={(event) => {
-                      document.querySelector(
-                        ".openUpdatedPopup"
-                      ).style.display = "block";
-                      setAdress(
-                        isLoading === false &&
-                          data !== undefined &&
-                          data.data[event.target.getAttribute("data-index")]
-                            .address.data
-                      );
-                      setLati(
-                        isLoading === false &&
-                          data !== undefined &&
-                          data.data[event.target.getAttribute("data-index")]
-                            .address.data.lat
-                      );
-                      setLang(
-                        isLoading === false &&
-                          data !== undefined &&
-                          data.data[event.target.getAttribute("data-index")]
-                            .address.data.lang
-                      );
-                    }}
-                  >
-                    {t("TƏSLİMAT ÜNVANI")}
-                  </NavLink>
-                  {/* <NavLink to={'#'}>
+                      </Col>
+                    ))}
+                  </Row>
+                  <div className="order__buttonBox">
+                    <NavLink
+                      data-index={index}
+                      to={"#"}
+                      onClick={(event) => {
+                        document.querySelector(
+                          ".openUpdatedPopup"
+                        ).style.display = "block";
+                        setAdress(
+                          isLoading === false &&
+                            data !== undefined &&
+                            data.data[event.target.getAttribute("data-index")]
+                              .address.data
+                        );
+                        setLati(
+                          isLoading === false &&
+                            data !== undefined &&
+                            data.data[event.target.getAttribute("data-index")]
+                              .address.data.lat
+                        );
+                        setLang(
+                          isLoading === false &&
+                            data !== undefined &&
+                            data.data[event.target.getAttribute("data-index")]
+                              .address.data.lang
+                        );
+                      }}
+                    >
+                      {t("TƏSLİMAT ÜNVANI")}
+                    </NavLink>
+                    {/* <NavLink to={'#'}>
                       SİFARİŞİ QIYMƏTLƏNDİR
                   </NavLink> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            ))
+          )
         ) : (
           <div
             style={{

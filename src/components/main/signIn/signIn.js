@@ -13,27 +13,40 @@ import { Container, Input } from "reactstrap";
 import WhyUs from "../whyUs/whyUs";
 import News from "../news/news";
 import MapContainer from "../map/map";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEnvelope, faGlassMartiniAlt } from '@fortawesome/free-solid-svg-icons';
-// import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faGlassMartiniAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 
 // ract router dom
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 
 // react query
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 // axios
 import axios from "axios";
 
 // api
-import { loginApi, baseUrl } from "../../api/api";
+import { loginApi, baseUrl, loginSosial } from "../../api/api";
 
-// query
+// queries
+import { user } from "../../queries/queries";
 
-import { useQuery } from "react-query";
+// recoil
+import { useRecoilState } from "recoil";
+
+// atoms
+import { userInfo } from "../../atoms/atoms";
+
+// react i18
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
+  const { t } = useTranslation();
+
   let [email, setEmail] = useState();
   let [password, setPassword] = useState();
 
@@ -94,6 +107,30 @@ const SignIn = () => {
       Number(item.long),
     ]);
 
+  // signin
+
+  let [userData, setUserData] = useRecoilState(userInfo);
+
+  useQuery(["user", ""], user, {
+    refetchOnWindowFocus: false,
+    cacheTime:
+      localStorage.getItem("token") && localStorage.getItem("user") === null
+        ? 0
+        : 5000,
+    onSuccess: function (succ) {
+      if (succ) {
+        setUserData(succ.data);
+      }
+    },
+    onError: function (err) {
+      if (err) {
+        history.push({
+          pathname: "/signin",
+        });
+      }
+    },
+  });
+
   return (
     <main className="signIn rules login">
       <div className="perloaderOrder">
@@ -133,7 +170,7 @@ const SignIn = () => {
                             </a>
                         </div> */}
             <div className="login__info">
-              <h4>DAXİL OL</h4>
+              <h4>{t("Daxil ol")}</h4>
               <div className="login__formBox">
                 <Input
                   placeholder="EMAIL"
@@ -157,7 +194,7 @@ const SignIn = () => {
                 {/* <NavLink to={''}>
                                     ŞİFRƏMİ UNUTDUM
                                 </NavLink> */}
-                <NavLink to={"/register"}>QEYDİYYATDAN KEÇ</NavLink>
+                <NavLink to={"/register"}>{t("Qeydiyyat")}</NavLink>
               </div>
               <div className="login__sendBtn">
                 <button
@@ -168,8 +205,18 @@ const SignIn = () => {
                       .classList.add("showPerloader");
                   }}
                 >
-                  DAXİL OL
+                 {t("Daxil ol")}
                 </button>
+              </div>
+              <div className="login__social" style={{ marginBottom: 50 }}>
+                <a href={loginSosial + "/flynsarmy/sociallogin/Google"}>
+                  <FontAwesomeIcon icon={faEnvelope} />
+                  Email
+                </a>
+                <a href={loginSosial + "/flynsarmy/sociallogin/Facebook"}>
+                  <FontAwesomeIcon icon={faFacebookF} />
+                  Facebook
+                </a>
               </div>
             </div>
           </div>

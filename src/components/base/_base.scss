@@ -7,6 +7,13 @@
   font-family: "Nunito" !important;
 }
 
+@media (min-width: 576px) {
+  .container,
+  .container-sm {
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 722px) {
   .container,
   .container-lg,
@@ -24,13 +31,22 @@
   }
 }
 
+@media (min-width: 992px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    max-width: 100%;
+  }
+}
+
 @media (min-width: 1300px) {
   .container,
   .container-lg,
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 1000px;
+    max-width: 1260px;
   }
 }
 
@@ -50,7 +66,7 @@
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 1100px;
+    max-width: 1260px;
   }
 }
 
@@ -60,7 +76,7 @@
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 1160px;
+    max-width: 1260px;
   }
 }
 
@@ -70,7 +86,7 @@
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 1201px;
+    max-width: 1360px;
   }
 }
 

@@ -79,7 +79,6 @@ const Login = () => {
         .querySelector(".perloaderOrder")
         .classList.remove("showPerloader");
       window.localStorage.setItem("token", JSON.stringify(token.data.token));
-
       window.localStorage.setItem("user", JSON.stringify(token.data.user));
 
       history.push({
@@ -130,11 +129,11 @@ const Login = () => {
             <div className="login__social">
               <a href={loginSosial + "/flynsarmy/sociallogin/Google"}>
                 <FontAwesomeIcon icon={faEnvelope} />
-                Log in Email
+                Email
               </a>
-              <a href="2#">
+              <a href={loginSosial + "/flynsarmy/sociallogin/Facebook"}>
                 <FontAwesomeIcon icon={faFacebookF} />
-                Connect to facebook
+                Facebook
               </a>
             </div>
             <div className="login__info">

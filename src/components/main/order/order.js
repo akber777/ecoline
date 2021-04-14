@@ -232,12 +232,12 @@ const Order = () => {
       <div className="rules__banner">
         <img src={require("../../images/rules.png").default} alt="" />
         <Container>
-          <h4 className="rules__title">ONLİNE SİFARİŞ</h4>
+          <h4 className="rules__title">{t('ONLİNE SİFARİŞ')}</h4>
         </Container>
       </div>
       <Container>
         <div className="order__breadCrumbs">
-          <span className="activCrumbs">SİFARİŞ</span>
+          <span className="activCrumbs">{t('SİFARİŞ')}</span>
         </div>
         <div className="oder__content home__priceBox">
           {isLoading === false && data !== undefined ? (
@@ -360,7 +360,7 @@ const Order = () => {
       </Container>
       <div className="order__result">
           <p>
-            ÜMUMİ MƏBLƏĞ:
+          {t('ÜMUMİ MƏBLƏĞ')}:
             <span className="res">
               {total.length !== 0 && total.length !== 0
                 ? total.reduce(reducer) + " AZN"
@@ -381,7 +381,7 @@ const Order = () => {
                 checkedThief();
               }}
             >
-              <button className="success">İrəli</button>
+              <button className="success">{t('İrəli')}</button>
             </NavLink>
           </div>
         </div>
